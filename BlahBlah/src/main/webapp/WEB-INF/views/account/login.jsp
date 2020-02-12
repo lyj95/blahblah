@@ -39,6 +39,7 @@ function find_id(){
     window.open(url, name, option);
 }
 
+
 function find_pwd(){
     var url = "find_pwd.jsp";
     var name = "find_pwd";
