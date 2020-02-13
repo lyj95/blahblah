@@ -50,7 +50,7 @@
 	</filter-mapping>
 	
 	<!-- 로그 필터 -->
-<!--  	<filter>
+<!-- 	<filter>
 		<filter-name>logFilter</filter-name>
 		<filter-class>com.blah.common.filter.LogFilter</filter-class>
 	</filter>	
