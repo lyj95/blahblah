@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -34,11 +35,8 @@
           <div class="row justify-content-center">
             <div class="col-lg-6">
               <div class="banner_content text-center">
-                <h2>Course Details</h2>
+                <h2 style="font-size:250%">${vo.lessonName}</h2>
                 <div class="page_link">
-                  <a href="index.html">Home</a>
-                  <a href="courses.html">Courses</a>
-                  <a href="course-details.html">Courses Details</a>
                 </div>
               </div>
             </div>
@@ -59,13 +57,8 @@
                     <div class="content_wrapper">
                         <h4 class="title">강의 소개</h4>
                         <div class="content">
-                            When you enter into any new area of science, you almost always find yourself with a
-                            baffling new language of
-                            technical terms to learn before you can converse with the experts. This is certainly
-                            true in astronomy both in
-                            terms of terms that refer to the cosmos and terms that describe the tools of the trade,
-                            the most prevalent
-                            being the telescope.
+                       		 ${vo.lessonInfo}
+                            
                             <br>
                             <br>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
@@ -98,19 +91,19 @@
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>강사명</p>
-                                <span class="or">George Mathews</span>
+                                <span class="or">${vo.tutorId}</span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>수강료 </p>
-                                <span> &#8361; 23,000</span>
+                                <span> ${vo.lessonPrice}</span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>수업 시간 </p>
-                                <span>2.00 pm ~ 4.00 pm</span>
+                                <span>${vo.lessonTime}</span>
                             </a>
                         </li>
                     </ul>
@@ -236,10 +229,19 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <a href="courses.jsp" class="primary-btn2 text-uppercase enroll rounded-0 text-white">강의 목록</a>
-                            
-                        </div>
+
+							<a href="courseList"class="primary-btn2 text-uppercase enroll rounded-0 text-white" >강의목록</a>
+							<div class="row"style="padding:2.5%;"></div>
+							<div class="row">
+							<div class="col">
+									<button type="button" class="genric-btn info " style="width:45%;"
+									 onclick="location.href='updateCourseForm?lessonNo=${vo.lessonNo}'">수정</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="genric-btn info " style="width:45%;"
+									onclick="location.href='deleteCourse?lessonNo=${vo.lessonNo}'">삭제</button>
+									</div>
+							</div>
+
+						</div>
                     </div>
                 </div>
             </div>

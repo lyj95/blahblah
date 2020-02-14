@@ -2,13 +2,15 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
-  
+ 
  <configuration>
-<!-- 	<typeAliases>
+ 
+	<typeAliases>
+		<typeAlias type="com.blah.vo.LessonVo" alias="lessonVo" />
+	<!-- 
 		<typeAlias type="com.blah.vo.CalenderVo" alias="calenderVo" />
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
-		<typeAlias type="com.blah.vo.LessonVo" alias="lessonVo" />
 		<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
 		<typeAlias type="com.blah.vo.MyclassVo" alias="myclassVo" />
@@ -18,22 +20,22 @@
 		<typeAlias type="com.blah.vo.ReplyVo" alias="replyVo" />
 		<typeAlias type="com.blah.vo.ReviewVo" alias="reviewVo" />
 		<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />
-	</typeAliases> -->
-	
+	 -->
+	</typeAliases> 
 	<!-- resource : src/main/resource와 연결 -->
 	<!-- mapper 쓸 때 사용하세요 -->
 	
-<!-- 	<mappers>
-		<mapper resource="/mybatis/account-mapper.xml"/>
+	<mappers>
+		<mapper resource="/mybatis/lesson-mapper.xml"/>	
+		<!-- <mapper resource="/mybatis/account-mapper.xml"/>
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
-		<mapper resource="/mybatis/dictionary-mapper.xml"/>
-		<mapper resource="/mybatis/lesson-mapper.xml"/>
-		<mapper resource="/mybatis/notice-mapper.xml"/>
+		<mapper resource="/mybatis/dictionary-mapper.xml"/> 
+		<mapper resource="/mybatis/notice-mapper.xml"/>		
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/qna-mapper.xml"/>
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
-		<mapper resource="/mybatis/webcam-mapper.xml"/>
-	</mappers> -->
+		<mapper resource="/mybatis/webcam-mapper.xml"/> -->
+	</mappers> 
 	
 </configuration>  
