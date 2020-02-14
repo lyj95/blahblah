@@ -19,6 +19,32 @@
     <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
+	<style type="text/css">
+		.lic {
+			display:none;
+		}
+		.lic2{
+			display:none;
+		}
+		
+	</style>
+   	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+    	$("#myinfo").click(function(){
+    		$(".lic").toggle();
+			$(".lic").each(function(i){
+				$(this).animate({"top":50*(i+1)+"px"}, 2000);
+			});
+    	});
+    	$("#myroom").click(function(){
+    		$(".lic2").toggle();
+			$(".lic2").each(function(i){
+				$(this).animate({"top":50*(i+1)+"px"}, 2000);
+			});
+    	});
+    });	
+    </script>
   </head>
 
   <body>
@@ -65,14 +91,34 @@
                         <aside class="single_sidebar_widget post_category_widget">
                           <!-- <h4 class="widget_title">Post Catgories</h4> -->
                           <ul class="nav nav-tabs list cat-list" style="display: block;">
-                              <li>
+                              <li id="myinfo">
                                   <a data-toggle="tab" href="#my-info" class="d-flex justify-content-between active">
                                       <h4>내 정보</h4>
                                   </a>
                               </li>
-                              <li>
+                              <li class="lic">
+                                  <a data-toggle="tab" href="#my-info" class="d-flex justify-content-between">
+                                      <h5>비밀번호 변경</h5>
+                                  </a>
+                              </li>
+                              <li class="lic">
+                                  <a data-toggle="tab" href="#my-info" class="d-flex justify-content-between">
+                                      <h5>회원 탈퇴</h5>
+                                  </a>
+                              </li>
+                              <li id="myroom">
                                   <a data-toggle="tab" href="#my-room" class="d-flex justify-content-between">
                                       <h4>내 강의실</h4>
+                                  </a>
+                              </li>
+                              <li class="lic2">
+                                  <a data-toggle="tab" href="#my-room-lesson" class="d-flex justify-content-between">
+                                      <h5>수강 중인 강의</h5>
+                                  </a>
+                              </li>
+                              <li class="lic2">
+                                  <a data-toggle="tab" href="#my-room-lesson2" class="d-flex justify-content-between">
+                                      <h5>수강 만료된 강의</h5>
                                   </a>
                               </li>
                               <li>
@@ -99,11 +145,11 @@
                                   <hr>
                                     <div class="row">
                                         <div class="col-lg-4">
-                                          <img src="img/about.png" alt="" style="width: 100%;">
+                                          <img src="resources/img/about.png" alt="" style="width: 100%;">
                                         </div>
                                         <div class="col-lg-8">
                                             <small class="input-sm-label">name</small>
-                                            <input type="text" class="single-input-primary" value="김사과"" disabled>
+                                            <input type="text" class="single-input-primary" value="김사과" disabled>
 
                                             <small class="input-sm-label">email</small>
                                             <input type="text" class="single-input-primary" value="apple@gmail.com" disabled>
@@ -136,6 +182,8 @@
                                         </div>
                                     </div> 
                                 </div>
+                                
+                                <!-- 내강의실 부분 시작 -->
                                 <div id="my-room" class="tab-pane fade">
                                   <h2>내 강의실</h2>
                                   <hr>
@@ -145,9 +193,191 @@
                                   <h2>스케줄</h2>
                                   <hr>
                                   <p>주로 캘린더로 자주 쓰이는 것 : jquery datepicker
+                                      	
+                                  </p>
+                                </div>
+                                
+                                <!-- 수강중인 강의 시작-->
+                               	<div id="my-room-lesson" class="tab-pane fade">
+                                  <h2>수강 중인 강의</h2>
+                                  <hr>
+                                  <div class="container">
+              <div class="row">
+                    <div class="col-lg-4 col-sm-12">
+                    <div class="single_course">
+                      <div class="course_head">
+                        <img class="img-fluid img-full" src="resources/img/courses/c1.jpg" alt="" />
+                      </div>
+                      <div class="course_content">
+                        <span class="tag mb-4 d-inline-block">회화</span>
+                        <h4 class="mb-3">
+                          <a href="room.html">English Talk</a>
+                        </h4>
+                        <p>
+                          기본 영어 회화 강의 입니다
+                        </p>
+                        <div
+                          class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                        >
+                          <div class="authr_meta">
+                            <img src="img/courses/author1.png" alt="" />
+                            <span class="d-inline-block ml-2">강사명</span>
+                          </div>
+                          <div>
+                          </div>
+<!--                           <div class="mt-lg-0 mt-3">
+                            <span class="meta_info mr-4">
+                              <i class="ti-direction  mr-2"></i>
+                              <a href="#"> 25 </a>
+                            </span>/
+                            <span class="meta_info">
+                              /
+                              <a href="#"> 35 </a>
+                              </span>
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    
+                    
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="single_course">
+                          <div class="course_head">
+                            <img class="img-fluid img-full" src="resources/img/courses/c2.jpg" alt="" />
+                          </div>
+                          <div class="course_content">
+                            <span class="tag mb-4 d-inline-block">시험대비</span>
+                            <h4 class="mb-3">
+                              <a href="room.html">English Talk</a>
+                            </h4>
+                            <p>
+                              시험 준비 강의 입니다
+                            </p>
+                            <div
+                              class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                            >
+                              <div class="authr_meta">
+                                <img src="img/courses/author1.png" alt="" />
+                                <span class="d-inline-block ml-2">Cameron</span>
+                              </div>
+					                    
+                              
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="single_course">
+                          <div class="course_head">
+                            <img class="img-fluid img-full" src="resources/img/courses/c2.jpg" alt="" />
+                          </div>
+                          <div class="course_content">
+                            <span class="tag mb-4 d-inline-block">시험대비</span>
+                            <h4 class="mb-3">
+                              <a href="room.html">English Talk</a>
+                            </h4>
+                            <p>
+                              시험 준비 강의 입니다
+                            </p>
+                            <div
+                              class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                            >
+                              <div class="authr_meta">
+                                <img src="img/courses/author1.png" alt="" />
+                                <span class="d-inline-block ml-2">Cameron</span>
+                              </div>
+                              <div class="mt-lg-0 mt-3">
+                                <span class="meta_info mr-4">
+                                  <a href="#"> <i class="ti-user mr-2"></i>25 </a>
+                                </span>
+                                <span class="meta_info"
+                                  ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="single_course">
+                          <div class="course_head">
+                            <img class="img-fluid img-full" src="resources/img/courses/c2.jpg" alt="" />
+                          </div>
+                          <div class="course_content">
+                            <span class="tag mb-4 d-inline-block">시험대비</span>
+                            <h4 class="mb-3">
+                              <a href="room.html">English Talk</a>
+                            </h4>
+                            <p>
+                              시험 준비 강의 입니다
+                            </p>
+                            <div
+                              class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                            >
+                              <div class="authr_meta">
+                                <img src="img/courses/author1.png" alt="" />
+                                <span class="d-inline-block ml-2">Cameron</span>
+                              </div>
+                              <div class="mt-lg-0 mt-3">
+                                <span class="meta_info mr-4">
+                                  <a href="#"> <i class="ti-user mr-2"></i>25 </a>
+                                </span>
+                                <span class="meta_info"
+                                  ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <nav class="blog-pagination justify-content-center d-flex">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a href="#" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">
+                                    <i class="ti-angle-left"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a href="#" class="page-link">01</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">02</a></li>
+                        <li class="page-item"><a href="#" class="page-link">03</a></li>
+                        <li class="page-item"><a href="#" class="page-link">04</a></li>
+                        <li class="page-item"><a href="#" class="page-link">09</a></li>
+                        <li class="page-item">
+                            <a href="#" class="page-link" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <i class="ti-angle-right"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+                                  
+                                </div>
+                                <!-- 수강중인 강의 끝-->
+                                <!-- 수강만료된 강의 시작-->
+                               	<div id="my-room-lesson2" class="tab-pane fade">
+                                  <h2>수강 만료된 강의</h2>
+                                  <hr>
+ 
+               
+                                  
+                                </div>
+                                <!-- 수강만료된 강의 끝-->
+                                <!-- 내강의실 부분 끝 -->
+                                
+                                <div id="my-schedule" class="tab-pane fade">
+                                  <h2>스케줄</h2>
+                                  <hr>
+                                  <p>주로 캘린더로 자주 쓰이는 것 : jquery datepicker
                                       
                                   </p>
                                 </div>
+                                
                                 <div id="my-level" class="tab-pane fade">
                                   <h2>레벨테스트</h2>
                                   <hr>
