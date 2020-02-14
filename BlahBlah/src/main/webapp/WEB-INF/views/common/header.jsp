@@ -72,7 +72,7 @@
                   <a class="nav-link" href="leveltest">Level Test</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="course">Course</a>
+                  <a class="nav-link" href="courseList">Course</a>
                 </li>
                 <li class="nav-item submenu dropdown">
                   <a
