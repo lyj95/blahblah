@@ -4,7 +4,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mypage">
-	<resultMap type="LessonVo" id="LessonMap">
+	<resultMap type="MemberVo" id="memberMap">
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="memberPw" column="MEMBER_PW"/>
+		<result property="memberType" column="MEMBER_TYPE"/>
+		<result property="memberName" column="MEMBER_NAME"/>
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="memberLevel" column="MEMBER_LEVEL"/>
+		<result property="memberPhoto" column="MEMBER_PHOTO"/>
+		<result property="memberEnavled" column="MEMBER_ENAVLED"/>
+	</resultMap>
+
+	<resultMap type="LessonVo" id="lessonMap">
 		<result property="lessonNo" column="LESSON_NO" />
 		<result property="lessonName" column="LESSON_NAME" />
 		<result property="lessonInfo" column="LESSON_INFO" />
@@ -23,10 +34,24 @@
 		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
 	</resultMap>
 	
-	<select id="selectMyClass" resultMap="LessonMap">
+	<select id="selectMember" resultMap="memberMap">
+		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
+		FROM MEMBER
+		WHERE MEMBER_ID=#{memberId}
+	</select>
+
+	<select id="selectMyClass" resultMap="lessonMap">
 		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
 		FROM lesson
 		JOIN myclass USING(lesson_no)
 		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
 	</select>
+	
+	<select id="selectMyClosedClass" resultMap="lessonMap">
+		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id
+		FROM lesson
+		JOIN myclass USING(lesson_no)
+		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0;
+	</select>
+	
 </mapper>

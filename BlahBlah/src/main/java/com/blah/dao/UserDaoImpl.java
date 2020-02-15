@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.blah.vo.LessonVo;
+import com.blah.vo.MemberVo;
 
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -30,6 +31,29 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public List<LessonVo> selectClosedMyClass(String memberId) {
-		return null;
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "selectMyClosedClass", memberId);
+		} catch(Exception e) {
+			System.out.println("[error] : selectMyClosedClass");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public MemberVo selectMember(String memberId) {
+		
+		MemberVo vo = new MemberVo();
+		
+		try {
+			vo = sqlSession.selectOne(NAMESPACE + "selectMember", memberId);
+		} catch(Exception e) {
+			System.out.println("[error] : selectMember");
+			e.printStackTrace();
+		}
+		
+		return vo;
 	}
 }

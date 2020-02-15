@@ -8,12 +8,14 @@ public class MemberVo {
 	private String memberEmail;
 	private String memberLevel;
 	private String memberPhoto;
+	private String memberEnavled;	//탈퇴여부 추가
 	
 	public MemberVo() {
 		super();
 	}
+
 	public MemberVo(String memberId, String memberPw, String memberType, String memberName, String memberEmail,
-			String memberLevel, String memberPhoto) {
+			String memberLevel, String memberPhoto, String memberEnavled) {
 		super();
 		this.memberId = memberId;
 		this.memberPw = memberPw;
@@ -22,7 +24,17 @@ public class MemberVo {
 		this.memberEmail = memberEmail;
 		this.memberLevel = memberLevel;
 		this.memberPhoto = memberPhoto;
+		this.memberEnavled = memberEnavled;
 	}
+	
+	public String getMemberEnavled() {
+		return memberEnavled;
+	}
+
+	public void setMemberEnavled(String memberEnavled) {
+		this.memberEnavled = memberEnavled;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}
@@ -65,12 +77,14 @@ public class MemberVo {
 	public void setMemberPhoto(String memberPhoto) {
 		this.memberPhoto = memberPhoto;
 	}
+
 	@Override
 	public String toString() {
 		return "MemberVo [memberId=" + memberId + ", memberPw=" + memberPw + ", memberType=" + memberType
 				+ ", memberName=" + memberName + ", memberEmail=" + memberEmail + ", memberLevel=" + memberLevel
-				+ ", memberPhoto=" + memberPhoto + "]";
+				+ ", memberPhoto=" + memberPhoto + ", memberEnavled=" + memberEnavled + "]";
 	}
+
 	
 	
 }

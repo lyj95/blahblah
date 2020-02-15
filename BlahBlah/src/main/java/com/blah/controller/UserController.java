@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.UserService;
+import com.blah.vo.MemberVo;
 
 @Controller
 public class UserController {
@@ -21,11 +22,27 @@ public class UserController {
 	public ModelAndView main(Model model) {
 		logger.info("Mypage");
 		
+		//TODO sessoin에서 ID 가져오기
 		String memberId = "UESR3";
 		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
-		mav.addObject("lesson",service.selectMyClass(memberId));
-		System.out.println(service.selectMyClass(memberId));
+		mav.addObject("myclassList", service.selectMyClass(memberId));
+		mav.addObject("closedmyclassList", service.selectMyClass(memberId));
+		mav.addObject("memberList", service.selectMember(memberId));
+		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/deleteUser")
+	public String deleteUser(Model model, MemberVo vo) {
+		logger.info("deleteUser");
+		
+		//TODO sessoin에서 ID 가져오기
+		String memberId = "UESR3";
+		
+	
+		
+		return "common/main";
+	}
+	
 }
