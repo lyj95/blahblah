@@ -8,6 +8,43 @@
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript">
+function signup(){
+	var memberId = $("#memberId").val().trim();
+	var memberPw = $("#memberPw").val().trim();
+	
+	console.log(memberId + "/" + memberPw);
+	
+	
+	if (memberId == null || memberId == "" || memberPw == null || memberPw == ""){
+		alert("ID 및 PW를 확인해 주세요");
+	} else {
+		$.ajax({
+			type:"post",
+			url:"ajaxlogin",
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		        	
+		    },
+			data: JSON.stringify(loginVal),
+			success:function(msg){ 
+				if (msg.check == true){
+					alert("로그인 성공!");
+					location.href="main";
+				} else {
+					alert("ID 혹은 PW가 잘못되었습니다.");
+					$("#loginChk").show();
+					$("#loginChk").html("ID 혹은 PW가 잘못되었습니다.");
+				}
+			},
+			error:function(){
+				alert("통신 실패");
+			}
+		});
+	}
+}
+
+
 $(document).ready(function() {
  $("#idchk").unbind("click").click(function(e) {
   e.preventDefault();
