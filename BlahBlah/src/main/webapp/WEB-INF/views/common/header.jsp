@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ page import = "com.blah.vo.MemberVo" %>
+<% MemberVo acc = (MemberVo)session.getAttribute("vo"); %> 
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -94,12 +97,13 @@
                   </ul>
                 </li>                
                 	<%
+                	
 	                  	// 로그인 안되어있을 경우
-	                  	String userId = (String) session.getAttribute("userId");
-	            		if (userId == null || userId == "") {
+	                  	if(request.getSession().
+				getAttribute("login") == null ) {            
             		%>
             			<li class="nav-item">
-            					<a class="nav-link" href="signup">Sign-Up</a>
+            					<a class="nav-link" href="signupform">Sign-Up</a>
            				</li>
            				<li class="nav-item">
            					<a class="nav-link" href="login">Sign-In</a>

@@ -4,6 +4,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="text/javascript" 
+		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript">
+function find_id(){
+    var url = "find_id.jsp";
+    var name = "find_id";
+    var option = "width = 350, height = 475, top = 100, left = 200, location = no"
+    window.open(url, name, option);
+}
+
+
+function find_pwd(){
+    var url = "find_pwd.jsp";
+    var name = "find_pwd";
+    var option = "width = 350, height = 575, top = 100, left = 200, location = no"
+    window.open(url, name, option);
+}
+
+
+$(function(){ $("#loginChk").hide(); });
+function login(){
+	var memberId = $("#memberId").val().trim();
+	var memberPw = $("#memberPw").val().trim();
+	console.log(memberId + "/" + memberPw);
+	var loginVal = {
+			"memberId":memberId,
+			"memberPw":memberPw
+			};
+	
+	if (memberId == null || memberId == "" || memberPw == null || memberPw == ""){
+		alert("ID 및 PW를 확인해 주세요");
+	} else {
+		$.ajax({
+			type:"post",
+			url:"ajaxlogin",
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		        	
+		    },
+			data: JSON.stringify(loginVal),
+			success:function(msg){ 
+				if (msg.check == true){
+					alert("로그인 성공!");
+					location.href="main";
+				} else {
+					alert("ID 혹은 PW가 잘못되었습니다.");
+					$("#loginChk").show();
+					$("#loginChk").html("ID 혹은 PW가 잘못되었습니다.");
+				}
+			},
+			error:function(){
+				alert("통신 실패");
+			}
+		});
+	}
+}
+
+
+</script>
+
 	<title>로그인</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,25 +93,8 @@
 <!--===============================================================================================-->
 </head>
 
-<script type="text/javascript">
-function find_id(){
-    var url = "find_id.jsp";
-    var name = "find_id";
-    var option = "width = 350, height = 475, top = 100, left = 200, location = no"
-    window.open(url, name, option);
-}
+ <body>
 
-
-function find_pwd(){
-    var url = "find_pwd.jsp";
-    var name = "find_pwd";
-    var option = "width = 350, height = 575, top = 100, left = 200, location = no"
-    window.open(url, name, option);
-}
-</script>
-
-<body>
-	
 	
 	<div class="container-login100" style="background-image: url('resources/img/banner/home-banner.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
@@ -59,19 +104,19 @@ function find_pwd(){
 				</span>
 
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="username" placeholder="아이디">
+					<input class="input100" type="text" id="memberId" placeholder="아이디">
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" name="pass" placeholder="비밀번호">
+					<input class="input100" type="password" id="memberPw" placeholder="비밀번호">
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="container-login100-form-btn">
-					<button class="login100-form-btn">
-						로그인
-					</button>
+		
+							<input type="button" value="로그인" class="login100-form-btn" id="btn" onclick="login();">
+				
 				</div>
 				
 				<div class="text-center p-t-57 p-b-20">
