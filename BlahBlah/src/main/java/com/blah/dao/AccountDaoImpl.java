@@ -33,6 +33,17 @@ public class AccountDaoImpl implements AccountDao {
 		return res;
 	}
 
+	@Override
+	public int insert(MemberVo vo) {
+		int res = 0;
+		try {
+			res = sqlSession.insert(NAMESPACE+"insert",vo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	
 
 

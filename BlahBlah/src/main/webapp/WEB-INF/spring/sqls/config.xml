@@ -30,7 +30,9 @@
 		<mapper resource="/mybatis/qna-mapper.xml"/>
 		<mapper resource="/mybatis/lesson-mapper.xml"/>	
 		<mapper resource="/mybatis/user-mapper.xml"/>
-		<!-- <mapper resource="/mybatis/account-mapper.xml"/>
+		<mapper resource="/mybatis/account-mapper.xml"/>
+		<mapper resource="/mybatis/account-mapper2.xml"/>
+		<!-- 
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
 		<mapper resource="/mybatis/dictionary-mapper.xml"/> 
 		<mapper resource="/mybatis/account-mapper.xml"/>

@@ -1,7 +1,10 @@
 package com.blah.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +36,8 @@ public class AccountController {
 	@Autowired
 	private AccountService service;
 //	
-//	@Autowired
-//	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	
 	
@@ -71,6 +74,17 @@ public class AccountController {
 		logger.info("signup FORM");
 		return "/account/signup";
 	}
+	@RequestMapping("signup")
+	public String memberInsert(MemberVo vo) {
+		//화명에서 넘어운 pw 암호화
+		
+		if(service.insert(vo)>0) {
+			return "redirect:login";
+		} else {
+			return "redirect:signupform";
+		}
+	}
+	
 	
 	@RequestMapping(value="idchk")
 	@ResponseBody

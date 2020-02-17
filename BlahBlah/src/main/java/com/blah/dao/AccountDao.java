@@ -7,6 +7,7 @@ public interface AccountDao {
 	String NAMESPACE2 = "idchk.";
 	
 	public MemberVo login(MemberVo vo);
+	public int insert(MemberVo vo);
 	public String checkId(String memberId) throws Exception;
 	}
 	

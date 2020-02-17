@@ -19,10 +19,10 @@ public class AccountServiceImpl implements AccountService {
 		return dao.login(vo);
 	}
 
+
 	@Override
 	public int insert(MemberVo vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insert(vo);
 	}
 
 	@Override

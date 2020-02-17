@@ -22,7 +22,7 @@
 	
 	<insert id="insert">
 		INSERT INTO MYMEMBER 
-		VALUES(MEMBERSEQ.NEXTVAL,#{memberId},#{memberPw},#{memberName})
+		VALUES(#{memberId},#{memberPw},#{memberName})
 	</insert>
 
 
