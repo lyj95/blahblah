@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MyclassVo;
 
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -55,5 +56,18 @@ public class UserDaoImpl implements UserDao{
 		}
 		
 		return vo;
+	}
+
+	@Override
+	public List<MyclassVo> selectProgress(String memberId) {
+		List<MyclassVo> list = new ArrayList<MyclassVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "selectMyClosedClass", memberId);
+		} catch(Exception e) {
+			System.out.println("[error] : selectMyClosedClass");
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

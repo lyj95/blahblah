@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.blah.dao.UserDao;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MyclassVo;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,5 +32,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public MemberVo selectMember(String memberId) {
 		return dao.selectMember(memberId);
+	}
+
+	@Override
+	public List<MyclassVo> selectProgress(String memberId) {
+		return dao.selectProgress(memberId);
 	}
 }

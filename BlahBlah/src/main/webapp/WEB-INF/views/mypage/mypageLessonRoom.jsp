@@ -107,14 +107,14 @@
                         <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Save Memo</a>
                     </div>
 
-                    <h4 class="title">진도율</h4>
+<!--                     <h4 class="title">진도율</h4>
 
                     <div class="percentage">
                         <div class="progress">
                             <div class="progress-bar color-2" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
                              aria-valuemax="100"></div>
                         </div>
-                    </div>
+                    </div> -->
                     <h4 class="title">자료실</h4>
                     <ul>
                         <li>

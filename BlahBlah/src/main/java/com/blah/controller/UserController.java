@@ -23,7 +23,7 @@ public class UserController {
 		logger.info("Mypage");
 		
 		//TODO sessoin에서 ID 가져오기
-		String memberId = "UESR3";
+		String memberId = "user";
 		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
 		mav.addObject("myclassList", service.selectMyClass(memberId));
@@ -38,9 +38,9 @@ public class UserController {
 		logger.info("deleteUser");
 		
 		//TODO sessoin에서 ID 가져오기
-		String memberId = "UESR3";
+		String memberId = "user";
 		
-	
+		
 		
 		return "common/main";
 	}

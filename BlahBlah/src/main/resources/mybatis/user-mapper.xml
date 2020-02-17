@@ -12,7 +12,7 @@
 		<result property="memberEmail" column="MEMBER_EMAIL"/>
 		<result property="memberLevel" column="MEMBER_LEVEL"/>
 		<result property="memberPhoto" column="MEMBER_PHOTO"/>
-		<result property="memberEnavled" column="MEMBER_ENAVLED"/>
+		<result property="memberEnabled" column="MEMBER_ENABLED"/>
 	</resultMap>
 
 	<resultMap type="LessonVo" id="lessonMap">
@@ -41,7 +41,7 @@
 	</select>
 
 	<select id="selectMyClass" resultMap="lessonMap">
-		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
+		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
 		FROM lesson
 		JOIN myclass USING(lesson_no)
 		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
@@ -52,6 +52,12 @@
 		FROM lesson
 		JOIN myclass USING(lesson_no)
 		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0;
+	</select>
+	
+	<select id="selectProgress" resultMap="myclassMap">
+		select LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
+		FORM myclass
+		WHERE member_id = #{memberId};
 	</select>
 	
 </mapper>

@@ -1,4 +1,4 @@
-
+	
 
 
 
@@ -78,8 +78,8 @@ CREATE TABLE member (
 	member_email	varchar2(200)	NOT NULL,
 	member_level	varchar2(20),
 	member_photo	varchar2(4000),
-    member_enavled   varchar2(10) NOT NULL,
-    CONSTRAINT member_enavled_chk CHECK(member_enavled IN('Y','N')),
+    member_enabled   varchar2(10) NOT NULL,
+    CONSTRAINT member_enabled_chk CHECK(member_enabled IN('Y','N')),
     CONSTRAINT member_type_chk CHECK(member_type IN('ADMIN','USER','TUTOR'))
 );
 CREATE TABLE lesson (
@@ -117,7 +117,8 @@ CREATE TABLE notice (
 	notice_title	varchar2(500)	NOT NULL,
 	notice_content	varchar2(4000)	NOT NULL,
 	notice_date	Date	NOT NULL,
-	notice_view	number	
+	notice_view	number,
+    notice_important number
 );
 CREATE TABLE qna (
 	qna_no	number	PRIMARY KEY,

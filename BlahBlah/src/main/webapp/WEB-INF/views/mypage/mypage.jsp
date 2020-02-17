@@ -140,7 +140,7 @@
 						<div class="tab-content quotes" style="width: 100%;">
 							<!-- 내정보 시작 -->
 							<div id="my-info" class="tab-pane fade in active show">
-								<h2>${memberList.memberId }님의 정보</h2>
+								<h2>${memberList.memberId }님의정보</h2>
 								<hr>
 								<div class="row">
 									<div class="col-lg-4">
@@ -148,10 +148,12 @@
 									</div>
 									<div class="col-lg-8">
 										<small class="input-sm-label">name</small> <input type="text"
-											class="single-input-primary" value="${memberList.memberName }" disabled> <small
+											class="single-input-primary"
+											value="${memberList.memberName }" disabled> <small
 											class="input-sm-label">email</small> <input type="text"
-											class="single-input-primary" value="${memberList.memberEmail }" disabled>
-										<br> <a class="primary-btn" href="#" data-toggle="modal"
+											class="single-input-primary"
+											value="${memberList.memberEmail }" disabled> <br>
+										<a class="primary-btn" href="#" data-toggle="modal"
 											data-target="#exampleModal" data-backdrop="static">
 											Change Password <i class="ti-arrow-right ml-1"></i>
 										</a>
@@ -189,31 +191,40 @@
 							<div id="my-changepw" class="tab-pane fade">
 								<h2>비밀번호 변경</h2>
 								<hr>
-								<div style="padding:30px 70px 30px">
-								<form action="changePW">
-									<input class="form-control" type="password" name="" placeholder="현재 비밀번호"><br><br>
-									<input class="form-control" type="password" name="" placeholder="새 비밀번호"><br>
-									<input class="form-control" type="password" name="" placeholder="새 비밀번호 확인"><br>
-									<div class="text-right"><input type="submit" value="변경" class="btn primary-btn"></div>
-								</form>
+								<div style="padding: 30px 70px 30px">
+									<form action="changePW">
+										<input class="form-control" type="password" name=""
+											placeholder="현재 비밀번호"><br>
+										<br> <input class="form-control" type="password" name=""
+											placeholder="새 비밀번호"><br> <input
+											class="form-control" type="password" name=""
+											placeholder="새 비밀번호 확인"><br>
+										<div class="text-right">
+											<input type="submit" value="변경" class="btn primary-btn">
+										</div>
+									</form>
 								</div>
 							</div>
 							<!-- 비밀번호 변경 끝-->
-							
+
 							<!-- 회원 탈퇴 시작 -->
 							<div id="my-delete" class="tab-pane fade">
 								<h2>회원 탈퇴</h2>
 								<hr>
-								<div style="padding:30px 70px 30px">
-								<form action="deleteUser">
-									<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
-									<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p><br><br>
-									<input class="form-control" type="password" name="memberPw" placeholder="현재 비밀번호">
-									<br><br>
-									<div class="text-center"><input type="submit" value="회원 탈퇴" class="btn primary-btn"></div>
-								</form>
+								<div style="padding: 30px 70px 30px">
+									<form action="deleteUser">
+										<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
+										<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p>
+										<br>
+										<br> <input class="form-control" type="password"
+											name="memberPw" placeholder="현재 비밀번호"> <br>
+										<br>
+										<div class="text-center">
+											<input type="submit" value="회원 탈퇴" class="btn primary-btn">
+										</div>
+									</form>
 								</div>
-								
+
 							</div>
 							<!-- 회원 탈퇴 끝-->
 
@@ -254,12 +265,22 @@
 																<h4 class="mb-3">
 																	<a href="room.html">${myclass.lessonName }</a>
 																</h4>
-																<p>${myclass.lessonInfo }</p>
+																<%-- <p>${myclass.lessonInfo }</p> --%>
 																<div
 																	class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="img/courses/author1.png" alt="" /> <span
+																		<img src="resources/img/courses/author1.png" alt="" /> <span
 																			class="d-inline-block ml-2">${myclass.tutorId }</span>
+																	</div>
+																</div>
+																<br>			
+																<div class="percentage">
+																<h5 class="title">진도율</h5>
+																	<div class="progress">
+																		<div class="progress-bar color-6" role="progressbar"
+																			style="width: 80%;background-color: #fdc632;" aria-valuenow="80"
+																			aria-valuemin="0" aria-valuemax="100">
+																		</div>
 																	</div>
 																</div>
 															</div>
