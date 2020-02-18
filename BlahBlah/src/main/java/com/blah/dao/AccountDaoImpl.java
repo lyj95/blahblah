@@ -39,6 +39,7 @@ public class AccountDaoImpl implements AccountDao {
 		try {
 			res = sqlSession.insert(NAMESPACE+"insert",vo);
 		}catch (Exception e) {
+			System.out.println("[error] : insert");
 			e.printStackTrace();
 		}
 		return res;

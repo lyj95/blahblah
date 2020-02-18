@@ -1,4 +1,4 @@
-<<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <!DOCTYPE html>
@@ -8,43 +8,6 @@
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript">
-function signup(){
-	var memberId = $("#memberId").val().trim();
-	var memberPw = $("#memberPw").val().trim();
-	
-	console.log(memberId + "/" + memberPw);
-	
-	
-	if (memberId == null || memberId == "" || memberPw == null || memberPw == ""){
-		alert("ID 및 PW를 확인해 주세요");
-	} else {
-		$.ajax({
-			type:"post",
-			url:"ajaxlogin",
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		        	
-		    },
-			data: JSON.stringify(loginVal),
-			success:function(msg){ 
-				if (msg.check == true){
-					alert("로그인 성공!");
-					location.href="main";
-				} else {
-					alert("ID 혹은 PW가 잘못되었습니다.");
-					$("#loginChk").show();
-					$("#loginChk").html("ID 혹은 PW가 잘못되었습니다.");
-				}
-			},
-			error:function(){
-				alert("통신 실패");
-			}
-		});
-	}
-}
-
-
 $(document).ready(function() {
  $("#idchk").unbind("click").click(function(e) {
   e.preventDefault();
@@ -104,6 +67,7 @@ $(function(){
 	});
 
 </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -123,37 +87,37 @@ $(function(){
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" id="signup-form" class="signup-form">
+                    <form method="POST" id="signup-form" class="signup-form" action="signup">
                         <h2 class="form-title">회원가입</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="name" id="memberName" placeholder="이름"/>
+                            <input type="text" class="form-input" name="memberName" id="memberName" placeholder="이름"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="ID" id="memberId" placeholder="아이디"/>
+                            <input type="text" class="form-input" name="memberId" id="memberId" placeholder="아이디"/>
                         </div>
                         <div class="form-group">
                        
                         	<input type="button"  name="idchk" id="idchk" value="아이디 중복 확인"/>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="password" id="memberPw" placeholder="비밀번호"/>
+                            <input type="password" class="form-input" name="memberPw" id="memberPw" placeholder="비밀번호"/>
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-input" name="check_password" id="check_password" placeholder="비밀번호 확인"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input" name="email" id="memberEmail" placeholder="이메일"/>
+                            <input type="email" class="form-input" name="memberEmail" id="memberEmail" placeholder="이메일"/>
                         </div>
                    
                          <div class="form-group">
-                             <input type="radio"  checked="checked" value="USER" />            학생
-  <input type="radio"  value="TUTOR" /> 강사
+                             <input type="radio"  checked="checked" name="memberType" id="memberType" value="USER" />            학생
+ 							 <input type="radio" name="memberType" id="memberType" value="TUTOR" /> 강사
                             
                            </div>
                         
                         <div class="form-group">
-                            <input type="submit" name="submit" id="submit" class="form-submit" value="회원가입"/>
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="회원가입" />
                         </div>
                     </form>
                 </div>
