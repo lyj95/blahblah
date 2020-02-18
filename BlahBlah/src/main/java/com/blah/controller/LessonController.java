@@ -2,7 +2,9 @@ package com.blah.controller;
 
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
 import com.blah.vo.LessonVo;
+import com.blah.vo.ReviewVo;
 
 
 
@@ -29,11 +34,66 @@ public class LessonController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/courseList")
-	public ModelAndView list() { //뷰의 이름을 리턴하는 것이라서 리턴값이 string이다.
+	public ModelAndView list() { 
 		logger.info("[course]Select List"); //log에 info 찍어주는 것
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.selectList());
 		return mav; //강의 전체목록 조회
+	}
+	
+	@RequestMapping(value = "/SearchKeywordCourse")
+	public ModelAndView searchKeyword(@RequestParam(defaultValue="") String keyword) {  
+		logger.info("[course]Search List"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchKeyword(keyword));
+		
+		return mav; //강의 검색된 목록 조회
+	}
+	
+	@RequestMapping(value = "/courseTypeLICENSE")
+	public ModelAndView searchLICENSE() {  
+		logger.info("[course]Search courseType LICENSE"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchLICENSE());
+		
+		return mav; //강의 검색된 목록 조회
+	}
+	
+	@RequestMapping(value = "/courseTypeSPEAKING")
+	public ModelAndView searchSPEAKING() {  
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchSPEAKING());
+		
+		return mav; //강의 검색된 목록 조회
+	}
+	
+	@RequestMapping(value = "/searchHighLevel")
+	public ModelAndView searchHighLevel() {  
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchHighLevel());
+		mav.addObject("btn", "LICENSEbtn");
+		
+		return mav; //강의 검색된 목록 조회
+	}
+	
+	@RequestMapping(value = "/searchMidLevel")
+	public ModelAndView searchMidLevel() { 
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchMidLevel());
+		
+		return mav; //강의 검색된 목록 조회
+	}
+	
+	@RequestMapping(value = "/searchLowLevel")
+	public ModelAndView searchLowLevel() { 
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchLowLevel());
+		
+		return mav; //강의 검색된 목록 조회
 	}
 	
 	@RequestMapping(value = "/courseDetail")
@@ -100,4 +160,39 @@ public class LessonController {
 		}
 	}
 
+	@RequestMapping(value="addReview")  
+	@ResponseBody
+	public Map<String,Boolean> addReview(ReviewVo vo) throws Exception {
+		// 댓글 등록 ajax
+		logger.info("[course]addReview");
+
+		int res = service.addReview(vo);
+		boolean check = false;
+		
+		if (res > 0) {
+			logger.info("addReview success");
+			check = true;
+			
+		} else {
+			logger.info("addReview fail....");
+			
+		}
+		
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		map.put("check", check);
+		return map;	
+
+	}	
+	
+	 @RequestMapping(value="/reviewList")
+	 @ResponseBody
+	 public Map<String,List<ReviewVo>> reviewList(@RequestParam int lessonNo) {
+		logger.info("[course]Select List"); // log에 info 찍어주는 것
+		
+		Map<String,List<ReviewVo>> map = new HashMap<String,List<ReviewVo>>();
+		map.put("reviewlist", service.selectReviewList(lessonNo));
+
+		return map;	
+
+	}
 }
