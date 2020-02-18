@@ -11,7 +11,7 @@
 		<result property="memberEmail" column="MEMBER_EMAIL"/>
 		<result property="memberLevel" column="MEMBER_LEVEL"/>
 		<result property="memberPhoto" column="MEMBER_PHOTO"/>
-		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="memberEnabled" column="MEMBER_ENABLED"/>
 	</resultMap>
 <select id="login" resultMap="memberMap" >
 		SELECT MEMBER_ID, MEMBER_PW
@@ -21,8 +21,8 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO MYMEMBER 
-		VALUES(#{memberId},#{memberPw},#{memberName})
+		INSERT INTO MEMBER 
+		VALUES(#{memberId},#{memberPw},#{memberType},#{memberName},#{memberEmail},'1','1','Y')
 	</insert>
 
 
