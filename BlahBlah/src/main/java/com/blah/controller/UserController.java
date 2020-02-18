@@ -1,6 +1,7 @@
 package com.blah.controller;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +18,22 @@ import com.blah.vo.MemberVo;
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	/* HttpServletRequest request; */
+
+	
 	@Autowired
 	private UserService service;
 	
 	@RequestMapping(value = "/mypage")
-	public ModelAndView main(Model model) {
+	public ModelAndView mypage(Model model, HttpSession session) {
 		logger.info("Mypage");
 		
-		//TODO sessoin에서 ID 가져오기
-		String memberId = "user";
+		MemberVo vo = (MemberVo)session.getAttribute("login");
 		
+		String memberId = vo.getMemberId();
+		System.out.println(vo);
+
+//		String memberId = "user";
 		ModelAndView mav = new ModelAndView("mypage/mypage");
 		mav.addObject("myclassList", service.selectMyClass(memberId));
 		mav.addObject("closedmyclassList", service.selectMyClass(memberId));
