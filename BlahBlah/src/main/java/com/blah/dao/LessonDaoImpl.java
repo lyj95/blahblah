@@ -164,8 +164,7 @@ public class LessonDaoImpl implements LessonDao {
 
 	@Override
 	public List<ReviewVo> selectReviewList(int lessonNo) {
-		System.out.println("selectReviewList lessonNo: "+lessonNo);
-		
+
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
 			list = sqlSession.selectList(namespace+"selectReviewList",lessonNo);	

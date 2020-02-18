@@ -316,7 +316,7 @@ function getCommentList(){
 	                    html += "<div class='comment-list'>";
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
-	                    html += "<img src='img/blog/c1.jpg' alt=''></div><div class='desc'>";  //1.프로필사진 링크 넣기
+	                    html += "<img src='resources/img/blog/c1.jpg' alt=''></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //1.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 	                    html += "<span class='ti-star checked'></span> ";

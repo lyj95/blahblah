@@ -188,12 +188,9 @@ public class LessonController {
 	 @ResponseBody
 	 public Map<String,List<ReviewVo>> reviewList(@RequestParam int lessonNo) {
 		logger.info("[course]Select List"); // log에 info 찍어주는 것
-
-		
 		
 		Map<String,List<ReviewVo>> map = new HashMap<String,List<ReviewVo>>();
 		map.put("reviewlist", service.selectReviewList(lessonNo));
-		System.out.println(service.selectReviewList(lessonNo));
 
 		return map;	
 
