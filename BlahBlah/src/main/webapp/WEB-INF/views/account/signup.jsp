@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <!DOCTYPE html>
@@ -91,7 +91,6 @@ function fn_userIDCheck() {
 }
 
 $(function(){
-
 	//비밀번호 확인
 		$('#check_password').blur(function(){
 		   if($('#memberPw').val() != $('#check_password').val()){
@@ -146,8 +145,13 @@ $(function(){
                         <div class="form-group">
                             <input type="email" class="form-input" name="email" id="memberEmail" placeholder="이메일"/>
                         </div>
-                        <br>
-                        <br>
+                   
+                         <div class="form-group">
+                             <input type="radio"  checked="checked" value="USER" />            학생
+  <input type="radio"  value="TUTOR" /> 강사
+                            
+                           </div>
+                        
                         <div class="form-group">
                             <input type="submit" name="submit" id="submit" class="form-submit" value="회원가입"/>
                         </div>
