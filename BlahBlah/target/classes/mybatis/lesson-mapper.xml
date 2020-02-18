@@ -37,4 +37,48 @@
 	<delete id="delete" parameterType="int">
 		DELETE FROM LESSON WHERE LESSON_NO = #{lessonNo}
 	</delete>
+	<select id="searchKeyword" parameterType="String" resultMap="LessonMap">
+		SELECT *
+		FROM LESSON
+		WHERE LESSON_NAME LIKE '%'||#{keyword}||'%' OR LESSON_INFO LIKE '%'||#{keyword}||'%' OR TUTOR_ID LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchLICENSE" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_TYPE ='LICENSE'
+	</select>
+	<select id="searchSPEAKING" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_TYPE ='SPEAKING'
+	</select>
+	<select id="searchHighLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='상'
+	</select>
+	<select id="searchMidLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='중'
+	</select>
+	<select id="searchLowLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='하'
+	</select>
+	<resultMap type="ReviewVo" id="ReviewMap">
+		<result property="memberId" column="member_id" />
+		<result property="lessonNo" column="lesson_no" />
+		<result property="reviewTitle" column="review_title" />
+		<result property="reviewContent" column="review_content" />
+		<result property="reviewDate" column="review_date" />
+		<result property="reviewGrade" column="review_grade" />
+	</resultMap>
+
+	<insert id="addReview" parameterType="ReviewVo">
+		INSERT INTO REVIEW
+		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,4)
+	</insert>
+	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
+		SELECT *
+		FROM REVIEW
+		WHERE LESSON_NO=#{lessonNo}
+	</select>
+	
 </mapper>

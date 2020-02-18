@@ -50,33 +50,44 @@
 	<!--================End Home Banner Area =================-->
 
 	<!--================ Start Popular Courses Area =================-->
-	<div class="popular_courses section_gap_top">
+	<div class="popular_courses section_gap_top" style="padding-top: 2%">
 		<div class="container">
+			<!-- search box -->
+			<div class="blog_right_sidebar">
+				<div class="row">
 
-			<div class="row justify-content-center">
-				<div class="col-lg-5">
-					<div class="main_title">
-						<h2 class="mb-3">강의 목록</h2>
+					<div class="single_sidebar_widget search_widget col-8"
+						style="left: 20%">
+					<form action="SearchKeywordCourse" method="post" id ="searchform">
+						<div class="input-group">
+							<input type="text" class="form-control" 
+								placeholder="Search Course" id="keyword" name="keyword"> 
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<i class="ti-search" ></i>
+								</button>
+							</span>
+						</div>
+					</form>	
+						<!-- /input-group -->
+						<div class="br"></div>
+						<div class="single-sidebar-widget tag_cloud_widget ">
+							<!--  <h4 class="widget_title">Tag Clouds</h4>-->
+							<ul class="list">
+								<li><a href="courseTypeLICENSE" id="LICENSEbtn">시험대비</a></li>
+								<li><a href="courseTypeSPEAKING" id="SPEAKINGbtn">자유회화</a></li>
+								<li><a href="searchLowLevel" id="LowLevelbtn">초급영어</a></li>
+								<li><a href="searchMidLevel" id="MidLevelbtn">중급영어</a></li>
+								<li><a href="searchHighLevel" id="HighLevelbtn">상급영어</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
-
-			<!-- search box -->
-			<div class="search_input" id="search_input_box">
-				<form class="d-flex justify-content-between" method="" action="">
-					<input type="text" class="form-control" id="search_input"
-						placeholder="Search Here" />
-					<button type="submit" class="btn"></button>
-					<span class="ti-search" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
+			<br>
+			<br>
 			<!-- end search box -->
-
-			<br>
-			<br>
-
 			<div class="row">
-				<!-- single course -->
 				<!-- ------------- 강의목록 반복되는 부분 ------------ -->
 
 				<c:forEach items="${list}" var="list">
@@ -88,8 +99,9 @@
 						</div>
 						<div class="course_content">
 							<!-- 강의 카테고리 -->
-							
+
 							<span class="tag mb-4 d-inline-block">${list.lessonType}</span>
+							<span class="tag mb-2 d-inline-block">${list.lessonLevel}</span>
 
 							<!-- 강의명 -->
 							<h4 class="mb-3">
@@ -162,6 +174,18 @@
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="resources/js/jquery-3.2.1.min.js"></script>
+	<script>
+
+	
+	$("searchform").submit(function() {
+		System.out.println("searchCheck() 함수 실행");
+		if ($(this).children("input[name=keyword]").val().length < 1) {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+		return true;
+	});
+	</script>
 	<script src="resources/js/popper.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script
