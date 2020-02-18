@@ -1,5 +1,7 @@
 package com.blah.controller;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class UserController {
 		mav.addObject("myclassList", service.selectMyClass(memberId));
 		mav.addObject("closedmyclassList", service.selectMyClass(memberId));
 		mav.addObject("memberList", service.selectMember(memberId));
+		mav.addObject("progressList", service.selectProgress(memberId));
 		
 		return mav;
 	}
@@ -40,9 +43,16 @@ public class UserController {
 		//TODO sessoin에서 ID 가져오기
 		String memberId = "user";
 		
-		
-		
 		return "common/main";
 	}
 	
+	@RequestMapping(value = "/lessonRoom")
+	public String lessonRoom (Model model) {
+		logger.info("into the lesson");
+		
+		return "mypage/mypageLessonRoom";
+	}
+	
+	
+
 }

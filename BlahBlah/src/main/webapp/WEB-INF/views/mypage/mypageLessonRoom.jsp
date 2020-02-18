@@ -32,6 +32,12 @@
           obj.style.height = (12+obj.scrollHeight)+"px";
         }
     </script>  
+    <script type="text/javascript">
+    function dicFunction(){
+		window.open('dictionary', '사전', 'top=150, left=1000, width=320px, height=250px, status=no, menubar=no, toolbar=no, resizable=no');
+
+   }
+    </script>  
    <!--================ Start Header Menu Area =================-->
    <jsp:include page="../common/menu-header.jsp" />
   <!--================ End Header Menu Area =================-->
@@ -106,15 +112,21 @@
                         <textarea name="memo" class="autosize" style="width: 100%;" onkeydown="resize(this)" onkeyup="resize(this)" placeholder=" 수업 내용 필기"></textarea>
                         <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Save Memo</a>
                     </div>
+                   	<!-- 사전 추가 -->
+					<h4 class="title">사전</h4>
+					<a class="justify-content-between d-flex" onclick="dicFunction();">
+                           <p>단어 찾기</p>
+                           <span class="genric-btn primary small">dictionary</span>
+                    </a>
 
-<!--                     <h4 class="title">진도율</h4>
+                     <h4 class="title">진도율</h4>
 
                     <div class="percentage">
                         <div class="progress">
                             <div class="progress-bar color-2" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
                              aria-valuemax="100"></div>
                         </div>
-                    </div> -->
+                    </div>
                     <h4 class="title">자료실</h4>
                     <ul>
                         <li>

@@ -51,13 +51,13 @@
 		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id
 		FROM lesson
 		JOIN myclass USING(lesson_no)
-		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0;
+		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
 	</select>
 	
 	<select id="selectProgress" resultMap="myclassMap">
-		select LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
-		FORM myclass
-		WHERE member_id = #{memberId};
+		SELECT LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
+		FROM myclass
+		WHERE member_id = #{memberId}
 	</select>
 	
 </mapper>

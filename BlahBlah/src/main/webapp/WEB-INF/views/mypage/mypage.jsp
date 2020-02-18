@@ -254,6 +254,8 @@
 											</c:when>
 											<c:otherwise>
 												<c:forEach items="${myclassList}" var="myclass">
+													<c:forEach items="${progressList }" var="progress">
+														<c:if test="${progress.lessonNo eq myclass.lessonNo }">
 													<div class="col-lg-4 col-sm-12">
 														<div class="single_course">
 															<div class="course_head">
@@ -278,14 +280,16 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: 80%;background-color: #fdc632;" aria-valuenow="80"
-																			aria-valuemin="0" aria-valuemax="100">
+																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
+														</c:if>
+													</c:forEach>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>

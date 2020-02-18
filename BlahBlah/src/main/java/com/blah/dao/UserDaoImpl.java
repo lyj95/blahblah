@@ -63,11 +63,13 @@ public class UserDaoImpl implements UserDao{
 		List<MyclassVo> list = new ArrayList<MyclassVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE + "selectMyClosedClass", memberId);
+			list = sqlSession.selectList(NAMESPACE + "selectProgress", memberId);
 		} catch(Exception e) {
-			System.out.println("[error] : selectMyClosedClass");
+			System.out.println("[error] : selectProgress");
 			e.printStackTrace();
 		}
+		
+		
 		return list;
 	}
 }

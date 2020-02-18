@@ -1,5 +1,7 @@
 package com.blah.service;
 
-public interface DictionaryService {
+import java.io.IOException;
 
+public interface DictionaryService {
+	public String search(String text) throws IOException;
 }
