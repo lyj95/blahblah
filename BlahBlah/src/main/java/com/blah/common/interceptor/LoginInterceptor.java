@@ -8,36 +8,64 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class LoginInterceptor implements HandlerInterceptor {
-
-	private Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
-	
+public class LoginInterceptor implements HandlerInterceptor  {
+	private Logger logger = 
+			LoggerFactory.getLogger(LoginInterceptor.class);
 	//controller 실행 요청 전에 수행
-	//return true; => 컨트롤러 수행
+	//return true; => 컨트롤러 실행 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.info("[interceptor] : preHandle");
 		
-	
+		if(request.getRequestURI().contains("/login") ||
+			request.getRequestURI().contains("/ajaxlogin")
+			|| request.getRequestURI().contains("/main")
+			|| request.getRequestURI().contains("/signup")
+			|| request.getRequestURI().contains("/courseList")
+			|| request.getRequestURI().contains("/signup")
+			|| request.getRequestURI().contains("/idchk")
+			|| request.getRequestURI().contains("/signupform")
+				) {
+			return true;
+		}
+		if(request.getSession().
+				getAttribute("login") == null ) {
+			response.sendRedirect("login");
+			return false;
+		}
+		
+		if(request.getSession().getAttribute("login")!=null) {
+			return true;
+		}
 		
 		
-		return true;
+		
+		
+		
+		return false;
 	}
-	
-
 	//view로 forward 되기전에 수행
-	@Override 
+	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		logger.info("[interceptor] : postHandle");
 	}
-
-	//view까지 처리 끝난 후 처리
+	//view까지 처리 끝난후 처리
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		logger.info("[interceptor] : afterCompletion");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
