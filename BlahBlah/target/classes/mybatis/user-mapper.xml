@@ -2,3 +2,62 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mypage">
+	<resultMap type="MemberVo" id="memberMap">
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="memberPw" column="MEMBER_PW"/>
+		<result property="memberType" column="MEMBER_TYPE"/>
+		<result property="memberName" column="MEMBER_NAME"/>
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="memberLevel" column="MEMBER_LEVEL"/>
+		<result property="memberPhoto" column="MEMBER_PHOTO"/>
+		<result property="memberEnabled" column="MEMBER_ENABLED"/>
+	</resultMap>
+
+	<resultMap type="LessonVo" id="lessonMap">
+		<result property="lessonNo" column="LESSON_NO" />
+		<result property="lessonName" column="LESSON_NAME" />
+		<result property="lessonInfo" column="LESSON_INFO" />
+		<result property="lessonLevel" column="LESSON_LEVEL" />
+		<result property="lessonType" column="LESSON_TYPE" />
+		<result property="lessonTime" column="LESSON_TIME" />
+		<result property="lessonPrice" column="LESSON_PRICE" />
+		<result property="lessonTotal" column="LESSON_TOTAL" />
+		<result property="tutorId" column="TUTOR_ID" />
+		<result property="lessonSample" column="LESSON_SAMPLE" />
+	</resultMap>
+	<resultMap type="MyclassVo" id="myclassMap">
+		<result property="lessonNo" column="LESSON_NO"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="myclassTotalcnt" column="MYCLASS_TOTALCNT"/>
+		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
+	</resultMap>
+	
+	<select id="selectMember" resultMap="memberMap">
+		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
+		FROM MEMBER
+		WHERE MEMBER_ID=#{memberId}
+	</select>
+
+	<select id="selectMyClass" resultMap="lessonMap">
+		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
+		FROM lesson
+		JOIN myclass USING(lesson_no)
+		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
+	</select>
+	
+	<select id="selectMyClosedClass" resultMap="lessonMap">
+		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id
+		FROM lesson
+		JOIN myclass USING(lesson_no)
+		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
+	</select>
+	
+	<select id="selectProgress" resultMap="myclassMap">
+		SELECT LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
+		FROM myclass
+		WHERE member_id = #{memberId}
+	</select>
+	
+</mapper>

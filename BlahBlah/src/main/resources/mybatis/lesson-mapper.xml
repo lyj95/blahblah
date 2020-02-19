@@ -2,3 +2,83 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="lesson">
+	<resultMap type="LessonVo" id="LessonMap">
+		<result property="lessonNo" column="LESSON_NO" />
+		<result property="lessonName" column="LESSON_NAME" />
+		<result property="lessonInfo" column="LESSON_INFO" />
+		<result property="lessonLevel" column="LESSON_LEVEL" />
+		<result property="lessonType" column="LESSON_TYPE" />
+		<result property="lessonTime" column="LESSON_TIME" />
+		<result property="lessonPrice" column="LESSON_PRICE" />
+		<result property="lessonTotal" column="LESSON_TOTAL" />
+		<result property="tutorId" column="TUTOR_ID" />
+		<result property="lessonSample" column="LESSON_SAMPLE" />
+	</resultMap>
+	<select id="selectList" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		ORDER BY LESSON_NO DESC
+	</select>
+	<select id="selectOne" parameterType="int" resultMap="LessonMap">
+		SELECT *
+		FROM LESSON
+		WHERE LESSON_NO=#{lessonNo}
+	</select>
+	<insert id="insert" parameterType="LessonVo">
+		INSERT INTO LESSON
+		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,'tu123','')
+	</insert>
+	<update id="update" parameterType="LessonVo">
+		UPDATE LESSON
+		SET LESSON_NAME =#{lessonName}, LESSON_INFO = #{lessonInfo}, LESSON_LEVEL= #{lessonLevel},LESSON_TYPE=#{lessonType},LESSON_TIME=#{lessonTime},LESSON_PRICE=#{lessonPrice},LESSON_TOTAL=4
+		WHERE LESSON_NO = #{lessonNo}
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM LESSON WHERE LESSON_NO = #{lessonNo}
+	</delete>
+	<select id="searchKeyword" parameterType="String" resultMap="LessonMap">
+		SELECT *
+		FROM LESSON
+		WHERE LESSON_NAME LIKE '%'||#{keyword}||'%' OR LESSON_INFO LIKE '%'||#{keyword}||'%' OR TUTOR_ID LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchLICENSE" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_TYPE ='LICENSE'
+	</select>
+	<select id="searchSPEAKING" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_TYPE ='SPEAKING'
+	</select>
+	<select id="searchHighLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='상'
+	</select>
+	<select id="searchMidLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='중'
+	</select>
+	<select id="searchLowLevel" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL ='하'
+	</select>
+	<resultMap type="ReviewVo" id="ReviewMap">
+		<result property="memberId" column="member_id" />
+		<result property="lessonNo" column="lesson_no" />
+		<result property="reviewTitle" column="review_title" />
+		<result property="reviewContent" column="review_content" />
+		<result property="reviewDate" column="review_date" />
+		<result property="reviewGrade" column="review_grade" />
+	</resultMap>
+
+	<insert id="addReview" parameterType="ReviewVo">
+		INSERT INTO REVIEW
+		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,4)
+	</insert>
+	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
+		SELECT *
+		FROM REVIEW
+		WHERE LESSON_NO=#{lessonNo}
+	</select>
+	
+</mapper>

@@ -1,14 +1,14 @@
 package com.blah.vo;
 
 public class LessonVo {
-	private String lessonNo;
+	private int lessonNo;
 	private String lessonName;
 	private String lessonInfo;
 	private String lessonLevel;
 	private String lessonType;
 	private String lessonTime;
-	private String lessonPrice;
-	private String lessonTotal;
+	private int lessonPrice;
+	private int lessonTotal;
 	private String tutorId;
 	private String lessonSample;		//강의 샘플 동영상 
 	
@@ -16,8 +16,9 @@ public class LessonVo {
 		super();
 	}
 	
-	public LessonVo(String lessonNo, String lessonName, String lessonInfo, String lessonLevel, String lessonType,
-			String lessonTime, String lessonPrice, String lessonTotal, String tutorId, String lessonSample) {
+
+	public LessonVo(int lessonNo, String lessonName, String lessonInfo, String lessonLevel, String lessonType,
+			String lessonTime, int lessonPrice, int lessonTotal, String tutorId, String lessonSample) {
 		super();
 		this.lessonNo = lessonNo;
 		this.lessonName = lessonName;
@@ -31,85 +32,106 @@ public class LessonVo {
 		this.lessonSample = lessonSample;
 	}
 
-	public String getLessonNo() {
+
+	public int getLessonNo() {
 		return lessonNo;
 	}
 
-	public void setLessonNo(String lessonNo) {
+
+	public void setLessonNo(int lessonNo) {
 		this.lessonNo = lessonNo;
 	}
+
 
 	public String getLessonName() {
 		return lessonName;
 	}
 
+
 	public void setLessonName(String lessonName) {
 		this.lessonName = lessonName;
 	}
+
 
 	public String getLessonInfo() {
 		return lessonInfo;
 	}
 
+
 	public void setLessonInfo(String lessonInfo) {
 		this.lessonInfo = lessonInfo;
 	}
+
 
 	public String getLessonLevel() {
 		return lessonLevel;
 	}
 
+
 	public void setLessonLevel(String lessonLevel) {
 		this.lessonLevel = lessonLevel;
 	}
+
 
 	public String getLessonType() {
 		return lessonType;
 	}
 
+
 	public void setLessonType(String lessonType) {
 		this.lessonType = lessonType;
 	}
+
 
 	public String getLessonTime() {
 		return lessonTime;
 	}
 
+
 	public void setLessonTime(String lessonTime) {
 		this.lessonTime = lessonTime;
 	}
 
-	public String getLessonPrice() {
+
+	public int getLessonPrice() {
 		return lessonPrice;
 	}
 
-	public void setLessonPrice(String lessonPrice) {
+
+	public void setLessonPrice(int lessonPrice) {
 		this.lessonPrice = lessonPrice;
 	}
 
-	public String getLessonTotal() {
+
+	public int getLessonTotal() {
 		return lessonTotal;
 	}
 
-	public void setLessonTotal(String lessonTotal) {
+
+	public void setLessonTotal(int lessonTotal) {
 		this.lessonTotal = lessonTotal;
 	}
+
 
 	public String getTutorId() {
 		return tutorId;
 	}
 
+
 	public void setTutorId(String tutorId) {
 		this.tutorId = tutorId;
 	}
+
 
 	public String getLessonSample() {
 		return lessonSample;
 	}
 
+
 	public void setLessonSample(String lessonSample) {
 		this.lessonSample = lessonSample;
 	}
+
 
 	@Override
 	public String toString() {
