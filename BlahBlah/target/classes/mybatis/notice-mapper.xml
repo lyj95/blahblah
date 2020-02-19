@@ -11,12 +11,39 @@
 		<result property="noticeContent" column="NOTICE_CONTENT" javaType="java.lang.String" jdbcType="VARCHAR"></result>
 		<result property="noticeDate" column="NOTICE_DATE" javaType="java.lang.String" jdbcType="DATE"></result>
 		<result property="noticeView" column="NOTICE_VIEW" javaType="java.lang.Integer" jdbcType="NUMERIC"></result>
+		<result property="noticeImportant" column="NOTICE_IMPORTANT" javaType="java.lang.Integer" jdbcType="NUMERIC"></result>
 	</resultMap>
 	
-	<select id="selectList" resultMap="noticeMap">
-		SELECT *
-		FROM NOTICE
-		ORDER BY NOTICE_NO DESC
+	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="noticeMap">
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT
+		FROM (SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT, 
+				ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RNUM
+			FROM NOTICE
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY NOTICE_IMPORTANT DESC, NOTICE_NO DESC
+	</select>
+	
+	<select id="selectListOrderByNoticeView" parameterType="com.blah.vo.PagingVo" resultMap="noticeMap">
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT
+		FROM (SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT, 
+				ROW_NUMBER() OVER(ORDER BY NOTICE_VIEW DESC) AS RNUM
+			FROM NOTICE
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY NOTICE_IMPORTANT DESC, NOTICE_VIEW DESC
+	</select>
+	
+	<select id="listCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(NOTICE_NO)
+			FROM NOTICE
+			WHERE NOTICE_NO > 0
+		]]>
+	</select>
+	
+	<select id="findSysdate" resultType="String">
+		SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM DUAL
 	</select>
 	
 	<select id="selectOne" parameterType="int" resultMap="noticeMap">
@@ -26,13 +53,15 @@
 	</select>
 	
 	<insert id="insert" parameterType="noticeVo">
-		INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW)
+		INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT)
 		VALUES (
 			NOTICE_SEQ.NEXTVAL, 
 			#{noticeTitle, jdbcType=VARCHAR}, 
 			#{noticeContent, jdbcType=VARCHAR}, 
 			SYSDATE,
-			0)
+			1,
+			#{noticeImportant}
+			)
 	</insert>
 	
 	<update id="update" parameterType="noticeVo">
@@ -45,5 +74,53 @@
 		DELETE FROM NOTICE
 		WHERE NOTICE_NO = #{noticeNo}
 	</delete>
-
+	
+	<update id="updateNotcieView" parameterType="map">
+		UPDATE NOTICE
+		SET NOTICE_VIEW = #{currentNoticeView}
+		WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	
+	<select id="selectCurrentNoticeView" parameterType="int" resultType="int">
+		SELECT NOTICE_VIEW
+		FROM NOTICE
+		WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<select id="searchByTitle" parameterType="String" resultMap="noticeMap">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%{#searchContent}%'
+		ORDER BY NOTICE_NO DESC
+	</select>
+	
+	<select id="searchByContent" parameterType="String" resultMap="noticeMap">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICE_CONTENT LIKE '%{#searchContent}%'
+		ORDER BY NOTICE_NO DESC
+	</select>
+	
+	<select id="selectPrePost" parameterType="int" resultMap="noticeMap">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICE_NO IN (
+			(
+			SELECT MIN(NOTICE_NO)
+			FROM NOTICE
+			WHERE NOTICE_NO > #{noticeNo})
+		)
+	</select>
+	
+	<select id="selectNextPost" parameterType="int" resultMap="noticeMap">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICE_NO IN (
+			(
+			SELECT MAX(NOTICE_NO)
+			FROM NOTICE
+			WHERE #{noticeNo} > NOTICE_NO)
+		)
+	</select>
+	
 </mapper>
