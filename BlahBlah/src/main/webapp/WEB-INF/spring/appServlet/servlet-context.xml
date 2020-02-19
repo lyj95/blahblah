@@ -36,5 +36,10 @@
 	
 	<!-- 트랜잭션 -->
 	<tx:annotation-driven/>
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+<beans:bean id="naverLoginBO" class="com.blah.controller.NaverLoginBO" />
 
+
+
+	
 </beans:beans>

@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" 
+		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-</script>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+
 	<title>로그인</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,36 +36,23 @@
 	<link rel="stylesheet" type="text/css" href="resources/login/css/main.css">
 <!--===============================================================================================-->
 </head>
-<body>
-	
-	
-	<div class="container-login100" style="background-image: url('resources/img/banner/home-banner.jpg');">
-		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form action="${path }/account/memberSearchIdEnd.do" method="post" class="login100-form validate-form">
-				<span class="login100-form-title p-b-37">
-					아이디 찾기
-				</span>
-                          
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="memberName" id="memberName" placeholder="이름">
-					<span class="focus-input100"></span>
-				</div>
 
-				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="text" name="memberEmail" id="memberEmail" placeholder="이메일">
-					<span class="focus-input100"></span>
-				</div>
+ <body>
 
-				<div class="container-login100-form-btn">
-				<button type="submit" class="login100-form-btn">찾기</button>
-					</div>
-				
-				<br>
-				<br>
-				
-			</form>	
-		</div>
-	</div>
+
+  <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+  <div id="naver_id_login"></div>
+  <!-- //네이버아이디로로그인 버튼 노출 영역 -->
+  <script type="text/javascript">
+  	var naver_id_login = new naver_id_login("BxSbElyRDuGu9zuj3eDh", "http://localhost:8787/controller/callback.jsp");
+  	var state = naver_id_login.getUniqState();
+  	naver_id_login.setButton("white", 2,40);
+  	naver_id_login.setDomain("http://localhost:8787/controller/naverLogin.jsp");
+  	naver_id_login.setState(state);
+  	naver_id_login.setPopup();
+  	naver_id_login.init_naver_id_login();
+  </script>
+
 	
 	
 	<div id="dropDownSelect1"></div>
