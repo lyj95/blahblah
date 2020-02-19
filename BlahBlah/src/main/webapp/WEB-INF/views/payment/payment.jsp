@@ -19,6 +19,8 @@
         var lessonNo = ${lessonNo};
         var lessonPrice = ${lessonPrice};
         var userId = "${userId}";
+        var userName = "${userName}";
+        var userEmail = "${userEmail}";
         
         IMP.request_pay({					//IMP.request_pay(param, callback)  2개의 argument를 받는 함수
             pg : 'kakaopay',				//PG사
@@ -26,8 +28,8 @@
             merchant_uid : 'merchant_' + new Date().getTime(),	//가맹점에서 생성/관리하는 고유주문번호(필수항목)
             name : 'BlahBlah 강의 결제',		//주문명
             amount : lessonPrice,			//결제할 금액(필수항목)
-            buyer_name : '홍길동',
-            buyer_email : 'email'
+            buyer_name : userName,
+            buyer_email : userEmail
             //m_redirect_url : 'http://www.naver.com' 모바일 결제 후 이동될 주소
             
         }, function(rsp) {					//결제 후 호출되는 callback함수(가맹점 서버로 imp_uid 전달)
@@ -48,16 +50,15 @@
                     })
                      
                 }).done(function(data) {
-                	alert(".done의 callback함수 시작");
                     //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
                     if ( data.everythings_fine ) {
-                        msg = '결제가 완료되었습니다. 마이페이지에서 확인바랍니다.';
+                        msg = '결제가 완료되었습니다.';
                         msg += '\n고유ID : ' + rsp.imp_uid; 				//아임포트 거래고유번호
                         msg += '\n상점 거래ID : ' + rsp.merchant_uid;		//가맹점에서 전달한 주문 고유번호
                         msg += '\n결제 금액 : ' + rsp.paid_amount;
                         msg += '\n카드 승인번호 : ' + rsp.apply_num;			//카드 승인번호(카드로 결제시만)
-                      
-                        alert(msg);
+                      	console.log(msg);
+                        alert("결제가 완료되었습니다. 마이페이지에서 확인바랍니다.");
                         
                       	//성공시 이동할 페이지
                         location.href='courseDetail?lessonNo=${lessonNo}';
@@ -77,7 +78,7 @@
                 alert(msg);
                 
                 //실패시 이동할 페이지
-                location.href='courseList';
+                location.href='courseDetail?lessonNo=${lessonNo}';
             }
         });
         

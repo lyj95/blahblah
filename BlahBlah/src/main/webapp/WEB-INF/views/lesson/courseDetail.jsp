@@ -25,7 +25,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js" ></script>
 <script type="text/javascript">
 		function chkTable(){
-		alert("함수 먼저 실행");
 		var lessonNo = ${vo.lessonNo};
 		var jdata = { "lessonNo" : lessonNo };
 		$.ajax({
@@ -39,7 +38,6 @@
 					location.href='/controller/payment?lessonNo=${vo.lessonNo}';
 				} else {					//결제 진행 불가
 					alert("이미 수강 중이거나 신청 마감된 강의입니다.");
-					location.href='courseDetail?lessonNo=${vo.lessonNo}';
 				}
 			},
 			

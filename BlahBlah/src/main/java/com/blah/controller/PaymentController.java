@@ -3,6 +3,7 @@ package com.blah.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
 import com.blah.service.PaymentService;
+import com.blah.service.UserService;
 
 @Controller
 public class PaymentController {
@@ -27,14 +29,25 @@ public class PaymentController {
 	private LessonService ls;
 	@Autowired
 	private PaymentService ps;
+	@Autowired
+	private UserService us;
 	
-	String userId = "user01";
 	
+	/**
+	 * 결제 진행 전 payment 테이블에 해당 강의가 결제된 내역이 있는지 확인 후 ajax로 결과 리턴
+	 * @param HttpServletRequest request
+	 * @param Map<String, String> jdata
+	 * @return Map<String, Boolean> map
+	 * @author star
+	 */
 	@RequestMapping(value = "/chkTable", method=RequestMethod.POST)
 	@ResponseBody									
-	public Map<String, Boolean> checkingTable(@RequestBody Map<String, String> jdata) {
+	public Map<String, Boolean> checkingTable(HttpServletRequest request, @RequestBody Map<String, String> jdata) {
 		
 		logger.info("[payment] checking payment Table");
+		
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userID");	//session의 ID
 		
 		String lessonNo = jdata.get("lessonNo");	//넘어온 json data : lessonNo
 		
@@ -59,24 +72,44 @@ public class PaymentController {
 		return map;	
 	}
 	
+	
+	
+	/**
+	 * 결제 페이지로 이동
+	 * @param HttpServletRequest request
+	 * @param Model model
+	 * @param int lessonNo
+	 * @return ViewName
+	 * @author star
+	 */
 	@RequestMapping(value = "/payment")
-	public String payLesson(Model model, int lessonNo) {
+	public String payLesson(HttpServletRequest request, Model model, int lessonNo) {
 		logger.info("[payment] into the payment");
+		
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userID");	//session의 ID
+		
 		logger.info("lessonNo : "+lessonNo);
 		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();		//lessonNo로 결제금액 가져오기
-		//String userId = (String) session.getAttribute("login");			//session의 ID
-		//String userName = us.selectOne(userId).getMemberName();		//ID로 회원이름 가져오기
-		//String userEmail = us.selectOne(userId).getMemberEmail();		//ID로 회원메일 가져오기
+		String userName = us.selectMember(userId).getMemberName();		//ID로 회원이름 가져오기
+		String userEmail = us.selectMember(userId).getMemberEmail();		//ID로 회원메일 가져오기
 		
 		model.addAttribute("lessonNo", lessonNo);
-		model.addAttribute("userId", userId);	
 		model.addAttribute("lessonPrice", lessonPrice);	
-		//model.addAttribute("userName", userName);	
-		//model.addAttribute("userEmail", userEmail);	
+		model.addAttribute("userId", userId);	
+		model.addAttribute("userName", userName);	
+		model.addAttribute("userEmail", userEmail);	
 		
 		return "payment/payment";
 	}
 	
+	/**
+	 * 결제 진행 
+	 * @param HttpSession session
+	 * @param Map<String, String> jdata
+	 * @return Map<String, Boolean> map
+	 * @author star
+	 */
 	@RequestMapping(value = "/blahpay", method=RequestMethod.POST)
 	@ResponseBody									
 	public Map<String, Boolean> payResult(HttpSession session, @RequestBody Map<String, String> jdata) {
@@ -93,12 +126,12 @@ public class PaymentController {
 		String lessonNo = jdata.get("lessonNo");
 		String userId = jdata.get("userId");
 		
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();	//결제 테이블 재확인
 		selectMap.put("userId", userId);
 		selectMap.put("lessonNo", lessonNo);
 		System.out.println("selectMap : "+selectMap);
 
-		HashMap<String, Object> insertMap = new HashMap<String, Object>();
+		HashMap<String, Object> insertMap = new HashMap<String, Object>();	//결제 테이블에 insert
 		insertMap.put("userId", userId);
 		insertMap.put("lessonNo", lessonNo);
 		insertMap.put("impUid", impUid);
@@ -107,6 +140,7 @@ public class PaymentController {
 		boolean	everythings_fine = false;
 		boolean checkPay = ps.checkPay(selectMap);
 		System.out.println("checkPay : "+checkPay);
+		
 		//결제테이블에 userId, lessonNo 등록되어있는지(둘다 없어야 가능)
 		if(checkPay == true) {
 			everythings_fine=false;

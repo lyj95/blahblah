@@ -55,9 +55,11 @@ public class AccountController {
 		//RequestBoey: request객체로 넘어오는 데이터를 java 객체로
 		MemberVo res = service.login(vo);
 		boolean check = false;
+		String userID = res.getMemberId();
 		
 		if(res != null) {
 			session.setAttribute("login", res);
+			session.setAttribute("userID", userID);
 			check=true;
 		}
 		
