@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	
 	
-	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blah</groupId>
 	<artifactId>controller</artifactId>
@@ -166,7 +165,6 @@
     	<artifactId>jackson-core-asl</artifactId>
    		<version>1.9.13</version>
 	</dependency>
-   
    
    	<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
 	<dependency>

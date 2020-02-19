@@ -51,8 +51,14 @@
     <!--================Contact Area : 아래부분은 수정한 부분입니다. =================-->
     <section class="contact_area section_gap" style="padding: 5% 0;">
 		<div class="container">
-			<form class="needs-validation" method="post" action="updateNotice">
+			<form id="updateForm" class="needs-validation" method="post" action="updateNotice">
 				<input type="hidden" name="noticeNo" value="${vo.noticeNo}">
+				<div class="form-row">
+					<div class="col-md-4 mb-3">
+						<label for="noticeImportant">중요 공지로 등록하기
+						<input type="radio" name="noticeImportant" style="height:40%;" value="1"></label>
+					</div>
+				</div>
 				<div class="form-row">
 					<div class="col-md-4 mb-3">
 						<label for="validationCustom01">제목</label>
@@ -62,12 +68,12 @@
 				</div>
 				<div class="mb-10">
 					<label for="validationTextarea">내용</label>
-					<textarea cols="15" rows="15" class="form-control" name="noticeContent" style="resize: none; margin: 0 0 2% 0 ;"
+					<textarea cols="15" rows="15" class="form-control" name="noticeContent" id="ir1" style="resize: none; margin: 0 0 2% 0 ;"
 						placeholder="내용을 입력하세요" required>${vo.noticeContent}</textarea>
 				</div>
-				<input type="button" class="btn primary-btn" style="float: right;" value="취소"
+				<input type="button" class="btn primary-btn" style="float:right; margin-left:3%;" value="취소"
 					onclick="location.href='noticeDetail?noticeNo=${vo.noticeNo}'">
-				<input type="submit" class="btn primary-btn" style="float: right;" value="작성 완료">
+				<input type="button" id="submitBtn" class="btn primary-btn" style="float: right;" value="작성 완료">
 			</form>
 		</div>
     </section>
@@ -95,5 +101,41 @@
     <script src="resources/js/gmaps.min.js"></script>
     <script src="resources/js/contact.js"></script>
     <script src="resources/js/theme.js"></script>
+    <!-- 스마트 에디터 -->
+    <script type="text/javascript" src="resources/smartEditor/js/service/HuskyEZCreator.js" charset="UTF-8"></script>
   </body>
+  
+  <script type="text/javascript">
+   		var oEditors = [];
+   		$(function(){	
+   		      nhn.husky.EZCreator.createInIFrame({
+   		          oAppRef: oEditors,
+   		          elPlaceHolder: "ir1", //textarea에서 지정한 id와 일치해야 합니다. 
+   		          //SmartEditor2Skin.html 파일이 존재하는 경로
+   		          sSkinURI: "resources/smartEditor/SmartEditor2Skin.html",  
+   		          htParams : {
+   		              // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+   		              bUseToolbar : true,             
+   		              // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+   		              bUseVerticalResizer : true,     
+   		              // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+   		              bUseModeChanger : true,         
+   		              fOnBeforeUnload : function(){
+   		          		
+   		              }
+   		          }, 
+   		          fOnAppLoad : function(){
+   		              //oEditors.getById["ir1"].exec("PASTE_HTML", []);
+   		          },
+   		          fCreator: "createSEditor2"
+   		      });
+   		      
+   		      //저장버튼 클릭시 form 전송
+   		      $("#submitBtn").click(function(){
+   		          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+   		          
+   		          $("#updateForm").submit();
+   		      });
+   		});
+    </script>
 </html>

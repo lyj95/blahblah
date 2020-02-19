@@ -99,16 +99,35 @@
 								<tbody>
 									<tr>
 										<td class="t_bc2">이전글</td>
-										<td class="t_al2"><span class="t_asl">이전글이 없습니다.</span></td>
+										<c:choose>
+											<c:when test="${empty next}">
+												<td class="t_al2"><span class="t_asl">이전글이 없습니다.</span></td>
+											</c:when>
+											<c:otherwise>
+												<td class="t_al2 t_b0">
+													<span class="t_asl">
+														<a href="noticeDetail?noticeNo=${next.noticeNo}">${next.noticeTitle}</a>
+													</span>
+													<span class="t_asr"></span>
+												</td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 									<tr>
 										<td class="t_bc2 t_b0">다음글</td>
-										<td class="t_al2 t_b0">
-											<span class="t_asl">
-												<a href="./board.php?bo_table=notice&amp;wr_id=631&amp;page=">블라블라 신규 회원 도서 증정 이벤트 안내</a>
-											</span>
-											<span class="t_asr"></span>
-										</td>
+										<c:choose>
+											<c:when test="${empty pre}">
+												<td class="t_al2"><span class="t_asl">다음글이 없습니다.</span></td>
+											</c:when>
+											<c:otherwise>
+												<td class="t_al2 t_b0">
+													<span class="t_asl">
+														<a href="noticeDetail?noticeNo=${pre.noticeNo}">${pre.noticeTitle}</a>
+													</span>
+													<span class="t_asr"></span>
+												</td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</tbody>
 							</table>

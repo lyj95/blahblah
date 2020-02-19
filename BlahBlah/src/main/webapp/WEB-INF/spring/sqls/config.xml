@@ -6,9 +6,9 @@
 <configuration>
  	<typeAliases>
  		<typeAlias type="com.blah.vo.NoticeVo" alias="noticeVo" />
- 		<typeAlias type="com.blah.vo.QnaVo" alias="qnaVo" />
  	
 		<!-- <typeAlias type="com.blah.vo.CalenderVo" alias="calenderVo" />
+		<typeAlias type="com.blah.vo.QnaVo" alias="qnaVo" />
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
 		<typeAlias type="com.blah.vo.LessonVo" alias="lessonVo" />
@@ -26,9 +26,9 @@
 	
 	<mappers>
 		<mapper resource="/mybatis/notice-mapper.xml"/>
-		<mapper resource="/mybatis/qna-mapper.xml"/>
 	
 		<!-- <mapper resource="/mybatis/account-mapper.xml"/>
+		<mapper resource="/mybatis/qna-mapper.xml"/>
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
 		<mapper resource="/mybatis/dictionary-mapper.xml"/>
 		<mapper resource="/mybatis/lesson-mapper.xml"/>
