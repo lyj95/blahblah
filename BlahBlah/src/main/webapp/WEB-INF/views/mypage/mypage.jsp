@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,7 +110,7 @@
 									class="d-flex justify-content-between">
 										<h5 style="color: #666666">회원 탈퇴</h5>
 								</a></li>
-								<li id="myroom"><a data-toggle="tab" href="#my-room"
+								<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
 									class="d-flex justify-content-between">
 										<h4>내 강의실</h4>
 								</a></li>
@@ -140,7 +141,8 @@
 						<div class="tab-content quotes" style="width: 100%;">
 							<!-- 내정보 시작 -->
 							<div id="my-info" class="tab-pane fade in active show">
-								<h2>${memberList.memberId }님의정보</h2>
+								<h2>${member.memberId }님의정보</h2>
+								<span class="tag">${member.memberType }</span>
 								<hr>
 								<div class="row">
 									<div class="col-lg-4">
@@ -149,13 +151,13 @@
 									<div class="col-lg-8">
 										<small class="input-sm-label">name</small> <input type="text"
 											class="single-input-primary"
-											value="${memberList.memberName }" disabled> <small
+											value="${member.memberName }" disabled> <small
 											class="input-sm-label">email</small> <input type="text"
 											class="single-input-primary"
-											value="${memberList.memberEmail }" disabled> <br>
+											value="${member.memberEmail }" disabled> <br>
 										<a class="primary-btn" href="#" data-toggle="modal"
 											data-target="#exampleModal" data-backdrop="static">
-											Change Password <i class="ti-arrow-right ml-1"></i>
+											Change Profile<i class="ti-arrow-right ml-1"></i>
 										</a>
 										<!-- change pw modal -->
 										<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -164,18 +166,25 @@
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Modal
-															title</h5>
+														<h5 class="modal-title" id="exampleModalLabel">프로필 사진 변경</h5>
 														<button type="button" class="close" data-dismiss="modal"
 															aria-label="Close">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-													<div class="modal-body">...</div>
+													<form:form method="post" enctype="multipart/form-data" modelAttribute="uploadFile" action="uploadProfile">
+													<div class="modal-body">
+													
+														<span class="btn-file">
+														<input type="file" id="userProfile" name="userProfile">
+													<%-- 	<input type="hidden" name="u_id" value="${u_id}"> --%>
+													</span>
+													</div>
+													</form:form>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
 															data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-warning">Save
+														<button type="submit" class="btn btn-warning">Save
 															changes</button>
 													</div>
 												</div>
@@ -254,7 +263,7 @@
 
 										<c:choose>
 											<c:when test="${empty myclassList}">
-												<h3>------- 수강 중인 강의가 없습니다. -------</h3>
+												<h4>------- 현재 수강 중인 강의가 없습니다. -------</h4>
 											</c:when>
 											<c:otherwise>
 												<c:forEach items="${myclassList}" var="myclass">
@@ -284,7 +293,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>

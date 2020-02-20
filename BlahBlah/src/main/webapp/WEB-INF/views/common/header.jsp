@@ -113,7 +113,7 @@
                         } else {
                      %>
            				<li class="nav-item">
-           					<a class="nav-link" href="">My Page</a>
+           					<a class="nav-link" href="mypage">My Page</a>
            				</li>
            				<li class="nav-item">
            					<a class="nav-link" href="logout">LogOut</a>
