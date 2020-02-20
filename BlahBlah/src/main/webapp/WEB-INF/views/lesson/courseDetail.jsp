@@ -22,7 +22,32 @@
     <link rel="stylesheet" href="resources/css/style.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   </head>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js" ></script>
+<script type="text/javascript">
+		function chkTable(){
+		var lessonNo = ${vo.lessonNo};
+		var jdata = { "lessonNo" : lessonNo };
+		$.ajax({
+			url: "/controller/chkTable", 
+	        type: "POST",
+	        dataType: "json",
+	        contentType:"application/json",
+	        data: JSON.stringify(jdata),
+			success:function(msg){			//통신 성공시
+				if(msg.res == true){		//결제 진행 가능
+					location.href='/controller/payment?lessonNo=${vo.lessonNo}';
+				} else {					//결제 진행 불가
+					alert("이미 수강 중이거나 신청 마감된 강의입니다.");
+				}
+			},
+			
+			error:function(request,status,error){
+		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+		        location.href='courseDetail?lessonNo=${vo.lessonNo}';  
+			}
+		});
+	};
+</script>
   <body>
     <!--================ Start Header Menu Area =================-->
  	<jsp:include page="../common/menu-header.jsp" />
@@ -110,7 +135,7 @@
                             </a>
                         </li>
                     </ul>
-                    <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">수강 신청</a>
+                    <input type="button" onclick="chkTable()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" value="수강 신청"/>
 
                     <h4 class="title">후기 작성</h4>
                     <div class="content">

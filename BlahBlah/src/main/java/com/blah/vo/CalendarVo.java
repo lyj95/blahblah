@@ -3,27 +3,23 @@ package com.blah.vo;
 import java.util.Date;
 
 public class CalendarVo {
-	private Date calendarDate;
 	private String memberId;
-	private String calendarContent;
+	private int lessonNo;
+	private String lessonName;
+	private String lessonTime;
+	private Date lessonStart;
 	
 	public CalendarVo() {
 		super();
 	}
-
-	public CalendarVo(Date calendarDate, String memberId, String calendarContent) {
+		
+	public CalendarVo(String memberId, int lessonNo, String lessonName, String lessonTime, Date lessonStart) {
 		super();
-		this.calendarDate = calendarDate;
 		this.memberId = memberId;
-		this.calendarContent = calendarContent;
-	}
-
-	public Date getCalendarDate() {
-		return calendarDate;
-	}
-
-	public void setCalendarDate(Date calendarDate) {
-		this.calendarDate = calendarDate;
+		this.lessonNo = lessonNo;
+		this.lessonName = lessonName;
+		this.lessonTime = lessonTime;
+		this.lessonStart = lessonStart;
 	}
 
 	public String getMemberId() {
@@ -34,19 +30,45 @@ public class CalendarVo {
 		this.memberId = memberId;
 	}
 
-	public String getCalendarContent() {
-		return calendarContent;
+	public int getLessonNo() {
+		return lessonNo;
 	}
 
-	public void setCalendarContent(String calendarContent) {
-		this.calendarContent = calendarContent;
+	public void setLessonNo(int lessonNo) {
+		this.lessonNo = lessonNo;
+	}
+
+	public String getLessonName() {
+		return lessonName;
+	}
+
+	public void setLessonName(String lessonName) {
+		this.lessonName = lessonName;
+	}
+
+	public String getLessonTime() {
+		return lessonTime;
+	}
+
+	public void setLessonTime(String lessonTime) {
+		this.lessonTime = lessonTime;
+	}
+
+	public Date getLessonStart() {
+		return lessonStart;
+	}
+
+	public void setLessonStart(Date lessonStart) {
+		this.lessonStart = lessonStart;
 	}
 
 	@Override
 	public String toString() {
-		return "CalendarVo [calendarDate=" + calendarDate + ", memberId=" + memberId + ", calendarContent="
-				+ calendarContent + "]";
+		return "CalendarVo [memberId=" + memberId + ", lessonNo=" + lessonNo + ", lessonName=" + lessonName
+				+ ", lessonTime=" + lessonTime + ", lessonStart=" + lessonStart + "]";
 	}
+	
+	
 	
 	
 	

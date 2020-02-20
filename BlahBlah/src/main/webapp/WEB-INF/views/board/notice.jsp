@@ -22,6 +22,65 @@
   <link rel="stylesheet" href="resources/css/style.css" />
 </head>
 
+<script type="text/javascript">
+/*	
+	function search() {
+		
+		var searchCondition = $("#searchCondition").val().trim();
+		var searchContent = $("#searchContent").val().trim();
+		
+		if (searchCondition == "분류") {
+			alert("분류를 선택하세요.");
+			
+		} else if (searchContent == null) {
+			alert("검색어를 입력하세요.");
+			
+		} else if (searchCondition == "제목" && searchContent != null) {
+			$.ajax({
+				type:"post",
+				url:"searchByTitle",
+				
+				data:JSON.stringify(searchContent),
+				contentType:"appliction/json",
+				dataType:"json",
+				success: function(msg) {
+					
+				},
+				errr:function(){
+					alert("통신실패");
+				}
+			})
+		} else if (searchCondition == "내용" && searchContent != null) {
+			$.ajax({
+				type:"post",
+				url:"searchByContent",
+				
+				data:JSON.stringify(searchContent),
+				contentType:"appliction/json",
+				dataType:"json",
+				success: function(msg) {
+					location.href="searchedList";
+				},
+				errr:function(){
+					alert("통신실패");
+				}
+			})
+		}	
+	}
+*/
+
+	function changeListOrder() {
+		
+		if (document.getElementById("orderBy").options[document.getElementById("orderBy").selectedIndex].text=="최신순") {
+			document.form.action="notice";
+			document.form.submit();
+		} else {
+			document.form.action="noticeOrderByNoticeView";
+			document.form.submit();
+		}
+	}
+</script>
+
 <body>
   <!--================ Start Header Menu Area =================-->
 	<jsp:include page="../common/menu-header.jsp" />
@@ -49,86 +108,133 @@
 
   <!--================Contact Area : 이 아래 영역은 수정한 부분입니다!= =================-->
   <section class="contact_area section_gap" style="padding: 5% 0;">
-	<div class="container">
-		<div class="row">
-			<table class="table" style="text-align:center;">
-				<thead>
-					<tr>
-						<th scope="col">글번호</th>
-						<th scope="col">제목</th>
-						<th scope="col">작성일</th>
-						<th scope="col">조회수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:choose>
-						<c:when test="${empty noticeList}">
-							<tr>
-								<td colspan="4" align="center">------------------------- 작성된 글이 없습니다 -------------------------</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach items="${noticeList}" var="vo">
+  	<form name="form" method="post" action="">
+		<div class="container">
+			<div class="row">
+				<div>
+					<select class="input-group-prepend" name="orderBy" id="orderBy" onchange="changeListOrder()">
+						<option value="noticeNo" selected="selected">최신순</option>
+						<option value="noticeView">조회순</option>
+					</select>
+				</div>
+				
+				<div class="row" style="padding: 3% 0;"></div>
+				
+				<table class="table" style="text-align:center;">
+					<thead>
+						<tr>
+							<th scope="col">글번호</th>
+							<th scope="col">제목</th>
+							<th scope="col">작성일</th>
+							<th scope="col">조회수</th>
+						</tr>
+					</thead>
+					<tbody id="mainContent">
+						<c:choose>
+							<c:when test="${empty noticeList}">
 								<tr>
-									<th scope="row">${vo.noticeNo}</th>
-									<td><a href="noticeDetail?noticeNo=${vo.noticeNo}">${vo.noticeTitle}</a></td>
-									<td>${vo.noticeDate}</td>
-									<td>${vo.noticeView}</td>
+									<td colspan="4" align="center">------------------------- 작성된 글이 없습니다 -------------------------</td>
 								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="row" style="padding: 2% 0;"></div>
-		
-		<div class="row">
-			<div class="input-group mb-3 mx-auto" style="width: 50%;">
-				<div class="input-group-prepend">
-					<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-					aria-haspopup="true" aria-expanded="false">분류</button>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#">제목</a>
-						<a class="dropdown-item" href="#">내용</a>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${noticeList}" var="vo">
+									<c:choose>
+										<c:when test="${vo.noticeImportant eq 1}">
+											<tr style="background-color:#ECF7F9; font-weight:bold;">
+												<th scope="row">${vo.noticeNo}</th>
+												<c:choose>
+													<c:when test="${vo.noticeDate eq sysdate}">
+														<td><a href="noticeDetail?noticeNo=${vo.noticeNo}">${vo.noticeTitle}</a>
+															<img src="resources/img/board/new-icon.PNG">
+														</td>
+													</c:when>
+													<c:otherwise>
+														<td><a href="noticeDetail?noticeNo=${vo.noticeNo}">${vo.noticeTitle}</a></td>
+													</c:otherwise>
+												</c:choose>
+												<td>${vo.noticeDate}</td>
+												<td>${vo.noticeView}</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<tr>
+												<th scope="row">${vo.noticeNo}</th>
+												<c:choose>
+													<c:when test="${vo.noticeDate eq sysdate}">
+														<td><a href="noticeDetail?noticeNo=${vo.noticeNo}">${vo.noticeTitle}</a>
+															<img src="resources/img/board/new-icon.PNG">
+														</td>
+													</c:when>
+													<c:otherwise>
+														<td><a href="noticeDetail?noticeNo=${vo.noticeNo}">${vo.noticeTitle}</a></td>
+													</c:otherwise>
+												</c:choose>
+												<td>${vo.noticeDate}</td>
+												<td>${vo.noticeView}</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="row" style="padding: 2% 0;"></div>
+			
+			<div class="row">
+				<div class="input-group mb-3 mx-auto" style="width: 50%;">
+				<!--
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">분류</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#" id="">제목</a>
+							<a class="dropdown-item" href="#" id="">내용</a>
+						</div>
+					</div>
+				 -->
+					<div>
+						<select class="input-group-prepend" name="searchCondition">
+							<option value="분류" selected="selected">분류</option>
+							<option value="제목">제목</option>
+							<option value="내용">내용</option>
+						</select>
+					</div>
+					<input type="text" class="form-control" id="searchContent"
+						placeholder="검색할 내용을 입력하세요" aria-label="Text input with dropdown button">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" id="searchBtn" onclick="search()">search</button>
 					</div>
 				</div>
-				<input type="text" class="form-control" placeholder="검색할 내용을 입력하세요" aria-label="Text input with dropdown button">
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
-				</div>
+			</div>
+			
+			<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
+				<ul class="pagination">
+					<c:if test="${pageMaker.prev}">
+						<li class="page-item">
+							<a href="notice${pageMaker.makeQuery(pageMaker.startPage -1 )}" class="page-link">이전</a>
+						</li>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						<li class="page-item">
+							<a href="notice${pageMaker.makeQuery(idx)}" class="page-link">${idx}</a>
+						</li>
+					</c:forEach>
+					<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
+						<li class="page-item">
+							<a href="notice${pageMaker.makeQuery(pageMaker.endPage +1 )}" class="page-link">다음</a>
+						</li>
+					</c:if>
+				</ul>
+			</nav>
+	      
+			<div class="col-md-12 text-right">
+				<button type="button" class="btn primary-btn" onclick ="location.href='noticeWriteForm'">글쓰기 </button>
 			</div>
 		</div>
-		
-		<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
-			<ul class="pagination">
-				<li class="page-item">
-					<a href="#" class="page-link" aria-label="Previous">
-						<span aria-hidden="true">
-							<i class="ti-angle-left"></i>
-						</span>
-					</a>
-				</li>
-				<li class="page-item"><a href="#" class="page-link">01</a></li>
-				<li class="page-item "><a href="#" class="page-link">02</a></li>
-				<li class="page-item"><a href="#" class="page-link">03</a></li>
-				<li class="page-item"><a href="#" class="page-link">04</a></li>
-				<li class="page-item"><a href="#" class="page-link">05</a></li>
-				<li class="page-item">
-					<a href="#" class="page-link" aria-label="Next">
-						<span aria-hidden="true">
-							<i class="ti-angle-right"></i>
-						</span>
-					</a>
-				</li>
-			</ul>
-		</nav>
-      
-		<div class="col-md-12 text-right">
-			<button type="button" class="btn primary-btn" onclick ="location.href='noticeWriteForm'">글쓰기 </button>
-		</div>
-	</div>
+	</form>
   </section>
   <!--================Contact Area =================-->
 
