@@ -254,4 +254,3 @@ REFERENCES lesson (
 	lesson_no
 );
 commit;
->>>>>>> b1bd6540df48eb6f1f7901139a839d41d31a59f2
