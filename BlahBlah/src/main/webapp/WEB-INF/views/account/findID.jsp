@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+
+</script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 	<title>로그인</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,26 +41,24 @@
 	
 	<div class="container-login100" style="background-image: url('resources/img/banner/home-banner.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form class="login100-form validate-form">
+			<form action="${path }/account/memberSearchIdEnd.do" method="post" class="login100-form validate-form">
 				<span class="login100-form-title p-b-37">
 					아이디 찾기
 				</span>
-
+                          
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="username" placeholder="이름">
+					<input class="input100" type="text" name="memberName" id="memberName" placeholder="이름">
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" name="pass" placeholder="이메일">
+					<input class="input100" type="text" name="memberEmail" id="memberEmail" placeholder="이메일">
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="container-login100-form-btn">
-					<button class="login100-form-btn">
-						찾기
-					</button>
-				</div>
+				<button type="submit" class="login100-form-btn">찾기</button>
+					</div>
 				
 				<br>
 				<br>

@@ -106,7 +106,7 @@
             					<a class="nav-link" href="signupform">Sign-Up</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="login">Sign-In</a>
+           					<a class="nav-link" href="login">LogIn</a>
            				</li>
                      <%
                         // 로그인 했을 경우
@@ -116,7 +116,7 @@
            					<a class="nav-link" href="mypage">My Page</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="main">Sign-Out</a>
+           					<a class="nav-link" href="logout">LogOut</a>
            				</li>
                      <%
                         }

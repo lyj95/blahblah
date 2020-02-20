@@ -247,7 +247,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								<p>주로 캘린더로 자주 쓰이는 것 : jquery datepicker</p>
+								<p>
+                                     <div class="container">
+                                     	<jsp:include page="../calendar/month-view.jsp" />
+                                     </div>
+                                </p>
 							</div>
 
 							<!-- 수강중인 강의 시작-->
