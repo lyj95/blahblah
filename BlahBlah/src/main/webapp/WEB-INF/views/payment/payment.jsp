@@ -18,7 +18,7 @@
         
         var lessonNo = ${lessonNo};
         var lessonPrice = ${lessonPrice};
-        var userId = "${userId}";
+        var MemberId = "${MemberId}";
         var userName = "${userName}";
         var userEmail = "${userEmail}";
         
@@ -46,7 +46,7 @@
                         'impUid' : rsp.imp_uid,			//아임포트 거래고유번호, 서버단에서 REST API로 조회 후 검증
                         'paidAmount' : rsp.paid_amount,	//결제 금액 서버단에서 계산한 {실제주문금액}과 일치하는지 최종 검증 
                         'lessonNo'	: lessonNo,
-                        'userId' : userId	
+                        'MemberId' : MemberId	
                     })
                      
                 }).done(function(data) {
@@ -58,7 +58,7 @@
                         msg += '\n결제 금액 : ' + rsp.paid_amount;
                         msg += '\n카드 승인번호 : ' + rsp.apply_num;			//카드 승인번호(카드로 결제시만)
                       	console.log(msg);
-                        alert("결제가 완료되었습니다. 마이페이지에서 확인바랍니다.");
+                        alert("결제가 완료되었습니다. 마이페이지의 스케줄에서 확인바랍니다.");
                         
                       	//성공시 이동할 페이지
                         location.href='courseDetail?lessonNo=${lessonNo}';
