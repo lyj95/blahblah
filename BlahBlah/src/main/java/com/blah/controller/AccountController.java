@@ -45,7 +45,7 @@ public class AccountController {
 					.getLogger(AccountController.class);
 	@Autowired
 	private AccountService service;
-//	
+	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
@@ -63,13 +63,13 @@ public class AccountController {
 		MemberVo res = service.login(vo);
 		boolean check = false;
 
+
 		if(passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) {		//암호화된 비번이랑 원래 비번이랑 같은지 비교
 			session.setAttribute("login", res);
 			check = true;
 		}
 		
-		Map<String, Boolean> map = 
-				new HashMap<String, Boolean>();
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("check", check);
 		
 		return map;
