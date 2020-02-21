@@ -12,4 +12,7 @@ public interface UserDao {
 	public List<LessonVo> selectClosedMyClass(String memberId);
 	public MemberVo selectMember(String memberId);
 	public List<MyclassVo> selectProgress(String memberId);
+	public int updateProfile(MemberVo vo);
+	public int updatePassword(MemberVo vo);
+	public int deleteMember(MemberVo vo);
 }

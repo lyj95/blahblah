@@ -23,7 +23,6 @@ public class LoginInterceptor implements HandlerInterceptor  {
 			|| request.getRequestURI().contains("/main")
 			|| request.getRequestURI().contains("/signup")
 			|| request.getRequestURI().contains("/courseList")
-			|| request.getRequestURI().contains("/signup")
 			|| request.getRequestURI().contains("/idchk")
 			|| request.getRequestURI().contains("/signupform")
 			|| request.getRequestURI().contains("/findpwform")
