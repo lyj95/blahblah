@@ -1,5 +1,13 @@
 package com.blah.dao;
 
-public interface ScheduleDao {
+import java.util.List;
 
+import com.blah.vo.CalendarVo;
+
+public interface ScheduleDao {
+	
+	String NAMESPACE = "calendar.";
+
+	public List<CalendarVo> selectCalendar(String memberId);
+	
 }

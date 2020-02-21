@@ -7,21 +7,9 @@
 <script type="text/javascript" 
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-function find_id(){
-    var url = "find_id.jsp";
-    var name = "find_id";
-    var option = "width = 350, height = 475, top = 100, left = 200, location = no"
-    window.open(url, name, option);
-}
 
-
-function find_pwd(){
-    var url = "find_pwd.jsp";
-    var name = "find_pwd";
-    var option = "width = 350, height = 575, top = 100, left = 200, location = no"
-    window.open(url, name, option);
-}
 
 
 $(function(){ $("#loginChk").hide(); });
@@ -120,8 +108,9 @@ function login(){
 				</div>
 				
 				<div class="text-center p-t-57 p-b-20">
-					<input type="button" class="txt3" value="아이디 찾기/" onclick="find_id()">
-					<input type="button" class="txt3" value="비밀번호 찾기" onclick="find_pwd()">
+		<a class="text-center p-t-57 p-b-20" href="findidform">아이디 찾기</a>/
+		<a class="text-center p-t-57 p-b-20" href="findpwform">비밀번호 찾기</a>
+				
 				</div>
 				
 				<div class="text-center p-t-57 p-b-20">
@@ -129,20 +118,35 @@ function login(){
 						네이버 or 구글 아이디로 로그인
 					</span>
 				</div>
-
-				<div class="flex-c p-b-112">
-					<a href="#" class="login100-social-item">
-						<img src="resources/login/images/icons/icon-naver.png" alt="NAVER">
+				
+					
+				<div id="naver_id_login">
+					<a href=naverLogin class="login100-social-item">
+					<img src="resources/login/images/icons/icon-naver.png" alt="NAVER">
 					</a>
-
-					<a href="#" class="login100-social-item">
+					</div>
+					<!--  a href="#" class="login100-social-item">
 						<img src="resources/login/images/icons/icon-google.png" alt="GOOGLE">
-					</a>
-				</div>
+					</a-->
+				
 			</form>	
 		</div>
 	</div>
+	<script type = "text/javascript" src = "https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+ 
+<div id = "naver_id_login"></div>
 	
+	<script type="text/javascript">
+ 		var naver_id_login = new naver_id_login("BxSbElyRDuGu9zuj3eDh", "http://localhost:8787/controller/main" );	// Client ID, CallBack URL 삽입
+											// 단 'localhost'가 포함된 CallBack URL
+ 		var state = naver_id_login.getUniqState();
+		
+ 		naver_id_login.setButton("white", 2, 40);
+ 		naver_id_login.setDomain("http://localhost:8787/controller/login");	//  URL
+ 		naver_id_login.setState(state);
+ 		//naver_id_login.setPopup();
+ 		naver_id_login.init_naver_id_login();
+	</script>
 	
 	<div id="dropDownSelect1"></div>
 	

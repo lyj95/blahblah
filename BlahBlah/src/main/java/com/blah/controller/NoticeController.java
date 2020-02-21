@@ -1,5 +1,6 @@
 package com.blah.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -7,11 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blah.service.NoticeService;
 import com.blah.service.NoticeServiceImpl;
 import com.blah.vo.NoticeVo;
+import com.blah.vo.PageMakerVo;
+import com.blah.vo.PagingVo;
 
 @Controller
 public class NoticeController {
@@ -22,11 +28,35 @@ public class NoticeController {
 	private NoticeService service = new NoticeServiceImpl();
 	
 	@RequestMapping(value = "/notice")
-	public String openNotice(Locale locale, Model model) {
+	public String openNotice(Locale locale, Model model, PagingVo page) {
 		
-		logger.info("공지 페이지");
+		logger.info("공지 페이지 (최신순 정렬)");
 		
-		model.addAttribute("noticeList", service.selectList());
+		model.addAttribute("noticeList", service.selectList(page));
+		
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		
+		model.addAttribute("sysdate", service.findSysdate());
+		
+		return "board/notice";
+	}
+	
+	@RequestMapping(value = "/noticeOrderByNoticeView")
+	public String openNoticeOrderByNoticeView(Locale locale, Model model, PagingVo page) {
+		
+		logger.info("공지 페이지 (조회순 정렬)");
+		
+		model.addAttribute("noticeList", service.selectListOrderByNoticeView(page));
+		
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		
+		model.addAttribute("sysdate", service.findSysdate());
 		
 		return "board/notice";
 	}
@@ -37,6 +67,8 @@ public class NoticeController {
 		logger.info("공지 상세 보기");
 		
 		model.addAttribute("vo", service.selectOne(noticeNo));
+		model.addAttribute("pre", service.selectPrePost(noticeNo));
+		model.addAttribute("next", service.selectNextPost(noticeNo));
 		
 		return "board/noticeDetail";
 	}
@@ -76,11 +108,13 @@ public class NoticeController {
 	public String updateNotice(Model model, NoticeVo vo) {
 		
 		logger.info("공지 수정");
-		
+		System.out.println("공지 변경사항"+vo.toString());
 		int res = service.update(vo);
 		if (res > 0) {
+			service.decreaseNoticeView(vo.getNoticeNo());
+			
 			model.addAttribute("vo", service.selectOne(vo.getNoticeNo()));
-			return "board/noticeDetail";
+			return "redirect:noticeDetail?noticeNo="+vo.getNoticeNo();
 		} else {
 			return "redirect:noticeUpdateForm";
 		}
@@ -99,4 +133,16 @@ public class NoticeController {
 			return "board/noticeDetail";
 		}
 	}
+	
+	@RequestMapping(value = "searchByTitle", method=RequestMethod.POST)
+	@ResponseBody
+	public List<NoticeVo> searchByTitle(@RequestBody String searchContent) {
+		
+		logger.info("공지 제목으로 검색");
+		
+		List<NoticeVo> list = service.searchByTitle(searchContent);
+		
+		return list;
+	}
+	
 }

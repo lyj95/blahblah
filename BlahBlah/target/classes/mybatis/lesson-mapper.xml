@@ -73,12 +73,13 @@
 
 	<insert id="addReview" parameterType="ReviewVo">
 		INSERT INTO REVIEW
-		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,4)
+		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade})
 	</insert>
 	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
 		SELECT *
 		FROM REVIEW
 		WHERE LESSON_NO=#{lessonNo}
+		ORDER BY review_date DESC
 	</select>
 	
 </mapper>

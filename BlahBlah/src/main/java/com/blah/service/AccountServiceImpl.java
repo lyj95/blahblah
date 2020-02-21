@@ -1,5 +1,11 @@
 package com.blah.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +27,23 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public int insert(MemberVo vo) {
-		return dao.insert(vo);
+	public int sign(MemberVo vo) {
+		return dao.sign(vo);
 	}
 
 	@Override
 	public String idchk(String memberId) throws Exception {
 		
 		return dao.checkId(memberId);
+	}
+	public Map<String, String> selectSearchId(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectSearchId(map);
+	}
+
+	public Map<String, String> selectSearchPw(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.selectSearchPw(map);
 	}
 	
 }
