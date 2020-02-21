@@ -14,10 +14,9 @@
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
 		<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
+		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
 
 	<!-- 
-
-		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
 		<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
 		<typeAlias type="com.blah.vo.ReplyVo" alias="replyVo" />
 		<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />  -->
@@ -35,9 +34,7 @@
 		<mapper resource="/mybatis/lesson-mapper.xml"/>	
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
-		<mapper resource="/mybatis/account-mapper2.xml"/>
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
-		<mapper resource="/mybatis/payment-mapper.xml"/>	
 
 
 		<!-- 
