@@ -12,7 +12,7 @@ public interface AccountService {
 
 	public MemberVo login(MemberVo vo);
 
-	public int sign(MemberVo vo);
+	public int signup(MemberVo vo);
 
 	public String idchk(String memberId) throws Exception;
 	

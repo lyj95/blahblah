@@ -10,7 +10,7 @@ public interface AccountDao {
 	String NAMESPACE2 = "member2.";
 	
 	public MemberVo login(MemberVo vo);
-	public int sign(MemberVo vo);
+	public int signup(MemberVo vo);
 	public String checkId(String memberId) throws Exception;
 
 	

@@ -60,4 +60,19 @@
 		WHERE member_id = #{memberId}
 	</select>
 	
+	<update id="updateProfile" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
+	<update id="updatePassword" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
+	<update id="deleteMember" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_ENABLED = 'N'
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
 </mapper>

@@ -1,10 +1,7 @@
 package com.blah.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
+import com.blah.common.validate.FileValidate;
 import com.blah.service.UserService;
+import com.blah.vo.FilesVo;
 import com.blah.vo.MemberVo;
 
 @Controller
@@ -29,6 +29,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	
 	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView mypage(Model model, HttpSession session) {
@@ -48,77 +49,41 @@ public class UserController {
 		return mav;
 	}
 	
-//	@Autowired
-//	private FileValidate fileValidator;
-//	
-//	@RequestMapping(value="/uploadProfile")
-//	public String fileupload(HttpServletRequest request, Model model, UploadFile uploadFile, BindingResult result) {
-//		// BindingResult : 객체를 Binding하다 에러가 발생하면 해당 에러의 정보를 받기위해 사용된다.
-//		
-//		fileValidator.validate(uploadFile, result);
-//		if(result.hasErrors()) {
-//			return "uploadForm";
-//		}
-//		MultipartFile file = uploadFile.getFile();
-//		String filename = file.getOriginalFilename();		//업로드한 파일의 실제 이름
-//		
-//		UploadFile fileobj = new UploadFile();
-//		fileobj.setFilename(filename);
-//		fileobj.setDesc(uploadFile.getDesc());	//메모		
-//		
-//		InputStream inputStream = null;
-//		OutputStream outputStream = null;
-//		
-//		try {
-//			inputStream = file.getInputStream();
-//			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
-//			
-//			System.out.println("업로드 될 실제 경로 : " + path);
-//			//C:\workspace\workspace_framework\Spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\SpringMVC04_fileUpload\storage
-//			
-//			File storage = new File(path);
-//			if(!storage.exists()) {	//존재하는지 여부. exists가 true이면 파일이 있다.
-//				storage.mkdirs(); //디렉토리 만들기	
-//			}
-//			
-//			File newfile = new File(path+"/"+filename);
-//			
-//			if(!newfile.exists()) {
-//				newfile.createNewFile();
-//			}
-//			outputStream = new FileOutputStream(newfile);
-//			
-//			int read = 0;
-//			byte[] b = new byte[(int)file.getSize()];	//outputStream은 byte단위이기 때문에
-//			
-//			while((read=inputStream.read(b)) != -1) {
-//				outputStream.write(b, 0, read);
-//			}
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				
-//				inputStream.close();
-//				outputStream.close();
-//				
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		model.addAttribute("fileobj",fileobj);
-//		
-//		return "uploadFile";
-//	}
 	
-	@RequestMapping(value = "/deleteUser")
-	public String deleteUser(Model model, HttpSession session) {
-		logger.info("deleteUser");
+	@RequestMapping(value="/uploadProfile")
+	public String uploadProfile(HttpServletRequest request, HttpSession session, Model model, FilesVo uploadFile) {
+		// BindingResult : 객체를 Binding하다 에러가 발생하면 해당 에러의 정보를 받기위해 사용된다.
+		logger.info("chageProfile");
+		MemberVo vo = (MemberVo) session.getAttribute("login");
+		System.out.println(uploadFile);
 		
+		service.uploadProfile(request,session,uploadFile,vo);
+		
+		model.addAttribute("member", service.selectMember(vo.getMemberId()));
+		return "mypage/mypage";
+	}
+	
+	
+	@RequestMapping(value="/changePw", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Boolean> changePw(HttpSession session, @RequestBody HashMap<String, String> hmap){
+		logger.info("changePw");
+		MemberVo vo = (MemberVo) session.getAttribute("login");
+		
+		Map<String, Boolean> map = service.changePw(vo, hmap);
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/deleteMember",produces = "application/text; charset=utf8")
+	@ResponseBody
+	public Map<String, Boolean> deleteUser(Model model, String nowpw, HttpSession session) {
+		logger.info("deleteMember");
 		MemberVo vo = (MemberVo)session.getAttribute("login");
 		
-		return "common/main";
+		Map<String, Boolean> map = service.deleteMember(vo, nowpw); 
+		
+		return map;
 	}
 	
 	@RequestMapping(value = "/lessonRoom")
