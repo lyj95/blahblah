@@ -11,6 +11,7 @@
 		<typeAlias type="com.blah.vo.ReviewVo" alias="reviewVo" />
 		<typeAlias type="com.blah.vo.MyclassVo" alias="myclassVo" />
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
+<<<<<<< HEAD
 		<typeAlias type="com.blah.vo.QnaVo" alias="qnaVo" />
 		<typeAlias type="com.blah.vo.ReplyVo" alias="replyVo" />
 
@@ -18,6 +19,13 @@
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
 		<typeAlias type="com.blah.vo.CalenderVo" alias="calenderVo" />
+=======
+		<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />
+		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
+		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
+
+	<!-- 
+>>>>>>> b9ab45ddb30b9abd8b7e8a1622d83d409c1d20dc
 		<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
 		<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />  -->
 	</typeAliases>
@@ -29,14 +37,16 @@
 	
 		<mapper resource="/mybatis/notice-mapper.xml"/>
 		<mapper resource="/mybatis/account-mapper.xml"/>
+		<mapper resource="/mybatis/account-mapper2.xml"/>
 		<mapper resource="/mybatis/qna-mapper.xml"/>
 		<mapper resource="/mybatis/lesson-mapper.xml"/>	
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
-		
+		<mapper resource="/mybatis/schedule-mapper.xml"/>
+
+
 		<!-- 
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
-		<mapper resource="/mybatis/dictionary-mapper.xml"/>
 		<mapper resource="/mybatis/dictionary-mapper.xml"/>
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
 		<mapper resource="/mybatis/webcam-mapper.xml"/> -->

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +52,87 @@
 			});
 		});
 	});
+	function CheckForm(){
+		if($('#userProfile').val() ==""){ 
+			alert("변경할 프로필을 선택해 주세요.");
+			return false; 
+		} else{ 
+			$('#chageProfileForm').submit(); 
+		}
+	}
+
+	function changePwFunction(){
+		var nowPw = $("#nowPw").val().trim();
+		var newPw = $("#newPw").val().trim();
+		var newPwChk = $("#newPwChk").val().trim();
+		console.log(nowPw + "/" +newPw);
+		var changePwVal = {
+				"nowPw":nowPw,
+				"newPw":newPw
+		};
+		if(nowPw == null || nowPw == "" ){
+			alert("현재 비밀번호를 입력해 주세요.");
+			$('#nowPw').focus();
+		} else if(newPw == null || newPw == ""){
+			alert("새 비밀번호를 입력해 주세요.");
+			$('#newPw').focus();
+		} else if(newPwChk == null || newPwChk == ""){
+			$('#pwchk').html('새 비밀번호 확인을 입력해 주세요.').css('color','red');
+			$('#newPwChk').focus();
+		} else if(newPw != newPwChk){
+			$('#pwchk').html('새 비밀번호와 확인이 일치하지 않습니다.').css('color','red');
+		} else{
+		
+			$.ajax({
+				type:"post",
+				url:"changePw",
+				data:JSON.stringify(changePwVal),
+				contentType:"application/json",
+				dataType:"json",
+				success:function(msg){
+					if(msg.check == true){
+						alert("비밀번호가 성공적으로 변경되었습니다.");
+						location.href="mypage";
+					} else{
+						alert("현재 비밀번호가 일치하지 않습니다.");
+					}
+				},
+				error:function(){
+					alert("통신 실패");
+				}
+			});
+		}
+	}
+    
+		
+	function deleteMemberFunction(){
+			var nowPw = $("#delpw").val().trim();
+			if(nowPw == null || nowPw == "" ){
+				alert("현재 비밀번호를 입력해 주세요.");
+				$('#delpw').focus();
+			} else{
+			$.ajax({
+				type : "POST",
+				url : "deleteMember",
+				data : {
+					nowPw : nowPw
+				},
+				success : function(msg) {
+					if(msg.check == true) {
+						alert("회원탈퇴가 성공적으로 처리되었습니다.\n그동안 블라블라를 이용해 주셔서 감사합니다.");
+						location.href="logout";
+					} else{
+						$('#delpw').val('');
+						alert('현재 비밀번호가 일치하지 않습니다.');
+					}
+				},
+				error:function(){
+					alert("통신 실패");
+				}
+			});
+			}
+			
+		}
 </script>
 </head>
 
@@ -109,7 +191,7 @@
 									class="d-flex justify-content-between">
 										<h5 style="color: #666666">회원 탈퇴</h5>
 								</a></li>
-								<li id="myroom"><a data-toggle="tab" href="#my-room"
+								<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
 									class="d-flex justify-content-between">
 										<h4>내 강의실</h4>
 								</a></li>
@@ -139,49 +221,60 @@
 
 						<div class="tab-content quotes" style="width: 100%;">
 							<!-- 내정보 시작 -->
-							<div id="my-info" class="tab-pane fade in active show">
-								<h2>${memberList.memberId }님의정보</h2>
+									<div id="my-info" class="tab-pane fade in active show">
+								<h2>${member.memberId }님의정보</h2>
+								<span class="tag">${member.memberType }</span>
 								<hr>
 								<div class="row">
 									<div class="col-lg-4">
-										<img src="resources/img/about.png" alt="" style="width: 100%;">
+										<img src="resources/profile/${member.memberPhoto}" onerror="this.src='resources/img/about.png'"
+										 alt="" style="width: 17vw; height: 14vw;">
 									</div>
 									<div class="col-lg-8">
 										<small class="input-sm-label">name</small> <input type="text"
 											class="single-input-primary"
-											value="${memberList.memberName }" disabled> <small
+											value="${member.memberName }" disabled> <small
 											class="input-sm-label">email</small> <input type="text"
 											class="single-input-primary"
-											value="${memberList.memberEmail }" disabled> <br>
+											value="${member.memberEmail }" disabled> <br>
 										<a class="primary-btn" href="#" data-toggle="modal"
 											data-target="#exampleModal" data-backdrop="static">
-											Change Password <i class="ti-arrow-right ml-1"></i>
+											Change Profile<i class="ti-arrow-right ml-1"></i>
 										</a>
-										<!-- change pw modal -->
+										<!-- change profile modal -->
 										<div class="modal fade" id="exampleModal" tabindex="-1"
 											role="dialog" aria-labelledby="exampleModalLabel"
 											aria-hidden="true">
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Modal
-															title</h5>
+														<h5 class="modal-title" id="exampleModalLabel">프로필 사진 변경</h5>
 														<button type="button" class="close" data-dismiss="modal"
 															aria-label="Close">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-													<div class="modal-body">...</div>
+													<form:form method="post" id="chageProfileForm" enctype="multipart/form-data"  modelAttribute="uploadFile" action="uploadProfile">
+													<div class="modal-body">
+													
+														<span class="btn-file">
+														<input type="file" id="userProfile" name="filesDir">
+														</span>
+															<p style="color:red; font-weight:bold;">
+															<form:errors path="file"></form:errors>
+															</p>
+													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
 															data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-warning">Save
-															changes</button>
+														<input type="submit" class="btn btn-warning" value="Save changes">
+														<!-- <input type="button" class="btn btn-warning" value="Save changes" onclick="CheckForm();"> -->
 													</div>
+													</form:form>
 												</div>
 											</div>
 										</div>
-										<!-- change pw modal end -->
+										<!-- change profile modal end -->
 
 									</div>
 								</div>
@@ -192,17 +285,18 @@
 								<h2>비밀번호 변경</h2>
 								<hr>
 								<div style="padding: 30px 70px 30px">
-									<form action="changePW">
-										<input class="form-control" type="password" name=""
+									
+										<input class="form-control" type="password" name="" id="nowPw"
 											placeholder="현재 비밀번호"><br>
-										<br> <input class="form-control" type="password" name=""
-											placeholder="새 비밀번호"><br> <input
-											class="form-control" type="password" name=""
+										<br> <input class="form-control" type="password" name="" id="newPw"
+											placeholder="새 비밀번호"><br> 
+											<input class="form-control" type="password" name="" id="newPwChk"
 											placeholder="새 비밀번호 확인"><br>
+											<div id="pwchk"></div>
 										<div class="text-right">
-											<input type="submit" value="변경" class="btn primary-btn">
+											<input type="button" value="변경" class="btn primary-btn" onclick="changePwFunction();">
 										</div>
-									</form>
+								
 								</div>
 							</div>
 							<!-- 비밀번호 변경 끝-->
@@ -212,19 +306,17 @@
 								<h2>회원 탈퇴</h2>
 								<hr>
 								<div style="padding: 30px 70px 30px">
-									<form action="deleteUser">
+									
 										<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
 										<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p>
 										<br>
 										<br> <input class="form-control" type="password"
-											name="memberPw" placeholder="현재 비밀번호"> <br>
-										<br>
+											name="memberPw" placeholder="현재 비밀번호" id="delpw"> <br>
+										<br>	
 										<div class="text-center">
-											<input type="submit" value="회원 탈퇴" class="btn primary-btn">
+											<input type="button" value="회원 탈퇴" class="btn primary-btn" onclick="deleteMemberFunction();">
 										</div>
-									</form>
 								</div>
-
 							</div>
 							<!-- 회원 탈퇴 끝-->
 
@@ -254,7 +346,7 @@
 
 										<c:choose>
 											<c:when test="${empty myclassList}">
-												<h3>------- 수강 중인 강의가 없습니다. -------</h3>
+												<h4>------- 현재 수강 중인 강의가 없습니다. -------</h4>
 											</c:when>
 											<c:otherwise>
 												<c:forEach items="${myclassList}" var="myclass">
@@ -284,7 +376,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>

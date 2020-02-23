@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
-<resultMap type="MemberVo" id="memberMap">
+<resultMap type="memberVo" id="memberMap">
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberPw" column="MEMBER_PW"/>
 		<result property="memberType" column="MEMBER_TYPE"/>
@@ -14,16 +14,13 @@
 		<result property="memberEnabled" column="MEMBER_ENABLED"/>
 	</resultMap>
 	
-<select id="login" resultMap="memberMap" >
-		SELECT MEMBER_ID, MEMBER_PW, MEMBER_TYPE, MEMBER_NAME, MEMBER_EMAIL, MEMBER_LEVEL, MEMBER_PHOTO, MEMBER_ENABLED
+
+<select id="login" parameterType="memberVo" resultMap="memberMap" >
+		SELECT MEMBER_ID, MEMBER_PW
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
-		AND MEMBER_PW = #{memberPw}
-	</select>
-	<insert id="insert" parameterType="MemberVo">
-		INSERT INTO MEMBER 
-		VALUES(#{memberId},#{memberPw},#{memberType},#{memberName},#{memberEmail},'1','1','Y')
-	</insert>
+</select>
+	
 	
 
 

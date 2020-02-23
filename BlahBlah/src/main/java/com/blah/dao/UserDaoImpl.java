@@ -72,4 +72,43 @@ public class UserDaoImpl implements UserDao{
 		
 		return list;
 	}
+
+	@Override
+	public int updateProfile(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"updateProfile", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : updateProfile");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int updatePassword(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"updatePassword", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : updatePassword");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int deleteMember(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"deleteMember", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : deleteMember");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
 }

@@ -75,7 +75,7 @@
                   <a class="nav-link" href="leveltest">Level Test</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="courseList">Course</a>
+                  <a class="nav-link" href="courseList?page=1&perPageNum=6">Course</a>
                 </li>
                 <li class="nav-item submenu dropdown">
                   <a
@@ -97,16 +97,14 @@
                   </ul>
                 </li>                
                 	<%
-                	
 	                  	// 로그인 안되어있을 경우
-	                  	if(request.getSession().
-				getAttribute("login") == null ) {            
+	                  	if(request.getSession().getAttribute("login") == null ) {            
             		%>
             			<li class="nav-item">
-            					<a class="nav-link" href="signupform">Sign-Up</a>
+            					<a class="nav-link" href="signupform">SignUp</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="login">Sign-In</a>
+           					<a class="nav-link" href="login">Login</a>
            				</li>
                      <%
                         // 로그인 했을 경우
@@ -116,7 +114,7 @@
            					<a class="nav-link" href="mypage">My Page</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="main">Sign-Out</a>
+           					<a class="nav-link" href="logout">Logout</a>
            				</li>
                      <%
                         }

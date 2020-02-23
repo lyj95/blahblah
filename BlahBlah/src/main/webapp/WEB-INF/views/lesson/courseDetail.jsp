@@ -105,7 +105,7 @@
                         <h4 class="title">샘플 강의</h4>
                         <div class="content">
 							<video oncontextmenu="return false;" id="myVideo" width="640"controls>
-								<source src="resources/video/sample.mp4" type="video/mp4">
+								<source src="resources/lessonSample/${vo.lessonNo}/videoFile.mp4">
 							</video>                
                         </div>                       
                     </div>
@@ -147,15 +147,18 @@
                               <div class="d-flex flex-row reviews justify-content-between">
                               <input type="hidden" name="lessonVo" value="${vo.lessonNo}"> <!--강의번호  -->
                               <input type="hidden" name="memberId" value="tu123"> <!-- 세션에 있는  아이디 갖고오는걸로 수정  -->
-                                    <span>평점</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                </div>
+								<!-- 평점 선택창 -->
+								<span>평점</span>
+								<div class="default-select" id="reviewGrade">
+									<select style="display: none;">
+										<option value="1">☆</option>
+										<option value="2">☆☆</option>
+										<option value="3">☆☆☆</option>
+										<option value="4">☆☆☆☆</option>
+										<option value="5">☆☆☆☆☆</option>
+									</select>
+								</div>
+							</div>
                             <textarea name="reviewContent" id="reviewContent" class="form-control" cols="10" rows="10"></textarea>
                             <div class="mt-10 text-right">
                                 <a href="javascript:reviewsubmit();" class="primary-btn2 text-right rounded-0 text-white">작성</a>
@@ -186,34 +189,7 @@
 						<div class="comments-area mb-30">
 							<div id="reviewList"></div>
 						</div>
-	                
-					<!--  
-					<div class="comments-area mb-30">
-						<c:forEach items="${reviewlist}" var="reviewlist">
-							<div class="comment-list">
-								<div
-									class="single-comment single-reviews justify-content-between d-flex">
-									<div class="user justify-content-between d-flex">
-										<div class="thumb">
-											<img src="img/blog/c1.jpg" alt="">
-										</div>																
-										<div class="desc">
-											<h5><a href="#">${reviewlist.memberId}</a>
-												<div class="star">
-													<span class="ti-star checked"></span> 
-													<span class="ti-star checked"></span> 
-													<span class="ti-star checked"></span> 
-													<span class="ti-star"></span>
-													<span class="ti-star"></span>
-												</div>
-											</h5>
-											<p class="reviewDate">${reviewlist.reviewDate}</p>
-											<p class="comment">${reviewlist.reviewContent}</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>--> 
+
   				<!-- ------------- 강의리뷰 반복되는 부분 종료 ------------ -->
 						
 							<a href="courseList"
@@ -258,33 +234,6 @@
           <script src="resources/js/gmaps.min.js"></script>
           <script src="resources/js/theme.js"></script>
 <script>
-//화면 로드시 실행될 메소드
-window.onload = function(){
-	getCommentList();
-}
-/*
-function fn_comment(code){
-	System.out.println("ajax 실행");
-    
-    $.ajax({
-        type:'POST',
-        url : "addReview",
-        data:$("#reviewForm").serialize(),
-        success : function(data){
-            if(data=="success")
-            {
-                getCommentList(); //댓글목록 불러오기
-                $("#comment").val("");//comment 창 초기화
-            }
-        },
-        error:function(request,status,error){
-            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-       }
-        
-    });
-}
- */
-
 $(function(){
     
     getCommentList(); //처음 로딩시 목록 가져오기
@@ -293,17 +242,23 @@ $(function(){
 });
  
 function reviewsubmit(){
-     
+	
 	 var reviewContent = $("#reviewContent").val(); //댓글의 내용
      var lessonNo = "${vo.lessonNo}"; //강의번호
      var memberId = "tu123";
-     var params = {"reviewContent" : reviewContent, "lessonNo" : lessonNo, "memberId" : memberId};    
+     var reviewGrade = $("#reviewGrade option:selected").val();
+     var params = {
+    		 "reviewContent" : reviewContent, 
+    		 "lessonNo" : lessonNo, 
+    		 "memberId" : memberId, 
+    		 "reviewGrade" : reviewGrade
+    		 };    
      
      $.ajax({
          type: "post", //데이터를 보낼 방식
          url: "addReview", //데이터를 보낼 url
          data: params, //보낼 데이터
-         
+          
          success: function(data){//데이터를 보내는 것이 성공했을 시 출력되는 메시지
              
 	            if(data.check==true){
@@ -317,14 +272,9 @@ function reviewsubmit(){
          	// alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     }
  });
- 
 }
-/**
- * 댓글 불러오기(Ajax)
- */
 
 function getCommentList(){
-	
 
 	$.ajax({
 	        type:'GET',
@@ -334,6 +284,7 @@ function getCommentList(){
 	        	var res = data.reviewlist;
 	            var html = "";
 	            $.each(res, function(i){ 
+
 	            		console.log("//ajax data:"+res[i].memberId);
 	            		console.log("//ajax data:"+res[i].reviewDate);
 	            		console.log("//ajax data:"+res[i].reviewContent);
@@ -344,10 +295,17 @@ function getCommentList(){
 	                    html += "<img src='resources/img/blog/c1.jpg' alt=''></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //1.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
-	                    html += "<span class='ti-star checked'></span> ";
-	                    html += "<span class='ti-star checked'></span>";
-	                    html += "<span class='ti-star checked'></span> ";
-	                    html += "<span class='ti-star'></span></div></h5>";	                
+
+						var grade=res[i].reviewGrade;
+
+		                for(var star=1; star<6; star++){
+		                	if(grade<star){
+		                		html += "<span class='ti-star'></span>";
+		                	}else{
+		                		html += "<span class='ti-star checked'></span> ";
+		                	}
+		                }                               
+	                    html += "</div></h5>";	                
 	                    html += "<p class='reviewDate'>"+res[i].reviewDate+"</p>";
 	                    html += "<p class='reviewDate'>"+res[i].reviewContent+"</p>";
 	                    html += "</div></div></div></div>";

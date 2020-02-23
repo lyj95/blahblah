@@ -4,16 +4,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="payment">
-	<resultMap type="paymentVo" id="PaymentMap">
-		<result property="memberId" column="MEMBER_ID"/>	<!--  javaType="java.lang.String" jdbcType="VARCHAR" -->
+	<resultMap type="myclassVo" id="MyclassMap">
 		<result property="lessonNo" column="LESSON_NO"/>	<!--  javaType="java.lang.Integer" jdbcType="NUMERIC" -->
+		<result property="memberId" column="MEMBER_ID"/>	<!--  javaType="java.lang.String" jdbcType="VARCHAR" -->
+		<result property="myclassTotalcnt" column="MYCLASS_TOTALCNT"/>
+		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
 		<result property="paymentDay" column="PAYMENT_DAY"/>	<!-- javaType="java.util.Date" jdbcType="DATE" -->
 		<result property="impUid" column="IMP_UID"/>	<!--  javaType="java.lang.String" jdbcType="VARCHAR" -->
 	</resultMap>
-	<select id="selectOne" parameterType="hashmap" resultMap="PaymentMap">
-		SELECT * FROM PAYMENT WHERE LESSON_NO=#{lessonNo} OR (LESSON_NO=#{lessonNo} AND MEMBER_ID=#{userId})
+	<select id="selectOne" parameterType="hashmap" resultMap="MyclassMap">
+		SELECT * FROM MYCLASS WHERE LESSON_NO=#{lessonNo} OR (LESSON_NO=#{lessonNo} AND MEMBER_ID=#{memberId})
 	</select>
 	<insert id="insert" parameterType="hashmap">
-		INSERT INTO PAYMENT Values(#{userId},#{lessonNo},SYSDATE,#{impUid})
+		INSERT INTO MYCLASS Values(#{lessonNo},#{memberId},4,4,SYSDATE,#{impUid})
 	</insert>
 </mapper>

@@ -8,12 +8,15 @@
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript">
+
+var btn;
 $(document).ready(function() {
  $("#idchk").unbind("click").click(function(e) {
   e.preventDefault();
   fn_userIDCheck();
  });
 });
+
  
 function fn_userIDCheck() {
 	var f = document.Reg_form;
@@ -35,10 +38,14 @@ function fn_userIDCheck() {
 			data : {"memberId" : $("#memberId").val()},
 			success : function(data) {
 				console.log(data);
-				if (data != '0') {
+				if (data != '0') {				
 					alert("이미 가입된 ID입니다 .다른 ID를 입력해주세요");
+					$('#memberId').val('');
 				} else {
 					alert("사용가능한 아이디입니다.");
+				
+					
+						
 				}
 				if (data != null) {
 					console.log("로그 내용2" + data);
@@ -90,24 +97,24 @@ $(function(){
                     <form method="POST" id="signup-form" class="signup-form" action="signup">
                         <h2 class="form-title">회원가입</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="memberName" id="memberName" placeholder="이름"/>
+                            <input type="text" class="form-input" name="memberName" id="memberName" required="required" placeholder="이름"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="memberId" id="memberId" placeholder="아이디"/>
+                            <input type="text" class="form-input" name="memberId" id="memberId" required="required" placeholder="아이디"/>
                         </div>
                         <div class="form-group">
                        
-                        	<input type="button"  name="idchk" id="idchk" value="아이디 중복 확인"/>
+                        	<input type="button"  name="idchk" id="idchk" required="required" value="아이디 중복 확인" />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="memberPw" id="memberPw" placeholder="비밀번호"/>
+                            <input type="password" class="form-input" name="memberPw" id="memberPw" required="required" placeholder="비밀번호"/>
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="check_password" id="check_password" placeholder="비밀번호 확인"/>
+                            <input type="password" class="form-input" name="check_password" id="check_password" required="required" placeholder="비밀번호 확인"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input" name="memberEmail" id="memberEmail" placeholder="이메일"/>
+                            <input type="email" class="form-input" name="memberEmail" id="memberEmail" required="required" placeholder="이메일"/>
                         </div>
                    
                          <div class="form-group">

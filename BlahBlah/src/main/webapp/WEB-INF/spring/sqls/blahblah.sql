@@ -87,20 +87,24 @@ CREATE TABLE lesson (
 	lesson_total	number	NOT NULL,
 	tutor_id	varchar2(100)	NOT NULL,
     lesson_sample varchar2(4000) ,
+    LESSON_START VARCHAR2(50),
     CONSTRAINT lesson_type_chk CHECK(lesson_type IN('SPEAKING','LICENSE'))
 );
 CREATE TABLE myclass (
 	lesson_no	number	PRIMARY KEY,
 	member_id	varchar2(100)	NOT NULL,
 	myclass_totalcnt	number	NOT NULL,
-	myclass_remaincnt	number	NOT NULL
+	myclass_remaincnt	number	NOT NULL,
+	payment_day	Date	NOT NULL,
+    imp_uid VARCHAR2(200) NOT NULL
 );
 
 -- 하나의 강의에 하나의 파일?
 CREATE TABLE files (
 	lesson_no	number	NOT NULL,
 	files_type	varchar2(100)	NOT NULL,
-	files_dir	varchar2(4000)	NOT NULL
+	files_dir	varchar2(4000)	NOT NULL,
+	FILES_NAME VARCHAR2(4000) 
 );
 CREATE TABLE tutor (
 	tutor_id	varchar2(100)	PRIMARY KEY,
@@ -141,7 +145,8 @@ CREATE TABLE reply (
 CREATE TABLE payment (
 	member_id	varchar2(100) NOT NULL,
 	lesson_no	number	NOT NULL,
-	payment_day	Date	NOT NULL
+	payment_day	Date	NOT NULL,
+	imp_uid VARCHAR2(200) NOT NULL
 );
 CREATE TABLE calendar (
 	calendar_date	Date	NOT NULL,
@@ -254,4 +259,3 @@ REFERENCES lesson (
 	lesson_no
 );
 commit;
->>>>>>> b1bd6540df48eb6f1f7901139a839d41d31a59f2

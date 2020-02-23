@@ -2,22 +2,39 @@ package com.blah.controller;
 
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.DefaultNamingPolicy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import com.blah.service.LessonService;
+import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
+import com.blah.vo.PageMakerVo;
+import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
 
@@ -34,10 +51,20 @@ public class LessonController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/courseList")
-	public ModelAndView list() { 
+	public ModelAndView list(PagingVo page) { 
 		logger.info("[course]Select List"); //log에 info 찍어주는 것
 		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.selectList());
+		mav.addObject("list", service.selectList(page));
+		
+		page.setPerPageNum(6);
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(6);
+		pageMaker.setTotalCount(service.listCount());
+		
+		mav.addObject("pageMaker", pageMaker);
+		
+		
 		return mav; //강의 전체목록 조회
 	}
 	
@@ -107,22 +134,26 @@ public class LessonController {
 	
 	@RequestMapping(value = "/insertCourseForm")
 	public String insertForm() {
-		logger.info("[course]insertFrom"); //log에 info 찍어주는 것
+		logger.info("[course]insertFrom"); //log에 info 찍어주는 것		
 		return "lesson/courseWriting"; //강의글 작성화면으로 
 	}
 	
-	@RequestMapping(value="/insertCourseRes")
-	public String insert(LessonVo vo) {
-		logger.info("[course]insert RES"); //log에 info 찍어주는 것
-		int res = service.insert(vo); 
-		if(res>0) {
+	
+	@RequestMapping(value = "/insertCourseRes", method = RequestMethod.POST)
+	public String insert(HttpServletRequest request, Model model, LessonVo lessonVo, MultipartFile lessonFile) {
+		logger.info("[course]insert RES"); 
+		
+		int res = service.insert(model, lessonVo, request, lessonFile); 
+		
+		if (res > 0) {
 			logger.info("[course]insert success");
 			return "redirect:courseList";
-		}else {
+		} else {
 			logger.info("[course]insert fail....");
 			return "redirect:insertCourseForm";
 		}
 	}
+	
 	@RequestMapping(value="/updateCourseForm")
 	public String updateForm(Model model, int lessonNo) {
 		logger.info("[course]updateForm");	
@@ -187,7 +218,7 @@ public class LessonController {
 	 @RequestMapping(value="/reviewList")
 	 @ResponseBody
 	 public Map<String,List<ReviewVo>> reviewList(@RequestParam int lessonNo) {
-		logger.info("[course]Select List"); // log에 info 찍어주는 것
+		logger.info("[course]Select reviewList"); // log에 info 찍어주는 것
 		
 		Map<String,List<ReviewVo>> map = new HashMap<String,List<ReviewVo>>();
 		map.put("reviewlist", service.selectReviewList(lessonNo));
