@@ -67,12 +67,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		return false;
+		return true;
 		
 		}
+		return false;
 		}
 
-	}
 
 	// view로 forward 되기전에 수행
 	@Override
