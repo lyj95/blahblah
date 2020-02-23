@@ -1,17 +1,16 @@
 package com.blah.controller;
 
-import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blah.service.NoticeService;
 import com.blah.service.NoticeServiceImpl;
@@ -108,7 +107,7 @@ public class NoticeController {
 	public String updateNotice(Model model, NoticeVo vo) {
 		
 		logger.info("공지 수정");
-		System.out.println("공지 변경사항"+vo.toString());
+		
 		int res = service.update(vo);
 		if (res > 0) {
 			service.decreaseNoticeView(vo.getNoticeNo());
@@ -135,14 +134,39 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "searchByTitle", method=RequestMethod.POST)
-	@ResponseBody
-	public List<NoticeVo> searchByTitle(@RequestBody String searchContent) {
+	public String searchByTitle(Model model, PagingVo page, HttpServletRequest request) {
 		
 		logger.info("공지 제목으로 검색");
 		
-		List<NoticeVo> list = service.searchByTitle(searchContent);
+		String searchContent = (String)request.getParameter("searchContent");
+		model.addAttribute("noticeList", service.searchByTitle(searchContent, page));
 		
-		return list;
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		
+		model.addAttribute("sysdate", service.findSysdate());
+		
+		return "board/notice";
+	}
+	
+	@RequestMapping(value = "searchByContent", method=RequestMethod.POST)
+	public String searchByContent(Model model, PagingVo page, HttpServletRequest request) {
+		
+		logger.info("공지 내용으로 검색");
+		
+		String searchContent = (String)request.getParameter("searchContent");
+		model.addAttribute("noticeList", service.searchByContent(searchContent, page));
+		
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		
+		model.addAttribute("sysdate", service.findSysdate());
+		
+		return "board/notice";
 	}
 	
 }

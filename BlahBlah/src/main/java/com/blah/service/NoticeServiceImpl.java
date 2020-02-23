@@ -113,8 +113,25 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<NoticeVo> searchByTitle(String searchContent) {
-		return dao.searchByTitle(searchContent);
+	public List<NoticeVo> searchByTitle(String searchContent, PagingVo page) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("searchContent", searchContent);
+		map.put("rowStart", Integer.toString(page.getRowStart()));
+		map.put("rowEnd", Integer.toString(page.getRowEnd()));
+		
+		return dao.searchByTitle(map);
+	}
+	
+	@Override
+	public List<NoticeVo> searchByContent(String searchContent, PagingVo page) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("searchContent", searchContent);
+		map.put("rowStart", Integer.toString(page.getRowStart()));
+		map.put("rowEnd", Integer.toString(page.getRowEnd()));
+		
+		return dao.searchByContent(map);
 	}
 
 	@Override

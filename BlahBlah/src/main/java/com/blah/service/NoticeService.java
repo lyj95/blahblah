@@ -27,12 +27,15 @@ public interface NoticeService {
 	
 	public int decreaseNoticeView(int noticeNo);
 
-	public List<NoticeVo> searchByTitle(String searchContent);
+	public List<NoticeVo> searchByTitle(String searchContent, PagingVo page);
+	
+	public List<NoticeVo> searchByContent(String searchContent, PagingVo page);
 
 	public String findSysdate();
 
 	public NoticeVo selectPrePost(int noticeNo);
 
 	public NoticeVo selectNextPost(int noticeNo);
+
 
 }

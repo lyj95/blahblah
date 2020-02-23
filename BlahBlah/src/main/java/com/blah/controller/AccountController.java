@@ -56,10 +56,12 @@ public class AccountController {
 		MemberVo res = service.login(vo);
 		boolean check = false;
 		String userID = res.getMemberId();
+		String memberType = res.getMemberType();
 		
 		if(res != null) {
 			session.setAttribute("login", res);
 			session.setAttribute("userID", userID);
+			session.setAttribute("memberType", memberType);
 			check=true;
 		}
 		
