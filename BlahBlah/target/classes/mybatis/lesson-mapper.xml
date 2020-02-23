@@ -16,9 +16,21 @@
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
 	</resultMap>
-	<select id="selectList" resultMap="LessonMap" >
-		SELECT * FROM LESSON
+	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap" >
+		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE
+		FROM (SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+				ROW_NUMBER() OVER(ORDER BY LESSON_NO DESC) AS RNUM
+			FROM LESSON
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY LESSON_NO DESC
+	</select>
+	<select id="listCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(LESSON_NO)
+			FROM LESSON
+			WHERE LESSON_NO > 0
+		]]>
 	</select>
 	<select id="selectOne" parameterType="int" resultMap="LessonMap">
 		SELECT *
@@ -29,6 +41,12 @@
 		INSERT INTO LESSON
 		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,'tu123','')
 	</insert>
+	
+	<select id="getLastLessonSeq" resultType="int">
+	 SELECT LESSON_SEQ.CURRVAL
+     FROM DUAL
+	</select>	
+	
 	<update id="update" parameterType="LessonVo">
 		UPDATE LESSON
 		SET LESSON_NAME =#{lessonName}, LESSON_INFO = #{lessonInfo}, LESSON_LEVEL= #{lessonLevel},LESSON_TYPE=#{lessonType},LESSON_TIME=#{lessonTime},LESSON_PRICE=#{lessonPrice},LESSON_TOTAL=4

@@ -2,13 +2,19 @@ package com.blah.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.blah.vo.LessonVo;
+import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
 public interface LessonService {
-	List<LessonVo> selectList();
+	List<LessonVo> selectList(PagingVo page);
 	LessonVo selectOne(int lessonNo);
-	int insert(LessonVo vo);
+	int insert(Model model, LessonVo vo, HttpServletRequest request, MultipartFile file);
 	public int update(LessonVo vo);
 	public int delete(int lessonNo);
 	List<LessonVo> searchKeyword(String keyword);
@@ -19,6 +25,8 @@ public interface LessonService {
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
 	List<ReviewVo> selectReviewList(int lessonNo);
+	public int listCount();
+	
 
 	
 

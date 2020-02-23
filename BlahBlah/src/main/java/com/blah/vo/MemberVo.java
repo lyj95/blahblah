@@ -7,7 +7,7 @@ public class MemberVo {
 	private String memberName;
 	private String memberEmail;
 	private String memberLevel;
-	private String memberPhoto;
+	private String memberPhoto;		//프로필 사진 이름
 	private String memberEnabled;	//탈퇴여부 추가
 	
 	public MemberVo() {

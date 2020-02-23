@@ -27,13 +27,10 @@ function login(){
 	} else {
 		$.ajax({
 			type:"post",
-			url:"ajaxlogin",
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		        	
-		    },
-			data: JSON.stringify(loginVal),
+			url:"ajaxlogin.do",
+			data:JSON.stringify(loginVal),
+			contentType:"application/json",
+			dataType:"json",
 			success:function(msg){ 
 				if (msg.check == true){
 					alert("로그인 성공!");

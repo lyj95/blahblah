@@ -2,6 +2,8 @@ package com.blah.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class LessonVo {
 	private int lessonNo;
 	private String lessonName;

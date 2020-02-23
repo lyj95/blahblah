@@ -94,7 +94,7 @@ $(function(){
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" id="signup-form" class="signup-form" action="sign">
+                    <form method="POST" id="signup-form" class="signup-form" action="signup">
                         <h2 class="form-title">회원가입</h2>
                         <div class="form-group">
                             <input type="text" class="form-input" name="memberName" id="memberName" required="required" placeholder="이름"/>

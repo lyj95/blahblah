@@ -11,11 +11,15 @@
 		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
 		<result property="paymentDay" column="PAYMENT_DAY"/>	<!-- javaType="java.util.Date" jdbcType="DATE" -->
 		<result property="impUid" column="IMP_UID"/>	<!--  javaType="java.lang.String" jdbcType="VARCHAR" -->
+		<result property="lesson1st" column="MYCLASS_DATE1"/>
+		<result property="lesson2nd" column="MYCLASS_DATE2"/>
+		<result property="lesson3rd" column="MYCLASS_DATE3"/>
+		<result property="lesson4th" column="MYCLASS_DATE4"/>
 	</resultMap>
 	<select id="selectOne" parameterType="hashmap" resultMap="MyclassMap">
 		SELECT * FROM MYCLASS WHERE LESSON_NO=#{lessonNo} OR (LESSON_NO=#{lessonNo} AND MEMBER_ID=#{memberId})
 	</select>
 	<insert id="insert" parameterType="hashmap">
-		INSERT INTO MYCLASS Values(#{lessonNo},#{memberId},4,4,SYSDATE,#{impUid})
+		INSERT INTO MYCLASS Values(#{lessonNo},#{memberId},4,4,SYSDATE,#{impUid},#{lesson1st},#{lesson2nd},#{lesson3rd},#{lesson4th})
 	</insert>
 </mapper>

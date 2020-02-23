@@ -105,7 +105,7 @@
                         <h4 class="title">샘플 강의</h4>
                         <div class="content">
 							<video oncontextmenu="return false;" id="myVideo" width="640"controls>
-								<source src="resources/video/sample.mp4" type="video/mp4">
+								<source src="resources/lessonSample/${vo.lessonNo}/videoFile.mp4">
 							</video>                
                         </div>                       
                     </div>
@@ -189,34 +189,7 @@
 						<div class="comments-area mb-30">
 							<div id="reviewList"></div>
 						</div>
-	                
-					<!--  
-					<div class="comments-area mb-30">
-						<c:forEach items="${reviewlist}" var="reviewlist">
-							<div class="comment-list">
-								<div
-									class="single-comment single-reviews justify-content-between d-flex">
-									<div class="user justify-content-between d-flex">
-										<div class="thumb">
-											<img src="img/blog/c1.jpg" alt="">
-										</div>																
-										<div class="desc">
-											<h5><a href="#">${reviewlist.memberId}</a>
-												<div class="star">
-													<span class="ti-star checked"></span> 
-													<span class="ti-star checked"></span> 
-													<span class="ti-star checked"></span> 
-													<span class="ti-star"></span>
-													<span class="ti-star"></span>
-												</div>
-											</h5>
-											<p class="reviewDate">${reviewlist.reviewDate}</p>
-											<p class="comment">${reviewlist.reviewContent}</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>--> 
+
   				<!-- ------------- 강의리뷰 반복되는 부분 종료 ------------ -->
 						
 							<a href="courseList"
@@ -269,7 +242,7 @@ $(function(){
 });
  
 function reviewsubmit(){
-     alert("hi");
+	
 	 var reviewContent = $("#reviewContent").val(); //댓글의 내용
      var lessonNo = "${vo.lessonNo}"; //강의번호
      var memberId = "tu123";
@@ -299,11 +272,9 @@ function reviewsubmit(){
          	// alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     }
  });
- 
 }
 
 function getCommentList(){
-	
 
 	$.ajax({
 	        type:'GET',
@@ -325,23 +296,15 @@ function getCommentList(){
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //1.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
-						var grade=res[i].reviewGrade;//grade 값 비교 안됨......
-						console.log("grade1:"+res[i].reviewGrade);
-						console.log("grade2:"+grade);
+						var grade=res[i].reviewGrade;
 
-		                  
-	                    <c:forEach var="star" begin="1" end="5" >
-		                <c:choose>
-		                    <c:when test="${4<star}">
-		                		  html += "<span class='ti-star'></span>";		                  		  
-		                    </c:when>		                    
-		                 	<c:otherwise>
-		                 		html += "<span class='ti-star checked'></span> ";
-		             		</c:otherwise>	
-		                </c:choose>
-	                    </c:forEach>
-                                   
-   
+		                for(var star=1; star<6; star++){
+		                	if(grade<star){
+		                		html += "<span class='ti-star'></span>";
+		                	}else{
+		                		html += "<span class='ti-star checked'></span> ";
+		                	}
+		                }                               
 	                    html += "</div></h5>";	                
 	                    html += "<p class='reviewDate'>"+res[i].reviewDate+"</p>";
 	                    html += "<p class='reviewDate'>"+res[i].reviewContent+"</p>";
