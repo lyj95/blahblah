@@ -92,7 +92,7 @@
 				success:function(msg){
 					if(msg.check == true){
 						alert("비밀번호가 성공적으로 변경되었습니다.");
-						location.href="mypage";
+						location.href="logout";
 					} else{
 						alert("현재 비밀번호가 일치하지 않습니다.");
 					}
@@ -106,7 +106,10 @@
     
 		
 	function deleteMemberFunction(){
-			var nowPw = $("#delpw").val().trim();
+			var delpw = $("#delpw").val().trim();
+			var deleteval = {
+				"delpw" : delpw
+			};
 			if(nowPw == null || nowPw == "" ){
 				alert("현재 비밀번호를 입력해 주세요.");
 				$('#delpw').focus();
@@ -114,9 +117,9 @@
 			$.ajax({
 				type : "POST",
 				url : "deleteMember",
-				data : {
-					nowPw : nowPw
-				},
+				data:JSON.stringify(deleteval),
+				contentType:"application/json",
+				dataType:"json",
 				success : function(msg) {
 					if(msg.check == true) {
 						alert("회원탈퇴가 성공적으로 처리되었습니다.\n그동안 블라블라를 이용해 주셔서 감사합니다.");
@@ -126,9 +129,12 @@
 						alert('현재 비밀번호가 일치하지 않습니다.');
 					}
 				},
-				error:function(){
-					alert("통신 실패");
-				}
+				 error:function(request,status,error){
+				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				       },
+
+
+
 			});
 			}
 			
@@ -306,7 +312,7 @@
 								<h2>회원 탈퇴</h2>
 								<hr>
 								<div style="padding: 30px 70px 30px">
-									
+									<form action="deleteMember">
 										<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
 										<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p>
 										<br>
@@ -316,6 +322,7 @@
 										<div class="text-center">
 											<input type="button" value="회원 탈퇴" class="btn primary-btn" onclick="deleteMemberFunction();">
 										</div>
+									</form>	
 								</div>
 							</div>
 							<!-- 회원 탈퇴 끝-->
@@ -361,7 +368,7 @@
 															<div class="course_content">
 																<span class="tag mb-4 d-inline-block">${myclass.lessonType }</span>
 																<h4 class="mb-3">
-																	<a href="room.html">${myclass.lessonName }</a>
+																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
 																<div
@@ -376,7 +383,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>

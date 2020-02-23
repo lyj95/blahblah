@@ -35,7 +35,6 @@
 		<mapper resource="/mybatis/notice-mapper.xml"/>
 		<mapper resource="/mybatis/account-mapper.xml"/>
 		<mapper resource="/mybatis/account-mapper2.xml"/>
-		<mapper resource="/mybatis/qna-mapper.xml"/>
 		<mapper resource="/mybatis/lesson-mapper.xml"/>	
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
@@ -43,7 +42,11 @@
 
 
 		<!-- 
+<<<<<<< HEAD
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
+=======
+		<mapper resource="/mybatis/qna-mapper.xml"/>
+>>>>>>> badf8bc2a4b6886534c9c782b74b8cd507d8d275
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
 		<mapper resource="/mybatis/dictionary-mapper.xml"/>
 		<mapper resource="/mybatis/schedule-mapper.xml"/>

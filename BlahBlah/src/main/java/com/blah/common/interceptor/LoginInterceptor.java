@@ -36,24 +36,14 @@ public class LoginInterceptor implements HandlerInterceptor {
 				|| request.getRequestURI().contains("/openLockedQnaDetail")
 				|| request.getRequestURI().contains("/searchByQnaTitle")
 				|| request.getRequestURI().contains("/searchByQnaContent")
-				|| request.getRequestURI().contains("/signup")
 				|| request.getRequestURI().contains("/idchk")
+				|| request.getRequestURI().contains("/findpwform")
+				|| request.getRequestURI().contains("/findidform")
+				|| request.getRequestURI().contains("/naverLogin")
+				|| request.getRequestURI().contains("/callback")
 				|| request.getRequestURI().contains("/signupform")) {
 
-		if(request.getRequestURI().contains("/login") ||
-			request.getRequestURI().contains("/ajaxlogin")
-			|| request.getRequestURI().contains("/main")
-			|| request.getRequestURI().contains("/signup")
-			|| request.getRequestURI().contains("/courseList")
-			|| request.getRequestURI().contains("/idchk")
-			|| request.getRequestURI().contains("/signupform")
-			|| request.getRequestURI().contains("/findpwform")
-			|| request.getRequestURI().contains("/findidform")
-			|| request.getRequestURI().contains("/findID")
-			|| request.getRequestURI().contains("/naverLogin")
-			|| request.getRequestURI().contains("/callback")
-			
-				) {
+	
 			return true;
 
 		}
@@ -67,11 +57,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		return true;
-		
-		}
 		return false;
-		}
+	}
 
 
 	// view로 forward 되기전에 수행
