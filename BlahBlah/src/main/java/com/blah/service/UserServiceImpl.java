@@ -35,23 +35,23 @@ public class UserServiceImpl implements UserService {
 	 * @author User
 	 */
 	@Override
-	public List<LessonVo> selectMyClass(String memberId) {
-		return dao.selectMyClass(memberId);
+	public List<LessonVo> selectMyClass(MemberVo vo) {
+		return dao.selectMyClass(vo);
 	}
 
 	@Override
-	public List<LessonVo> selectClosedMyClass(String memberId) {
-		return dao.selectClosedMyClass(memberId);
+	public List<LessonVo> selectClosedMyClass(MemberVo vo) {
+		return dao.selectClosedMyClass(vo);
 	}
 
 	@Override
-	public MemberVo selectMember(String memberId) {
-		return dao.selectMember(memberId);
+	public MemberVo selectMember(MemberVo vo) {
+		return dao.selectMember(vo);
 	}
 
 	@Override
-	public List<MyclassVo> selectProgress(String memberId) {
-		return dao.selectProgress(memberId);
+	public List<MyclassVo> selectProgress(MemberVo vo) {
+		return dao.selectProgress(vo);
 	}
 
 	@Override
@@ -146,8 +146,11 @@ public class UserServiceImpl implements UserService {
 		boolean check = false;
 		System.out.println(nowpw+","+ vo.getMemberPw());
 		if(passwordEncoder.matches(nowpw, vo.getMemberPw())) {
-			dao.deleteMember(vo);
-			check = true;
+			if(dao.deleteMember(vo) > 0) {
+				check = true;
+			}else {
+				System.out.println("탈퇴실패");
+			}
 		}
 		
 		Map<String, Boolean> map = new HashMap<String, Boolean>();

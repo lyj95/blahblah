@@ -27,7 +27,7 @@ function login(){
 	} else {
 		$.ajax({
 			type:"post",
-			url:"ajaxlogin.do",
+			url:"ajaxlogin",
 			data:JSON.stringify(loginVal),
 			contentType:"application/json",
 			dataType:"json",
@@ -122,9 +122,9 @@ function login(){
 					<img src="resources/login/images/icons/icon-naver.png" alt="NAVER">
 					</a>
 					</div>
-					<!--  a href="#" class="login100-social-item">
+					<!-- <a href="#" class="login100-social-item">
 						<img src="resources/login/images/icons/icon-google.png" alt="GOOGLE">
-					</a-->
+					</a> -->
 				
 			</form>	
 		</div>
@@ -141,7 +141,7 @@ function login(){
  		naver_id_login.setButton("white", 2, 40);
  		naver_id_login.setDomain("http://localhost:8787/controller/login");	//  URL
  		naver_id_login.setState(state);
- 		//naver_id_login.setPopup();
+ 		naver_id_login.setPopup();
  		naver_id_login.init_naver_id_login();
 	</script>
 	

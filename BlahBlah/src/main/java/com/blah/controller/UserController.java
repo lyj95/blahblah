@@ -37,14 +37,13 @@ public class UserController {
 		
 		MemberVo vo = (MemberVo)session.getAttribute("login");
 		String memberId = vo.getMemberId();
-		System.out.println(vo);
-
-
+		
+		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
-		mav.addObject("myclassList", service.selectMyClass(memberId));
-		mav.addObject("closedmyclassList", service.selectMyClass(memberId));
-		mav.addObject("member", service.selectMember(memberId));
-		mav.addObject("progressList", service.selectProgress(memberId));
+		mav.addObject("myclassList", service.selectMyClass(vo));
+		mav.addObject("closedmyclassList", service.selectClosedMyClass(vo));
+		mav.addObject("member", service.selectMember(vo));
+		mav.addObject("progressList", service.selectProgress(vo));
 		
 		return mav;
 	}
@@ -55,11 +54,10 @@ public class UserController {
 		// BindingResult : 객체를 Binding하다 에러가 발생하면 해당 에러의 정보를 받기위해 사용된다.
 		logger.info("chageProfile");
 		MemberVo vo = (MemberVo) session.getAttribute("login");
-		System.out.println(uploadFile);
 		
 		service.uploadProfile(request,session,uploadFile,vo);
 		
-		model.addAttribute("member", service.selectMember(vo.getMemberId()));
+		model.addAttribute("member", service.selectMember(vo));
 		return "mypage/mypage";
 	}
 	
@@ -75,21 +73,33 @@ public class UserController {
 		return map;
 	}
 	
+//	@RequestMapping(value = "/deleteMember")
+//	public String deleteUser(HttpSession session, Model model, MemberVo memVo) {
+//		logger.info("deleteMember");
+//		MemberVo vo = (MemberVo)session.getAttribute("login");
+//		System.out.println(memVo.getMemberPw());
+//		
+//		Map<String, Boolean> map = service.deleteMember(vo, memVo.getMemberPw()); 
+//		return "common/main";
+//	}
 	@RequestMapping(value = "/deleteMember",produces = "application/text; charset=utf8")
 	@ResponseBody
-	public Map<String, Boolean> deleteUser(Model model, String nowpw, HttpSession session) {
+	public Map<String, Boolean> deleteUser(HttpSession session, @RequestBody Map<String, String> deleteval) {
 		logger.info("deleteMember");
 		MemberVo vo = (MemberVo)session.getAttribute("login");
+		System.out.println(vo +",,,,"+deleteval.get("delpw"));
 		
-		Map<String, Boolean> map = service.deleteMember(vo, nowpw); 
-		
+		Map<String, Boolean> map = service.deleteMember(vo, deleteval.get("delpw")); 
+		System.out.println("map : "+map);
 		return map;
 	}
 	
 	@RequestMapping(value = "/lessonRoom")
-	public String lessonRoom (Model model) {
-		logger.info("into the lesson");
+	public String lessonRoom (Model model, int lessonNo) {
+		logger.info("lessonRoom");
 		
+		model.addAllAttributes("vo",service.selectOneLesson(lessonNo));
+
 		return "mypage/mypageLessonRoom";
 	}
 

@@ -98,7 +98,7 @@
 	                  	if(request.getSession().getAttribute("login") == null ) {
             		%>
             			<li class="nav-item">
-            					<a class="nav-link" href="signup">SignUp</a>
+            					<a class="nav-link" href="signupform">SignUp</a>
            				</li>
            				<li class="nav-item">
            					<a class="nav-link" href="login">Login</a>

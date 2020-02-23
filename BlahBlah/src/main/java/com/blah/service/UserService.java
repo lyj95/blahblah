@@ -15,10 +15,10 @@ import com.blah.vo.MemberVo;
 import com.blah.vo.MyclassVo;
 
 public interface UserService {
-	public List<LessonVo> selectMyClass(String memberId);
-	public List<LessonVo> selectClosedMyClass(String memberId);
-	public MemberVo selectMember(String memberId);
-	public List<MyclassVo> selectProgress(String memberId);
+	public List<LessonVo> selectMyClass(MemberVo vo);
+	public List<LessonVo> selectClosedMyClass(MemberVo vo);
+	public MemberVo selectMember(MemberVo vo);
+	public List<MyclassVo> selectProgress(MemberVo vo);
 	public void uploadProfile(HttpServletRequest request, HttpSession session, FilesVo uploadFile, MemberVo vo);
 	public Map<String, Boolean> changePw(MemberVo vo, HashMap<String, String> hmap);
 	public Map<String, Boolean> deleteMember(MemberVo vo, String nowpw);

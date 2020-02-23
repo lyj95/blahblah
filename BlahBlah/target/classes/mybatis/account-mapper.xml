@@ -15,9 +15,9 @@
 	</resultMap>
 	
 <select id="login" parameterType="memberVo" resultMap="memberMap" >
-		SELECT MEMBER_ID, MEMBER_PW
+		SELECT *
 		FROM MEMBER
-		WHERE MEMBER_ID = #{memberId}
+		WHERE MEMBER_ID = #{memberId} AND MEMBER_ENABLED = 'Y'
 	</select>
 	
 	

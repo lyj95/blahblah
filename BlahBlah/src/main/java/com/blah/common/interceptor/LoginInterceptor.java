@@ -30,7 +30,6 @@ public class LoginInterceptor implements HandlerInterceptor  {
 			|| request.getRequestURI().contains("/findID")
 			|| request.getRequestURI().contains("/naverLogin")
 			|| request.getRequestURI().contains("/callback")
-			
 				) {
 			return true;
 		}
@@ -43,10 +42,6 @@ public class LoginInterceptor implements HandlerInterceptor  {
 		if(request.getSession().getAttribute("login")!=null) {
 			return true;
 		}
-		
-		
-		
-		
 		
 		return false;
 	}
