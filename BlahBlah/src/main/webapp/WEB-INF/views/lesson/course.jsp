@@ -133,28 +133,36 @@
 
 				<!-- ------------- 강의목록 반복되는 부분 끝 ------------- -->
 
-
 			</div>
-			<nav class="blog-pagination justify-content-center d-flex"
-				style="padding: 2.5% 0;">
-				<ul class="pagination">
-					<li class="page-item"><a href="#" class="page-link"
-						aria-label="Previous"> <span aria-hidden="true"> <i
-								class="ti-angle-left"></i>
-						</span>
-					</a></li>
-					<li class="page-item"><a href="#" class="page-link">01</a></li>
-					<li class="page-item "><a href="#" class="page-link">02</a></li>
-					<li class="page-item"><a href="#" class="page-link">03</a></li>
-					<li class="page-item"><a href="#" class="page-link">04</a></li>
-					<li class="page-item"><a href="#" class="page-link">05</a></li>
-					<li class="page-item"><a href="#" class="page-link"
-						aria-label="Next"> <span aria-hidden="true"> <i
-								class="ti-angle-right"></i>
-						</span>
-					</a></li>
-				</ul>
-			</nav>
+				<nav class="blog-pagination justify-content-center d-flex"
+					style="padding: 2.5% 0;">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="page-item"><a
+								href="javascript:courseList${pageMaker.makeQuery(pageMaker.startPage -1 )}"
+								class="page-link" aria-label="Previous"> <span
+									aria-hidden="true"> <i class="ti-angle-left"></i>
+								</span>
+							</a></li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
+
+							<li class="page-item"><a
+								href="courseList${pageMaker.makeQuery(i)}" class="page-link">${i}</a>
+							</li>
+
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
+							<li><a class="page-link" aria-label="Next"
+								href="javascript:courseList${pageMaker.makeQuery(pageMaker.endPage +1 )}">
+									<span aria-hidden="true"> <i class="ti-angle-right"></i>
+								</span>
+							</a></li>
+
+						</c:if>
+					</ul>
+				</nav>
+
 
 			<div class="row" style="padding: 2%"></div>
 			<div class="col-md-12 text-right">

@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
- <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -20,9 +20,10 @@
     
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
-  </head>
+</head>
 
-  <body>
+<%String userID = (String)request.getParameter("userID");%>
+<body>
     <!--================ Start Header Menu Area =================-->
     <jsp:include page="../common/menu-header.jsp" />
     <!--================ End Header Menu Area =================-->
@@ -138,11 +139,19 @@
 				<div class="row"></div>
 				
 				<div class="row">
+					<c:if test="${userID eq 'admin'}">
+						<div class="col-10"></div>
+						<input type="submit" value="수정" class="genric-btn info circle" style="float: right;">
+						&nbsp;&nbsp;
+						<button type="button" class="genric-btn info circle" style="float: right;"
+							onclick="location.href='deleteNotice?noticeNo=${vo.noticeNo}'">삭제</button>
+					</c:if>
+				</div>
+				<br>
+				<div class="row">
 					<div class="col-10"></div>
-					<input type="submit" value="수정" class="genric-btn info circle" style="float: right;">
-					&nbsp;&nbsp;
 					<button type="button" class="genric-btn info circle" style="float: right;"
-						onclick="location.href='deleteNotice?noticeNo=${vo.noticeNo}'">삭제</button>
+						onclick="location.href='notice'">목록으로</button>
 				</div>
 			</div>
 		</form>

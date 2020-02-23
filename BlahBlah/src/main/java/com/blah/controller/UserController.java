@@ -98,7 +98,7 @@ public class UserController {
 	public String lessonRoom (Model model, int lessonNo) {
 		logger.info("lessonRoom");
 		
-		model.addAllAttributes("vo",service.selectOneLesson(lessonNo));
+//		model.addAllAttributes("vo",service.selectOneLesson(lessonNo));
 
 		return "mypage/mypageLessonRoom";
 	}

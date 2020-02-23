@@ -72,7 +72,7 @@
                   <a class="nav-link" href="leveltest">Level Test</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="courseList">Course</a>
+                  <a class="nav-link" href="courseList?page=1&perPageNum=6">Course</a>
                 </li>
                 <li class="nav-item submenu dropdown">
                   <a

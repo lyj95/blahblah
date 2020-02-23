@@ -28,11 +28,14 @@ public interface NoticeDao {
 	
 	public int selectCurrentNoticeView(int noticeNo);
 
-	public List<NoticeVo> searchByTitle(String searchContent);
+	public List<NoticeVo> searchByTitle(HashMap<String, String> map);
+
+	public List<NoticeVo> searchByContent(HashMap<String, String> map);
 
 	public String findSysdate();
 
 	public NoticeVo selectPrePost(int noticeNo);
 
 	public NoticeVo selectNextPost(int noticeNo);
+
 }
