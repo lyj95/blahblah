@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,16 +9,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="icon" href="resources/img/favicon.png" type="image/png" />
-  <title>Q&A</title>
+  <title>QnA</title>
+  
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="resources/css/bootstrap.css" />
   <link rel="stylesheet" href="resources/css/flaticon.css" />
   <link rel="stylesheet" href="resources/css/themify-icons.css" />
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css" />
   <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
+  
   <!-- main css -->
   <link rel="stylesheet" href="resources/css/style.css" />
 </head>
+
+<%String userID = (String)request.getParameter("userID");%>
+
+<script type="text/javascript">
+function search() {
+	
+	if (document.getElementById("searchCondition").options[document.getElementById("searchCondition").selectedIndex].text=="제목") {
+		if (!document.getElementById("searchContent").value) {
+			alert("검색어를 입력하세요");
+			document.form.action="qna";
+		} else {
+			document.form.action="searchByQnaTitle?searchContent="+encodeURI(document.getElementById('searchContent').value);
+			document.form.submit();	
+		}
+	} else if (document.getElementById("searchCondition").options[document.getElementById("searchCondition").selectedIndex].text=="내용") {
+		if (!document.getElementById("searchContent").value) {
+			alert("검색어를 입력하세요");
+			document.form.action="qna";
+		} else {
+			document.form.action="searchByQnaContent?searchContent="+encodeURI(document.getElementById('searchContent').value);
+			document.form.submit();
+		}
+	} else {
+		alert("검색 분류를 선택하세요");
+		document.form.action="qna";
+	}
+}
+
+/*
+function qnaPwCheck(qnaNo, memberId) {
+	
+	alert(qnaNo);
+	alert(memberId);
+	
+	if (memberId==userID) {
+		alert("작성자");
+		//location.href="qnaDetail?qnaNo="+qnaNoV;
+	} else {
+		alert("작성자만 열람이 가능합니다.");
+		//location.href="qna";
+	}
+}
+*/
+</script>
 
 <body>
   <!--================ Start Header Menu Area =================-->
@@ -31,9 +79,9 @@
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <div class="banner_content text-center">
-              <h2>Q&A</h2>
+              <h2>QnA</h2>
               <div class="page_link">
-                <p>질문게시판</p>
+                <p>QnA</p>
               </div>
             </div>
           </div>
@@ -44,159 +92,124 @@
   <!--================End Home Banner Area =================-->
 
   <!--================Contact Area : 아래부분은 수정한 부분입니다=================-->
-  <section class="contact_area section_gap" style="padding: 5% 0;">
-    <div class="container">
-      <div class="row">
-        
 
+	<section class="contact_area section_gap" style="padding: 5% 0;">
+			<div class="container">
+				<div class="row">
+				
+					<div class="row" style="padding: 3% 0;"></div>
+				
+					<table class="table" style="text-align: center;">
+						<thead>
+							<tr>
+								<th scope="col-md-1">글번호</th>
+								<th scope="col-md-4">제목</th>
+								<th scope="col-md-2">작성일</th>
+								<th scope="col-md-1">작성자</th>
+								<th scope="col-md-1">답변여부</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${empty qnaList}">
+									<tr>
+										<td colspan="4" align="center">------------------------- 작성된 글이 없습니다 -------------------------</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${qnaList}" var="vo">
+										<tr>
+											<th scope="row" >${vo.qnaNo}</th>
+											<c:choose>
+												<c:when test="${vo.qnaOpen eq 'N'}">
+													<c:choose>
+														<c:when test="${vo.qnaDate eq sysdate}">
+															<td><img src="resources/img/board/lock.PNG">
+																<a id="qnaPwCheckBtn"
+																	href="openLockedQnaDetail?qnaNo=${vo.qnaNo}">${vo.qnaTitle}</a>
+																<img src="resources/img/board/new-icon.PNG">
+															</td>
+														</c:when>
+														<c:otherwise>
+															<td><a href="qnaDetail?qnaNo=${vo.qnaNo}">${vo.qnaTitle}</a></td>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${vo.qnaDate eq sysdate}">
+															<td><a href="qnaDetail?qnaNo=${vo.qnaNo}">${vo.qnaTitle}</a>
+																<img src="resources/img/board/new-icon.PNG"></td>
+														</c:when>
+														<c:otherwise>
+															<td><a href="qnaDetail?qnaNo=${vo.qnaNo}">${vo.qnaTitle}</a></td>
+														</c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+											<td>${vo.qnaDate}</td>
+											<td>${vo.memberId}</td>
+											<c:choose>
+												<c:when test="${vo.qnaRep eq 'Y'}">
+													<td><span class="badge badge-info">답변완료</span></td>
+												</c:when>
+												<c:otherwise>
+													<td><span class="badge badge-light">답변대기</span></td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						<tbody>
+					</table>
+				</div>
 
+				<div class="row" style="padding: 2% 0;"></div>
+				
+				<form name="form" method="post" action="searchByTitle" onsubmit="search()">
+				<div class="row">
+				<div class="input-group mb-3 mx-auto" style="width: 50%;">
+					<div>
+						<select class="input-group-prepend" name="searchCondition" id="searchCondition">
+							<option value="분류" selected="selected">분류</option>
+							<option value="제목">제목</option>
+							<option value="내용">내용</option>
+						</select>
+					</div>
+					<input type="text" class="form-control" id="searchContent" name="searchContent"
+						placeholder="검색할 내용을 입력하세요" aria-label="Text input with dropdown button">
+					<div class="input-group-append">
+						<input type="submit" class="btn btn-outline-secondary" id="searchBtn" value="submit">
+					</div>
+				</div>
+				</div>
+				</form>
 
-        <table class="table" style="text-align: center;">
-          <thead>
-            <tr>
-              <th scope="col-md-1">글번호</th>
-              <th scope="col-md-4">제목</th>
-              <th scope="col-md-2">작성일</th>
-              <th scope="col-md-1">작성자</th>
-              <th scope="col-md-1">조회수</th>
-              <th scope="col-md-1">답변여부</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row" >1</th>
-              <td >영어 강사로 지원하고 싶습니다.</td>
-              <td>2020-02-01</td>
-              <td>@mdo</td>
-              <td>21</td>           
-              <td> <span class="badge badge-light" >답변대기</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >2</th>
-              <td><a href="QnADetail.jsp">강의를 연장하려면 어떻게 해야하나요?</a></td>
-              <td>2020-01-31</td>
-              <td>@fat</td>
-              <td>55</td>
-              <td><span class="badge badge-info" >답변완료</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>12</td>
-              <td><span class="badge badge-info" >답변완료</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >4</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>70</td>
-              <td><span class="badge badge-light" >답변대기</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >5</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>123</td>
-              <td><span class="badge badge-light" >답변대기</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >6</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>19</td>
-              <td><span class="badge badge-light" >답변대기</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >7</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>81</td>
-              <td><span class="badge badge-info" >답변완료</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >8</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>40</td>
-              <td><span class="badge badge-light" >답변대기</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >9</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>33</td>
-              <td><span class="badge badge-info" >답변완료</span></td>
-            </tr>
-            <tr>
-              <th scope="row" >10</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>22</td>
-              <td><span class="badge badge-light" >답변대기</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="row" style="padding: 2% 0;"></div>
-      <div class="row">
-        <div class="input-group mb-3 mx-auto" style="width: 50%;">
-          <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">분류</button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">제목</a>
-              <a class="dropdown-item" href="#">내용</a>
-            </div>
-          </div>
-          <input type="text" class="form-control" placeholder="검색할 내용을 입력하세요"
-            aria-label="Text input with dropdown button">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
-          </div>
-        </div>
-      </div>
-
-      <nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
-        <ul class="pagination">
-          <li class="page-item">
-            <a href="#" class="page-link" aria-label="Previous">
-              <span aria-hidden="true">
-                <i class="ti-angle-left"></i>
-              </span>
-            </a>
-          </li>
-          <li class="page-item"><a href="#" class="page-link">01</a></li>
-          <li class="page-item "><a href="#" class="page-link">02</a></li>
-          <li class="page-item"><a href="#" class="page-link">03</a></li>
-          <li class="page-item"><a href="#" class="page-link">04</a></li>
-          <li class="page-item"><a href="#" class="page-link">05</a></li>
-          <li class="page-item">
-            <a href="#" class="page-link" aria-label="Next">
-              <span aria-hidden="true">
-                <i class="ti-angle-right"></i>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="col-md-12 text-right">
-        <button type="submit" value="submit" onclick ="location.href='QnAWriting.jsp'" class="btn primary-btn">
-      		    글쓰기
-        </button>
-      </div>
-      </form>
-    </div>
-    </div>
-    </div>
+				<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="page-item">
+								<a href="notice${pageMaker.makeQuery(pageMaker.startPage -1 )}" class="page-link">이전</a>
+							</li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+							<li class="page-item">
+								<a href="notice${pageMaker.makeQuery(idx)}" class="page-link">${idx}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
+							<li class="page-item">
+								<a href="notice${pageMaker.makeQuery(pageMaker.endPage +1 )}" class="page-link">다음</a>
+							</li>
+						</c:if>
+					</ul>
+				</nav>
+			
+				<div class="col-md-12 text-right">
+					<button class="btn primary-btn" onclick ="location.href='qnaWriteForm'">글쓰기</button>
+				</div>
+		</div>	
   </section>
 
   <!--================Contact Area =================-->
@@ -206,35 +219,14 @@
   <!--================ End footer Area  =================-->
 
   <!--================Contact Success and Error message Area =================-->
-  <div id="success" class="modal modal-message fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="ti-close"></i>
-          </button>
-          <h2>Thank you</h2>
-          <p>Your message is successfully sent...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modals error -->
-
-  <div id="error" class="modal modal-message fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="ti-close"></i>
-          </button>
-          <h2>Sorry !</h2>
-          <p>Something went wrong</p>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div id="qnaPwCheckForm" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>비밀번호</h2>
+			<input type="password" name="qnaPw" id="qnaPw">
+			<button class="btn primary-btn" id="qnaPwCheck" onclick ="qnaPwCheck()">확인6</button>
+		</div>
+	</div>
   <!--================End Contact Success and Error message Area =================-->
 
   <!-- Optional JavaScript -->

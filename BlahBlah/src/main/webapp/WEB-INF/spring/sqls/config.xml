@@ -6,19 +6,23 @@
 <configuration>
  	<typeAliases>
  		<typeAlias type="com.blah.vo.NoticeVo" alias="noticeVo" />
- 		<typeAlias type="com.blah.vo.QnaVo" alias="qnaVo" />
 		<typeAlias type="com.blah.vo.LessonVo" alias="lessonVo" />
 		<typeAlias type="com.blah.vo.PaymentVo" alias="paymentVo" />
 		<typeAlias type="com.blah.vo.ReviewVo" alias="reviewVo" />
 		<typeAlias type="com.blah.vo.MyclassVo" alias="myclassVo" />
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
-		<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />
+
+		<typeAlias type="com.blah.vo.QnaVo" alias="qnaVo" />
+		<typeAlias type="com.blah.vo.ReplyVo" alias="replyVo" />
+
+
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
+		<typeAlias type="com.blah.vo.CalenderVo" alias="calenderVo" />
+
 
 	<!-- 
 		<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
-		<typeAlias type="com.blah.vo.ReplyVo" alias="replyVo" />
 		<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />  -->
 	</typeAliases>
 	

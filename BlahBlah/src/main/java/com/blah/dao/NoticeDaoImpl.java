@@ -168,12 +168,12 @@ public class NoticeDaoImpl implements NoticeDao{
 	}
 
 	@Override
-	public List<NoticeVo> searchByTitle(String searchContent) {
+	public List<NoticeVo> searchByTitle(HashMap<String, String> map) {
 		
 		List<NoticeVo> res = new ArrayList<NoticeVo>();
 		
 		try {
-			res = sqlSession.selectList(NAMESPACE+"searchByTitle", searchContent);
+			res = sqlSession.selectList(NAMESPACE+"searchByTitle", map);
 		} catch (Exception e) {
 			System.out.println("[error] : notice searchByTitle");
 			e.printStackTrace();
@@ -181,6 +181,22 @@ public class NoticeDaoImpl implements NoticeDao{
 		
 		return res;
 	}
+	
+	@Override
+	public List<NoticeVo> searchByContent(HashMap<String, String> map) {
+		
+		List<NoticeVo> res = new ArrayList<NoticeVo>();
+		
+		try {
+			res = sqlSession.selectList(NAMESPACE+"searchByContent", map);
+		} catch (Exception e) {
+			System.out.println("[error] : notice searchByContent");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
 
 	@Override
 	public NoticeVo selectPrePost(int noticeNo) {

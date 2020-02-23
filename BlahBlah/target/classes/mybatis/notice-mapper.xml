@@ -87,18 +87,26 @@
 		WHERE NOTICE_NO = #{noticeNo}
 	</select>
 	
-	<select id="searchByTitle" parameterType="String" resultMap="noticeMap">
+	<select id="searchByTitle" parameterType="map" resultMap="noticeMap">
 		SELECT *
-		FROM NOTICE
-		WHERE NOTICE_TITLE LIKE '%{#searchContent}%'
-		ORDER BY NOTICE_NO DESC
+		FROM (SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT, 
+				ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RNUM
+			FROM NOTICE
+			WHERE NOTICE_TITLE LIKE '%'||#{searchContent}||'%'
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY NOTICE_IMPORTANT DESC, NOTICE_NO DESC
 	</select>
 	
-	<select id="searchByContent" parameterType="String" resultMap="noticeMap">
+	<select id="searchByContent" parameterType="map" resultMap="noticeMap">
 		SELECT *
-		FROM NOTICE
-		WHERE NOTICE_CONTENT LIKE '%{#searchContent}%'
-		ORDER BY NOTICE_NO DESC
+		FROM (SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_VIEW, NOTICE_IMPORTANT, 
+				ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RNUM
+			FROM NOTICE
+			WHERE NOTICE_CONTENT LIKE '%'||#{searchContent}||'%'
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY NOTICE_IMPORTANT DESC, NOTICE_NO DESC
 	</select>
 	
 	<select id="selectPrePost" parameterType="int" resultMap="noticeMap">

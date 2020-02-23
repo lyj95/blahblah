@@ -14,11 +14,12 @@
 		<result property="memberEnabled" column="MEMBER_ENABLED"/>
 	</resultMap>
 	
+
 <select id="login" parameterType="memberVo" resultMap="memberMap" >
 		SELECT MEMBER_ID, MEMBER_PW
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
-	</select>
+</select>
 	
 	
 
