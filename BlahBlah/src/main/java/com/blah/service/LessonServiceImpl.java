@@ -180,4 +180,16 @@ public class LessonServiceImpl implements LessonService {
 		return dao.listCount();
 	}
 
+	@Override
+	public int getReviewAvg(int lessonNo) {
+		// TODO 리뷰평점가져오기
+		return dao.getReviewAvg(lessonNo);
+	}
+
+	@Override
+	public List<LessonVo> orderByRiview(PagingVo page) {
+		// TODO 리뷰 평점순 조회
+		return dao.orderByRiview(page);
+	}
+
 }

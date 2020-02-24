@@ -40,13 +40,11 @@
 	<insert id="insert" parameterType="LessonVo">
 		INSERT INTO LESSON
 		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,'tu123','')
-	</insert>
-	
+	</insert>	
 	<select id="getLastLessonSeq" resultType="int">
 	 SELECT LESSON_SEQ.CURRVAL
      FROM DUAL
-	</select>	
-	
+	</select>		
 	<update id="update" parameterType="LessonVo">
 		UPDATE LESSON
 		SET LESSON_NAME =#{lessonName}, LESSON_INFO = #{lessonInfo}, LESSON_LEVEL= #{lessonLevel},LESSON_TYPE=#{lessonType},LESSON_TIME=#{lessonTime},LESSON_PRICE=#{lessonPrice},LESSON_TOTAL=4
@@ -80,6 +78,18 @@
 		SELECT * FROM LESSON
 		WHERE LESSON_LEVEL ='하'
 	</select>
+	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">
+	SELECT A.LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE
+	FROM (
+		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+		ROW_NUMBER() OVER(ORDER BY LESSON_NO DESC) AS RNUM
+		FROM LESSON
+		) A
+        INNER JOIN REVIEW B
+		ON  A.lesson_no= B.lesson_no
+	WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+	ORDER BY REVIEW_GRADE DESC;
+	</select>
 	<resultMap type="ReviewVo" id="ReviewMap">
 		<result property="memberId" column="member_id" />
 		<result property="lessonNo" column="lesson_no" />
@@ -98,6 +108,11 @@
 		FROM REVIEW
 		WHERE LESSON_NO=#{lessonNo}
 		ORDER BY review_date DESC
+	</select>
+	<select id="getReviewGrade" parameterType="int" resultType="int" >
+		SELECT REVIEW_GRADE
+		FROM REVIEW
+		WHERE LESSON_NO=#{lessonNo}
 	</select>
 	
 </mapper>

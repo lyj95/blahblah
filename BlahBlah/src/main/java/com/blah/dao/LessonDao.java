@@ -24,6 +24,9 @@ public interface LessonDao {
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
 	List<ReviewVo> selectReviewList(int lessonNo);
-	public int listCount();
+	int listCount();
+	int getReviewAvg(int lessonNo);//강의평점 구하는 메소드
+	List<LessonVo> orderByRiview(PagingVo page);//리뷰순 글조회
+	
 
 }

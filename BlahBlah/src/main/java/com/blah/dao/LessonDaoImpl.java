@@ -202,4 +202,37 @@ public class LessonDaoImpl implements LessonDao {
 		
 		return res;
 	}
+	@Override
+	public int getReviewAvg(int lessonNo) {
+		int reviewAvg = 0;
+		List<Integer> reviewGradeList = new ArrayList<Integer>();
+		try {
+			reviewGradeList = sqlSession.selectList(namespace+"getReviewGrade",lessonNo); //리뷰 그래이드 값 가져온다.
+			
+			int sum = 0;
+			for(int i : reviewGradeList){
+				sum += i;
+			}
+			
+			reviewAvg = sum / reviewGradeList.size();
+			
+		} catch (Exception e) {
+			System.out.println("[error] : getReviewAvg");
+			e.printStackTrace();
+		}
+		
+		return reviewAvg;
+	}
+	@Override
+	public List<LessonVo> orderByRiview(PagingVo page) {//수정예정
+		
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		try {
+			list = sqlSession.selectList(namespace+"orderByRiview", page);		
+		}catch(Exception e) {
+			System.out.println("[error] : selectList ");
+			e.printStackTrace();
+		}	
+		return list;
+	}
 }

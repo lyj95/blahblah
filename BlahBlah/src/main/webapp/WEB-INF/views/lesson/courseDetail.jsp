@@ -47,7 +47,7 @@
 			}
 		});
 	};
-</script>
+</script> 
   <body>
     <!--================ Start Header Menu Area =================-->
  	<jsp:include page="../common/menu-header.jsp" />
@@ -172,7 +172,7 @@
                         <div class="review-top row pt-40">
                             <div class="col-lg-12">
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                    <h5>평균 평점 &nbsp;3.0</h5>
+                                    <h5>평균 평점 &nbsp;${reviewAvg }</h5>
                                     <div class="star">
                                         <i class="ti-star checked"></i>
                                         <i class="ti-star checked"></i>

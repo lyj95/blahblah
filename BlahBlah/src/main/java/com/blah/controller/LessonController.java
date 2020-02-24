@@ -128,6 +128,8 @@ public class LessonController {
 		logger.info("[course]Select One"); //log에 info 찍어주는 것
 		ModelAndView mav = new ModelAndView("lesson/courseDetail");
 		mav.addObject("vo", service.selectOne(lessonNo));
+		mav.addObject("reviewAvg",service.getReviewAvg(lessonNo));
+		
 		
 		return mav; //강의 디테일로
 	}
