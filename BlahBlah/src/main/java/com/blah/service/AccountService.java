@@ -19,5 +19,6 @@ public interface AccountService {
 	Map<String,String>selectSearchId(Map<String,String> map);
 
 	Map<String,String>selectSearchPw(Map<String,String> map);
+
 	
 }

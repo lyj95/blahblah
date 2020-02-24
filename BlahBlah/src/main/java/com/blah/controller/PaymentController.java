@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.blah.service.LessonService;
 import com.blah.service.PaymentService;
 import com.blah.service.UserService;
+import com.blah.vo.MemberVo;
 
 @Controller
 public class PaymentController {
@@ -89,12 +90,13 @@ public class PaymentController {
 		logger.info("[payment] into the payment");
 		
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("MemberId");	//session의 ID
+		MemberVo vo = (MemberVo)session.getAttribute("login");				//세션
 		
 		logger.info("lessonNo : "+lessonNo);
-		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();		//lessonNo로 결제금액 가져오기
-		String userName = us.selectMember(memberId).getMemberName();		//ID로 회원이름 가져오기
-		String userEmail = us.selectMember(memberId).getMemberEmail();		//ID로 회원메일 가져오기
+		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();			//lessonNo로 결제금액 가져오기
+		String memberId = us.selectMember(vo).getMemberId();
+		String userName = us.selectMember(vo).getMemberName();		//ID로 회원이름 가져오기
+		String userEmail = us.selectMember(vo).getMemberEmail();		//ID로 회원메일 가져오기
 		
 		model.addAttribute("lessonNo", lessonNo);
 		model.addAttribute("lessonPrice", lessonPrice);	
