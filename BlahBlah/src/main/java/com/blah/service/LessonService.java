@@ -15,8 +15,8 @@ public interface LessonService {
 	List<LessonVo> selectList(PagingVo page);
 	LessonVo selectOne(int lessonNo);
 	int insert(Model model, LessonVo vo, HttpServletRequest request, MultipartFile file);
-	public int update(LessonVo vo);
-	public int delete(int lessonNo);
+	int update(LessonVo vo);
+	int delete(int lessonNo);
 	List<LessonVo> searchKeyword(String keyword);
 	List<LessonVo> searchLICENSE();
 	List<LessonVo> searchSPEAKING();
@@ -25,9 +25,14 @@ public interface LessonService {
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
 	List<ReviewVo> selectReviewList(int lessonNo);
-	public int listCount();
+	int listCount();
+	Double getReviewAvg(int lessonNo);
+	List<LessonVo> orderByRiview(PagingVo page);
+	int listReviewCount();
+
 	
 
 	
 
 }
+

@@ -19,7 +19,7 @@ public class PaymentDaoImpl implements PaymentDao{
 		boolean checkPay = true;
 		try {
 			System.out.println("dao 넘겨줄  selectMap : "+selectMap);
-			System.out.println("namespac : "+namespace);
+			System.out.println("namespace : "+namespace);
 			
 			MyclassVo myclassVo = sqlSession.selectOne(namespace+"selectOne", selectMap);
 			System.out.println("dao myclassVo : "+myclassVo);
@@ -47,6 +47,18 @@ public class PaymentDaoImpl implements PaymentDao{
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	@Override
+	public String selectDay(String lessonNo) {
+		String classday = "";
+		try {
+		classday = sqlSession.selectOne(namespace+"selectDay", lessonNo);
+		}catch(Exception e) {
+			System.out.println("[error] : Myclass select classDay ");
+			e.printStackTrace();
+		}
+		return classday;
 	}
 
 }
