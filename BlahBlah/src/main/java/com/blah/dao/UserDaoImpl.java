@@ -18,11 +18,11 @@ public class UserDaoImpl implements UserDao{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<LessonVo> selectMyClass(String memberId) {
+	public List<LessonVo> selectMyClass(MemberVo vo) {
 		List<LessonVo> list = new ArrayList<LessonVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE + "selectMyClass", memberId);
+			list = sqlSession.selectList(NAMESPACE + "selectMyClass", vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectMyClass");
 			e.printStackTrace();
@@ -31,11 +31,11 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public List<LessonVo> selectClosedMyClass(String memberId) {
+	public List<LessonVo> selectClosedMyClass(MemberVo vo) {
 		List<LessonVo> list = new ArrayList<LessonVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE + "selectMyClosedClass", memberId);
+			list = sqlSession.selectList(NAMESPACE + "selectMyClosedClass", vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectMyClosedClass");
 			e.printStackTrace();
@@ -44,26 +44,26 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public MemberVo selectMember(String memberId) {
+	public MemberVo selectMember(MemberVo vo) {
 		
-		MemberVo vo = new MemberVo();
+		MemberVo res = new MemberVo();
 		
 		try {
-			vo = sqlSession.selectOne(NAMESPACE + "selectMember", memberId);
+			res = sqlSession.selectOne(NAMESPACE + "selectMember", vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectMember");
 			e.printStackTrace();
 		}
 		
-		return vo;
+		return res;
 	}
 
 	@Override
-	public List<MyclassVo> selectProgress(String memberId) {
+	public List<MyclassVo> selectProgress(MemberVo vo) {
 		List<MyclassVo> list = new ArrayList<MyclassVo>();
 		
 		try {
-			list = sqlSession.selectList(NAMESPACE + "selectProgress", memberId);
+			list = sqlSession.selectList(NAMESPACE + "selectProgress", vo);
 		} catch(Exception e) {
 			System.out.println("[error] : selectProgress");
 			e.printStackTrace();
@@ -72,4 +72,43 @@ public class UserDaoImpl implements UserDao{
 		
 		return list;
 	}
+
+	@Override
+	public int updateProfile(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"updateProfile", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : updateProfile");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int updatePassword(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"updatePassword", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : updatePassword");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int deleteMember(MemberVo vo) {
+		int res= 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"deleteMember", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : deleteMember");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
 }

@@ -22,6 +22,10 @@ public class PageMakerVo {
 		calcData();
 	}
 	
+	public void setDisplayPageNum(int displayPageNum) {
+		this.displayPageNum = displayPageNum;
+	}
+	
 	public int getTotalCount() {
 		return totalCount;
 	}
@@ -49,7 +53,8 @@ public class PageMakerVo {
 	public PagingVo getPageVo() {
 		return pageVo;
 	}
-	 
+		 
+
 	private void calcData() {
 		endPage = (int) (Math.ceil(pageVo.getPage() / (double)displayPageNum) * displayPageNum);
 		startPage = (endPage - displayPageNum) + 1;

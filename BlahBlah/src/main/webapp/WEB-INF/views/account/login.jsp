@@ -28,12 +28,9 @@ function login(){
 		$.ajax({
 			type:"post",
 			url:"ajaxlogin",
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		        	
-		    },
-			data: JSON.stringify(loginVal),
+			data:JSON.stringify(loginVal),
+			contentType:"application/json",
+			dataType:"json",
 			success:function(msg){ 
 				if (msg.check == true){
 					alert("로그인 성공!");
@@ -125,9 +122,9 @@ function login(){
 					<img src="resources/login/images/icons/icon-naver.png" alt="NAVER">
 					</a>
 					</div>
-					<!--  a href="#" class="login100-social-item">
+					<!-- <a href="#" class="login100-social-item">
 						<img src="resources/login/images/icons/icon-google.png" alt="GOOGLE">
-					</a-->
+					</a> -->
 				
 			</form>	
 		</div>
@@ -144,7 +141,7 @@ function login(){
  		naver_id_login.setButton("white", 2, 40);
  		naver_id_login.setDomain("http://localhost:8787/controller/login");	//  URL
  		naver_id_login.setState(state);
- 		//naver_id_login.setPopup();
+ 		naver_id_login.setPopup();
  		naver_id_login.init_naver_id_login();
 	</script>
 	

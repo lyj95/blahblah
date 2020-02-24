@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.blah.vo.LessonVo;
+import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
 @Repository
@@ -27,12 +28,23 @@ public class LessonDaoImpl implements LessonDao {
 		}
 		return res;
 	}
+	@Override
+	public int getLastLessonSeq(){
+		int res=0;
+		try {
+			res= sqlSession.selectOne(namespace+"getLastLessonSeq");
+		}catch(Exception e) {
+			System.out.println("[error] : getLastLessonSeq");
+			e.printStackTrace();
+		}
+		return res;		
+	}
 
 	@Override
-	public List<LessonVo> selectlist() {
+	public List<LessonVo> selectList(PagingVo page) {
 		List<LessonVo> list = new ArrayList<LessonVo>();
 		try {
-			list = sqlSession.selectList(namespace+"selectList");		
+			list = sqlSession.selectList(namespace+"selectList", page);		
 		}catch(Exception e) {
 			System.out.println("[error] : selectList ");
 			e.printStackTrace();
@@ -174,5 +186,20 @@ public class LessonDaoImpl implements LessonDao {
 			e.printStackTrace();
 		}	
 		return list;
+	}
+	
+	@Override
+	public int listCount() {
+		
+		int res = 0;
+		
+		try {
+			res = sqlSession.selectOne(namespace+"listCount");
+		} catch (Exception e) {
+			System.out.println("[error] : Course list count");
+			e.printStackTrace();
+		}
+		
+		return res;
 	}
 }

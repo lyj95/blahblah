@@ -1,6 +1,9 @@
+<%@page import="com.blah.vo.LessonVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html>
  <head>
@@ -50,7 +53,7 @@
     <!--================Contact Area =================-->
     <section class="contact_area section_gap" style="padding: 6% 0 10% 0;">
       <div class="container">
-        <form class="needs-validation" action="insertCourseRes" method="post" novalidate>
+        <form:form class="needs-validation" action="insertCourseRes" method="post" enctype="multipart/form-data" ModelAttribute="lessonVo">
 				<div class="form-group row">
 					<label for="lessonName" class="col-sm-2 col-form-label">강의명</label>
 					<div class="col-sm-6 lg-6">
@@ -89,16 +92,23 @@
                 <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice">                
               </div>
             </div>
-            
-              <div class="mb-10">
+				<div class="form-group row">
+					<label for="lessonFile" class="col-sm-4 col-form-label">샘플
+						강의 첨부 (mp4형식)</label>
+					<div class="col-sm-3 lg-3">
+						<input type="file" name="lessonFile" id="lessonFile" /><br />
+					</div>
+				</div>
+
+				<div class="mb-10">
               <label for="lessonInfo">강의정보</label>
-              <textarea colspan =15 rows=15 class="form-control " name="lessonInfo" id="lessonInfo" style="resize: none; margin: 0 0 2% 0 ;"placeholder="강의정보를 입력하세요" required></textarea>
+              <textarea cols =15 rows=15 class="form-control " name="lessonInfo" id="lessonInfo" style="resize: none; margin: 0 0 2% 0 ;"placeholder="강의정보를 입력하세요" required></textarea>
             </div>
           <button type="submit" value="submit" class="btn primary-btn" style="float: right;">작성완료</button>
-        </form>
+        </form:form>
       </div>
-
-    </section>
+    </section> 
+    4
     <!--================Contact Area =================-->
 
     <!--================ start footer Area  =================-->

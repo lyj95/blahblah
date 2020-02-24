@@ -34,30 +34,68 @@
 		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
 	</resultMap>
 	
-	<select id="selectMember" resultMap="memberMap">
+	<select id="selectMember" parameterType="MemberVo" resultMap="memberMap">
 		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
 		FROM MEMBER
 		WHERE MEMBER_ID=#{memberId}
 	</select>
 
-	<select id="selectMyClass" resultMap="lessonMap">
+	<select id="selectMyClass" parameterType="MemberVo" resultMap="lessonMap">
 		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
 		FROM lesson
 		JOIN myclass USING(lesson_no)
-		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId} AND myclass.myclass_remaincnt > 0
+                </when>
+		</choose>
 	</select>
 	
-	<select id="selectMyClosedClass" resultMap="lessonMap">
+	<select id="selectMyClosedClass" parameterType="MemberVo" resultMap="lessonMap">
 		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id
 		FROM lesson
 		JOIN myclass USING(lesson_no)
-		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId} AND myclass.myclass_remaincnt = 0
+                </when>
+		</choose>
+		
 	</select>
 	
-	<select id="selectProgress" resultMap="myclassMap">
+	<select id="selectProgress" parameterType="MemberVo" resultMap="myclassMap">
 		SELECT LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
 		FROM myclass
-		WHERE member_id = #{memberId}
+		JOIN lesson USING(lesson_no)
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId}
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId}
+                </when>
+		</choose>
 	</select>
+	
+	<update id="updateProfile" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
+	<update id="updatePassword" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
+	<update id="deleteMember" parameterType="MemberVo" >
+		UPDATE MEMBER SET MEMBER_ENABLED = 'N'
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 	
 </mapper>

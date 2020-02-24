@@ -22,53 +22,9 @@
   <link rel="stylesheet" href="resources/css/style.css" />
 </head>
 
-<script type="text/javascript">
-/*	
-	function search() {
-		
-		var searchCondition = $("#searchCondition").val().trim();
-		var searchContent = $("#searchContent").val().trim();
-		
-		if (searchCondition == "분류") {
-			alert("분류를 선택하세요.");
-			
-		} else if (searchContent == null) {
-			alert("검색어를 입력하세요.");
-			
-		} else if (searchCondition == "제목" && searchContent != null) {
-			$.ajax({
-				type:"post",
-				url:"searchByTitle",
-				
-				data:JSON.stringify(searchContent),
-				contentType:"appliction/json",
-				dataType:"json",
-				success: function(msg) {
-					
-				},
-				errr:function(){
-					alert("통신실패");
-				}
-			})
-		} else if (searchCondition == "내용" && searchContent != null) {
-			$.ajax({
-				type:"post",
-				url:"searchByContent",
-				
-				data:JSON.stringify(searchContent),
-				contentType:"appliction/json",
-				dataType:"json",
-				success: function(msg) {
-					location.href="searchedList";
-				},
-				errr:function(){
-					alert("통신실패");
-				}
-			})
-		}	
-	}
-*/
+<%String userID = (String)request.getParameter("userID");%>
 
+<script type="text/javascript">
 	function changeListOrder() {
 		
 		if (document.getElementById("orderBy").options[document.getElementById("orderBy").selectedIndex].text=="최신순") {
@@ -77,6 +33,30 @@
 		} else {
 			document.form.action="noticeOrderByNoticeView";
 			document.form.submit();
+		}
+	}
+	
+	function search() {
+		
+		if (document.getElementById("searchCondition").options[document.getElementById("searchCondition").selectedIndex].text=="제목") {
+			if (!document.getElementById("searchContent").value) {
+				alert("검색어를 입력하세요");
+				document.form.action="notice";
+			} else {
+				document.form.action="searchByTitle?searchContent="+encodeURI(document.getElementById('searchContent').value);
+				document.form.submit();	
+			}
+		} else if (document.getElementById("searchCondition").options[document.getElementById("searchCondition").selectedIndex].text=="내용") {
+			if (!document.getElementById("searchContent").value) {
+				alert("검색어를 입력하세요");
+				document.form.action="notice";
+			} else {
+				document.form.action="searchByContent?searchContent="+encodeURI(document.getElementById('searchContent').value);
+				document.form.submit();
+			}
+		} else {
+			alert("검색 분류를 선택하세요");
+			document.form.action="notice";
 		}
 	}
 </script>
@@ -108,7 +88,6 @@
 
   <!--================Contact Area : 이 아래 영역은 수정한 부분입니다!= =================-->
   <section class="contact_area section_gap" style="padding: 5% 0;">
-  	<form name="form" method="post" action="">
 		<div class="container">
 			<div class="row">
 				<div>
@@ -183,32 +162,24 @@
 			
 			<div class="row" style="padding: 2% 0;"></div>
 			
+			<form name="form" method="post" action="searchByTitle" onsubmit="search()">
 			<div class="row">
 				<div class="input-group mb-3 mx-auto" style="width: 50%;">
-				<!--
-					<div class="input-group-prepend">
-						<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">분류</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#" id="">제목</a>
-							<a class="dropdown-item" href="#" id="">내용</a>
-						</div>
-					</div>
-				 -->
 					<div>
-						<select class="input-group-prepend" name="searchCondition">
+						<select class="input-group-prepend" name="searchCondition" id="searchCondition">
 							<option value="분류" selected="selected">분류</option>
 							<option value="제목">제목</option>
 							<option value="내용">내용</option>
 						</select>
 					</div>
-					<input type="text" class="form-control" id="searchContent"
+					<input type="text" class="form-control" id="searchContent" name="searchContent"
 						placeholder="검색할 내용을 입력하세요" aria-label="Text input with dropdown button">
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" id="searchBtn" onclick="search()">search</button>
+						<input type="submit" class="btn btn-outline-secondary" id="searchBtn" value="submit">
 					</div>
 				</div>
 			</div>
+			</form>
 			
 			<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
 				<ul class="pagination">
@@ -231,10 +202,11 @@
 			</nav>
 	      
 			<div class="col-md-12 text-right">
-				<button type="button" class="btn primary-btn" onclick ="location.href='noticeWriteForm'">글쓰기 </button>
+				<c:if test="${userID eq 'admin'}">
+				<button class="btn primary-btn" onclick ="location.href='noticeWriteForm'">글쓰기 </button>
+				</c:if>
 			</div>
 		</div>
-	</form>
   </section>
   <!--================Contact Area =================-->
 

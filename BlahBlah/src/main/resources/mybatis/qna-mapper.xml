@@ -5,4 +5,116 @@
   
 <mapper namespace="qna">
 
+	<resultMap type="qnaVo" id="qnaMap">
+		<result property="qnaNo" column="QNA_NO" javaType="java.lang.Integer" jdbcType="NUMERIC"></result>
+		<result property="memberId" column="MEMBER_ID" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+		<result property="qnaTitle" column="QNA_TITLE" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+		<result property="qnaContent" column="QNA_CONTENT" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+		<result property="qnaDate" column="QNA_DATE" javaType="java.lang.String" jdbcType="DATE"></result>
+		<result property="qnaRep" column="QNA_REP" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+		<result property="qnaOpen" column="QNA_OPEN" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+	</resultMap>
+
+	<resultMap type="replyVo" id="replyMap">
+		<result property="qnaNo" column="QNA_NO" javaType="java.lang.Integer" jdbcType="NUMERIC"></result>
+		<result property="replyDate" column="REPLY_DATE" javaType="java.lang.String" jdbcType="DATE"></result>
+		<result property="replyContent" column="REPLY_CONTENT" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+	</resultMap>
+	
+	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="qnaMap">
+		SELECT QNA_NO, MEMBER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_REP, QNA_OPEN
+		FROM (SELECT QNA_NO, MEMBER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_REP, QNA_OPEN,
+				ROW_NUMBER() OVER(ORDER BY QNA_NO DESC) AS RNUM
+			FROM QNA
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY QNA_NO DESC
+	</select>
+	
+	<select id="listCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(QNA_NO)
+			FROM QNA
+			WHERE QNA_NO > 0
+		]]>
+	</select>
+	
+	<select id="findSysdate" resultType="String">
+		SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM DUAL
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultMap="qnaMap">
+		SELECT *
+		FROM QNA
+		WHERE QNA_NO = #{qnaNo}
+	</select>
+	
+	<insert id="insert" parameterType="qnaVo">
+		INSERT INTO QNA (QNA_NO, MEMBER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_REP, QNA_OPEN)
+		VALUES (
+			QNA_SEQ.NEXTVAL,
+			#{memberId, jdbcType=VARCHAR},
+			#{qnaTitle, jdbcType=VARCHAR}, 
+			#{qnaContent, jdbcType=VARCHAR}, 
+			SYSDATE,
+			'N',
+			#{qnaOpen, jdbcType=VARCHAR}
+			)
+	</insert>
+	
+	<update id="update" parameterType="qnaVo">
+		UPDATE QNA
+		SET QNA_TITLE = #{qnaTitle}, QNA_CONTENT = #{qnaContent}, QNA_OPEN = #{qnaOpen}
+		WHERE QNA_NO = #{qnaNo}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM QNA
+		WHERE QNA_NO = #{qnaNo}
+	</delete>
+	
+	<select id="searchByTitle" parameterType="map" resultMap="qnaMap">
+		SELECT *
+		FROM (SELECT QNA_NO, MEMBER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_REP, QNA_OPEN, 
+				ROW_NUMBER() OVER(ORDER BY QNA_NO DESC) AS RNUM
+			FROM QNA
+			WHERE QNA_TITLE LIKE '%'||#{searchContent}||'%'
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY QNA_NO DESC
+	</select>
+	
+	<select id="searchByContent" parameterType="map" resultMap="qnaMap">
+		SELECT *
+		FROM (SELECT QNA_NO, MEMBER_ID, QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_REP, QNA_OPEN, 
+				ROW_NUMBER() OVER(ORDER BY QNA_NO DESC) AS RNUM
+			FROM QNA
+			WHERE QNA_CONTENT LIKE '%'||#{searchContent}||'%'
+			) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY QNA_NO DESC
+	</select>
+	
+	<select id="selectReply" parameterType="int" resultMap="replyMap">
+		SELECT *
+		FROM REPLY
+		WHERE QNA_NO = #{qnaNo}
+	</select>
+
+	<insert id="insertReply" parameterType="replyVo">
+		INSERT INTO REPLY
+		VALUES (#{qnaNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), #{replyContent})
+	</insert>
+	
+	<update id="updateReply" parameterType="replyVo">
+		UPDATE REPLY
+		SET REPLY_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD'), REPLY_CONTENT = #{replyContent}
+		WHERE QNA_NO = #{qnaNo}
+	</update>
+	
+	<update id="updateQnaRep" parameterType="int">
+		UPDATE QNA
+		SET QNA_REP = 'Y'
+		WHERE QNA_NO = #{qnaNo}
+	</update>
 </mapper>

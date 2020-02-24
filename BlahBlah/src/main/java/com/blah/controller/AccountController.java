@@ -45,47 +45,62 @@ public class AccountController {
 					.getLogger(AccountController.class);
 	@Autowired
 	private AccountService service;
-//	
+	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping(value="/login")
-	public String loginForm() {
+	public String loginForm(Model model, HttpSession session) {
 		logger.info("LOGIN FORM");
+		
 		return "/account/login";
 	}
 	
 	@RequestMapping(value="ajaxlogin", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Boolean> ajaxLogin(HttpSession session, 
-			@RequestBody MemberVo vo, Model model){
+	public Map<String, Boolean> ajaxLogin(HttpSession session, @RequestBody MemberVo vo){
 		//ResponseBody: java객체를 response객체에 바인딩
 		//RequestBoey: request객체로 넘어오는 데이터를 java 객체로
-		MemberVo res = service.login(vo);
 		boolean check = false;
+		
+		MemberVo res = service.login(vo);
+		
+
+		String userID = res.getMemberId();
+		String memberType = res.getMemberType();
 		
 		if(res != null) {
 			session.setAttribute("login", res);
+			session.setAttribute("userID", userID);
+			session.setAttribute("memberType", memberType);
 			check=true;
+
+		}
+
+		if(passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) {		//암호화된 비번이랑 원래 비번이랑 같은지 비교
+			session.setAttribute("login", res);
+			check = true;
 		}
 		
-		Map<String, Boolean> map = 
-				new HashMap<String, Boolean>();
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("check", check);
 		
-		
 		return map;
+
 	}
 
-	@RequestMapping("signupform")
+	@RequestMapping(value="signupform")
 	public String signupForm() {
 		logger.info("signup FORM");
 		return "/account/signup";
 	}
-	@RequestMapping(value="sign")
-	public String sign(MemberVo vo) {
+	@RequestMapping(value="signup")
+	public String signup(MemberVo vo) {
+		logger.info("signup");
+
+		vo.setMemberPw(passwordEncoder.encode(vo.getMemberPw()));
 		
-		if(service.sign(vo)>0) {
+		if(service.signup(vo)>0) {
 			return "redirect:login";
 		} else {
 			return "redirect:signupform";
@@ -106,10 +121,9 @@ public class AccountController {
 	}
 	
 	 @RequestMapping("logout")
-	    public ModelAndView logout(HttpSession session) {
+	    public String logout(HttpSession session) {
 	        session.invalidate();
-	        ModelAndView mv = new ModelAndView("redirect:/");
-	        return mv;
+	        return "common/main";
 	    }
 	
 	 @RequestMapping("findidform")
@@ -218,7 +232,7 @@ public class AccountController {
 	        model.addAttribute("result", apiResult);
 	 
 	        /* 네이버 로그인 성공 페이지 View 호출 */
-	        return "naverLogin";
+	        return "main";
 	    }
 	}
 

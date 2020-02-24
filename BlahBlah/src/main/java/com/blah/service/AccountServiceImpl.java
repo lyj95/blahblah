@@ -27,8 +27,8 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public int sign(MemberVo vo) {
-		return dao.sign(vo);
+	public int signup(MemberVo vo) {
+		return dao.signup(vo);
 	}
 
 	@Override

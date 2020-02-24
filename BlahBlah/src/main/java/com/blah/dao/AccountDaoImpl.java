@@ -24,8 +24,6 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public MemberVo login(MemberVo vo) {
 		MemberVo res = null;
-		System.out.println(vo.getMemberId());
-		System.out.println(vo.getMemberPw());
 		
 		try {
 			res = sqlSession.selectOne(NAMESPACE+"login",vo);
@@ -37,7 +35,7 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public int sign(MemberVo vo) {
+	public int signup(MemberVo vo) {
 		int res = 0;
 		try {
 			res = sqlSession.insert(NAMESPACE2+"sign",vo);
