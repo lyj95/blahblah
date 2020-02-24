@@ -50,8 +50,9 @@ public class AccountController {
 	BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping(value="/login")
-	public String loginForm() {
+	public String loginForm(Model model, HttpSession session) {
 		logger.info("LOGIN FORM");
+		
 		return "/account/login";
 	}
 	
@@ -60,9 +61,21 @@ public class AccountController {
 	public Map<String, Boolean> ajaxLogin(HttpSession session, @RequestBody MemberVo vo){
 		//ResponseBody: java객체를 response객체에 바인딩
 		//RequestBoey: request객체로 넘어오는 데이터를 java 객체로
-		MemberVo res = service.login(vo);
 		boolean check = false;
+		
+		MemberVo res = service.login(vo);
+		
 
+		String userID = res.getMemberId();
+		String memberType = res.getMemberType();
+		
+		if(res != null) {
+			session.setAttribute("login", res);
+			session.setAttribute("userID", userID);
+			session.setAttribute("memberType", memberType);
+			check=true;
+
+		}
 
 		if(passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) {		//암호화된 비번이랑 원래 비번이랑 같은지 비교
 			session.setAttribute("login", res);
@@ -73,6 +86,7 @@ public class AccountController {
 		map.put("check", check);
 		
 		return map;
+
 	}
 
 	@RequestMapping(value="signupform")
@@ -218,7 +232,7 @@ public class AccountController {
 	        model.addAttribute("result", apiResult);
 	 
 	        /* 네이버 로그인 성공 페이지 View 호출 */
-	        return "naverLogin";
+	        return "main";
 	    }
 	}
 

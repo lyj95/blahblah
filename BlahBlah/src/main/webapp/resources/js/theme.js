@@ -47,7 +47,7 @@
         responsiveClass: true,
         thumbs: true,
         thumbsPrerendered: true,
-        navText: ["<img src='img/prev.png'>", "<img src='img/next.png'>"],
+        navText: ["<img src='resources/img/prev.png'>", "<img src='resources/img/next.png'>"],
         responsive: {
           0: {
             items: 1,

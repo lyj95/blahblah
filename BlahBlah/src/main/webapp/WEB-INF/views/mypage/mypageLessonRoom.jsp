@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -49,7 +50,7 @@
             <div class="row">
                 <div class="col-lg-8 course_details_left">
                     <div class="" style="width: 100%; padding: 20% 39%; background-color: cornflowerblue;">
-                        수업 시간이 아닙니다
+                       	<%-- <a href="https://192.168.130.31:8443/controller/chatting?userId=${userId}">강의 시작</a> --%>
                     </div>
                     <div class="content_wrapper">
                         <!-- <h4 class="title">자료실</h4>

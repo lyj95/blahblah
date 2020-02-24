@@ -98,7 +98,7 @@
 	            		if (userId == null || userId == "") {
             		%>
             			<li class="nav-item">
-            					<a class="nav-link" href="signup">Sign-Up</a>
+            					<a class="nav-link" href="signupform">SignUp</a>
            				</li>
            				<li class="nav-item">
            					<a class="nav-link" href="login">Sign-In</a>
