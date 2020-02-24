@@ -42,7 +42,7 @@
 
 
 		<!-- 
-<<<<<<< HEAD
+<<<<<<< HEAD 이부분 관련있으신분 충돌 해결해주세욥 ~
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
 =======
 		<mapper resource="/mybatis/qna-mapper.xml"/>

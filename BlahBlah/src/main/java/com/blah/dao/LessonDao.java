@@ -24,6 +24,12 @@ public interface LessonDao {
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
 	List<ReviewVo> selectReviewList(int lessonNo);
-	public int listCount();
+	int listCount();
+	Double getReviewAvg(int lessonNo);
+	List<LessonVo> orderByRiview(PagingVo page);
+	int listReviewCount();
+
+	
 
 }
+
