@@ -1,13 +1,6 @@
 package com.blah.controller;
 
 
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,21 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.DefaultNamingPolicy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
 import com.blah.service.LessonService;
-import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.PageMakerVo;
 import com.blah.vo.PagingVo;
@@ -100,7 +88,6 @@ public class LessonController {
 		logger.info("[course]Search courseType SPEAKING"); 
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchHighLevel());
-		mav.addObject("btn", "LICENSEbtn");
 		
 		return mav; //강의 검색된 목록 조회
 	}
@@ -227,5 +214,35 @@ public class LessonController {
 
 		return map;	
 
+	}
+	 
+	 @RequestMapping(value="/reviewAvg")
+	 @ResponseBody
+	 public Map<String,Double> reviewAvg(@RequestParam int lessonNo) {
+		 logger.info("[course]Select reviewList"); // log에 info 찍어주는 것
+		 
+		 Map<String,Double> map = new HashMap<String,Double>();
+		 map.put("avg", service.getReviewAvg(lessonNo));
+		 
+		 return map;	
+		 
+	 }
+	 
+
+	@RequestMapping(value = "/courseOrderByReview")
+	public ModelAndView orderByRiview(PagingVo page) {
+		logger.info("[course] orderByRiview"); // log에 info 찍어주는 것
+		ModelAndView mav = new ModelAndView("lesson/course");
+
+		page.setPerPageNum(6);
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(6);
+		pageMaker.setTotalCount(service.listReviewCount());
+
+		mav.addObject("list", service.orderByRiview(page));
+		mav.addObject("pageMaker", pageMaker);
+
+		return mav; 
 	}
 }

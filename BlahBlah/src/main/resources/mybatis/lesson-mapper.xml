@@ -32,6 +32,12 @@
 			WHERE LESSON_NO > 0
 		]]>
 	</select>
+	<select id="listReviewCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(distinct LESSON_NO) 
+			FROM REVIEW;
+		]]>
+	</select>
 	<select id="selectOne" parameterType="int" resultMap="LessonMap">
 		SELECT *
 		FROM LESSON
@@ -79,18 +85,19 @@
 		WHERE LESSON_LEVEL ='하'
 	</select>
 	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">
-	SELECT A.LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE
-	FROM (
-		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
-		ROW_NUMBER() OVER(ORDER BY LESSON_NO DESC) AS RNUM
-		FROM LESSON
-		) A
-        INNER JOIN REVIEW B
-		ON  A.lesson_no= B.lesson_no
-	WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
-	ORDER BY REVIEW_GRADE DESC;
+	SELECT A.LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE, 
+            ( SELECT  AVG(review_grade) 
+                      FROM REVIEW B where a.lesson_no =b.lesson_no
+                      AND ROWNUM BETWEEN #{rowStart} AND #{rowEnd})
+	FROM  LESSON  A
+    INNER JOIN REVIEW B
+	ON  A.lesson_no= B.lesson_no   
+	GROUP BY A.LESSON_NO, LESSON_NAME, LESSON_INFO, LESSON_LEVEL, LESSON_TYPE, 
+	LESSON_TIME, LESSON_PRICE, LESSON_TOTAL, TUTOR_ID, LESSON_SAMPLE
+	ORDER BY AVG(review_grade) DESC
 	</select>
 	<resultMap type="ReviewVo" id="ReviewMap">
+		<result property="reviewNo" column="review_seq" />
 		<result property="memberId" column="member_id" />
 		<result property="lessonNo" column="lesson_no" />
 		<result property="reviewTitle" column="review_title" />

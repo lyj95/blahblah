@@ -172,14 +172,15 @@
                         <div class="review-top row pt-40">
                             <div class="col-lg-12">
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                    <h5>평균 평점 &nbsp;${reviewAvg }</h5>
-                                    <div class="star">
+                                <div id="reviewAvg"></div>
+<!--                                    <h5>평균 평점 &nbsp;${reviewAvg }</h5>
+                                     <div class="star">
                                         <i class="ti-star checked"></i>
                                         <i class="ti-star checked"></i>
                                         <i class="ti-star checked"></i>
                                         <i class="ti-star"></i>
                                         <i class="ti-star"></i>
-                                    </div>                           
+                                    </div>  -->                          
                                 </div>
                             </div>
                         </div>
@@ -237,7 +238,7 @@
 $(function(){
     
     getCommentList(); //처음 로딩시 목록 가져오기
-    
+  	getCommentAvg();
     
 });
  
@@ -265,6 +266,7 @@ function reviewsubmit(){
 		            alert("리뷰가 등록되었습니다.");
 	                $("#reviewContent").val("");//comment 창 초기화
 	                getCommentList(); //댓글목록 불러오기
+	                getCommentAvg();
 	            }
 	        },
     	error:function(){
@@ -322,6 +324,39 @@ function getCommentList(){
           
 
 }
+function getCommentAvg(){  
+
+	$.ajax({
+	        type:'GET',
+	        url : "reviewAvg?lessonNo=${vo.lessonNo}",  //보낼 url
+	        dataType : "json",
+	        success : function(data){
+	        	var avg = data.avg;
+	            var html = "";
+
+	            html += "<div class='row'>&nbsp; &nbsp;<h5>평균 평점 "+avg+"</h5>&nbsp;&nbsp;&nbsp;";	                   
+	            html += "<div class='star'>";//별점부분
+	            for(var star=1; star<6; star++){
+		            	if(avg<star){
+			                	html += "<i class='ti-star'></i>";
+			             }else{
+			            		html += "<i class='ti-star checked'></i>";
+			              }
+		             }                               
+	                 html += "</div><div>";	                
+            	$("#reviewAvg").html(html); //페이지에 목록 출력      
+
+       
+        },
+        
+        error:function(request,status,error){
+        	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+       }
+        
+    });       
+}  
+
+
 </script>
 
         </body>

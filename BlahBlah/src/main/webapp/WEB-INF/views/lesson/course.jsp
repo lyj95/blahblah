@@ -74,6 +74,8 @@
 						<div class="single-sidebar-widget tag_cloud_widget ">
 							<!--  <h4 class="widget_title">Tag Clouds</h4>-->
 							<ul class="list">
+								<li><a href="courseList?page=1&perPageNum=6" id="Newest">최신순</a></li>
+								<li><a href="courseOrderByReview?page=1&perPageNum=6" id="OrderByReview">평점순</a></li>
 								<li><a href="courseTypeLICENSE" id="LICENSEbtn">시험대비</a></li>
 								<li><a href="courseTypeSPEAKING" id="SPEAKINGbtn">자유회화</a></li>
 								<li><a href="searchLowLevel" id="LowLevelbtn">초급영어</a></li>
@@ -146,11 +148,11 @@
 							</a></li>
 						</c:if>
 						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
-
+						<c:if test="${i>0}">
 							<li class="page-item"><a
 								href="courseList${pageMaker.makeQuery(i)}" class="page-link">${i}</a>
 							</li>
-
+						</c:if>
 						</c:forEach>
 						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
 							<li><a class="page-link" aria-label="Next"

@@ -174,14 +174,20 @@ public class LessonServiceImpl implements LessonService {
 		// TODO 리뷰조회
 		return dao.selectReviewList(lessonNo);
 	}
+
 	@Override
-	public int listCount( ) {
+	public int listCount() {
 		// TODO 갯수 조회
 		return dao.listCount();
 	}
+	@Override
+	public int listReviewCount() {
+		// TODO 갯수 조회
+		return dao.listReviewCount();
+	}
 
 	@Override
-	public int getReviewAvg(int lessonNo) {
+	public Double getReviewAvg(int lessonNo) {
 		// TODO 리뷰평점가져오기
 		return dao.getReviewAvg(lessonNo);
 	}
