@@ -16,10 +16,28 @@
 		<result property="lesson3rd" column="MYCLASS_DATE3"/>
 		<result property="lesson4th" column="MYCLASS_DATE4"/>
 	</resultMap>
+	<resultMap type="LessonVo" id="lessonMap">
+		<result property="lessonNo" column="LESSON_NO" />
+		<result property="lessonName" column="LESSON_NAME" />
+		<result property="lessonInfo" column="LESSON_INFO" />
+		<result property="lessonLevel" column="LESSON_LEVEL" />
+		<result property="lessonType" column="LESSON_TYPE" />
+		<result property="lessonTime" column="LESSON_TIME" />
+		<result property="lessonPrice" column="LESSON_PRICE" />
+		<result property="lessonTotal" column="LESSON_TOTAL" />
+		<result property="tutorId" column="TUTOR_ID" />
+		<result property="lessonSample" column="LESSON_SAMPLE" />
+		<result property="lessonStart" column="LESSON_START" />
+	</resultMap>
+	<resultMap type="java.lang.String" id="String">
+	</resultMap>
 	<select id="selectOne" parameterType="hashmap" resultMap="MyclassMap">
 		SELECT * FROM MYCLASS WHERE LESSON_NO=#{lessonNo} OR (LESSON_NO=#{lessonNo} AND MEMBER_ID=#{memberId})
 	</select>
 	<insert id="insert" parameterType="hashmap">
 		INSERT INTO MYCLASS Values(#{lessonNo},#{memberId},4,4,SYSDATE,#{impUid},#{lesson1st},#{lesson2nd},#{lesson3rd},#{lesson4th})
 	</insert>
+	<select id="selectDay" parameterType="String" resultMap="String">
+		SELECT SUBSTR(LESSON_TIME, 1, 1) FROM LESSON WHERE LESSON_NO = #{lessonNo}
+	</select>
 </mapper>

@@ -1,6 +1,5 @@
 package com.blah.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,10 +49,10 @@ public class PaymentController {
 		logger.info("[payment] checking payment Table");
 		
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("MemberId");	//session의 ID
+		MemberVo vo = (MemberVo)session.getAttribute("login");				//세션
+		String memberId = us.selectMember(vo).getMemberId();
 		
 		String lessonNo = jdata.get("lessonNo");	//넘어온 json data : lessonNo
-		System.out.println("ctrl lessonNo : "+lessonNo);
 		HashMap<String, Object> lessonNoMap = new HashMap<String, Object>();
 		lessonNoMap.put("lessonNo", lessonNo);
 		lessonNoMap.put("memberId", memberId);
@@ -104,14 +103,47 @@ public class PaymentController {
 		model.addAttribute("userName", userName);	
 		model.addAttribute("userEmail", userEmail);	
 		
-		System.out.println("*****************************************************************");
+		return "payment/payment";
+	}
+	
+	/**
+	 * 결제 진행 
+	 * @param HttpSession session
+	 * @param Map<String, String> jdata
+	 * @return Map<String, Boolean> map
+	 * @author star
+	 */
+	@RequestMapping(value = "/blahpay", method=RequestMethod.POST)
+	@ResponseBody									
+	public Map<String, Boolean> payResult(HttpSession session, @RequestBody Map<String, String> jdata) {
+		
+		logger.info("[payment] checking payment info");
+		
+		//넘어온 json data : impUid, paidAmount, lessonNo, userid
+		System.out.println("impUid : "+jdata.get("impUid"));
+		System.out.println("paidAmount : "+jdata.get("paidAmount"));	//lessonNo로 테이블에서 가져온 값과 비교
+		System.out.println("lessonNo : "+jdata.get("lessonNo"));
+		System.out.println("memberId : "+jdata.get("memberId"));			//session의 id 가져와서 비교
+		
+		String impUid = jdata.get("impUid");
+		String lessonNo = jdata.get("lessonNo");
+		String memberId = jdata.get("memberId");
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();	//결제 테이블 재확인
+		selectMap.put("memberId", memberId);
+		selectMap.put("lessonNo", lessonNo);
+		System.out.println("selectMap : "+selectMap);
+
+		HashMap<String, Object> insertMap = new HashMap<String, Object>();	//결제 테이블에 insert
+		insertMap.put("memberId", memberId);
+		insertMap.put("lessonNo", lessonNo);
+		insertMap.put("impUid", impUid);
 		
 		//결제일(오늘) 요일 구하기
 		String[] weekDay = { "일", "월", "화", "수", "목", "금", "토" };
 		Calendar cal = Calendar.getInstance(); 
 		int num = cal.get(Calendar.DAY_OF_WEEK)-1; 
 		String today = weekDay[num]; 
-		System.out.println(num); 
 		System.out.println("오늘의 요일 : " + today ); 
 		
 		//일(1), 월(2), 화(3), 수(4), 목(5), 금(6), 토(7)
@@ -135,7 +167,8 @@ public class PaymentController {
 		}
 		
 		//강의요일
-		String classday = "화";	//lesson테이블에서 lesson_time 가져와서 제일앞 요일 가져오기(매주 무슨 요일 강의?)
+		String classday = ps.selectDay(lessonNo);
+		System.out.println("강의요일 select : "+classday);
 		int classdayint = 0;
 		//강의 요일 번호 classdayint
 		switch(classday) {
@@ -176,10 +209,10 @@ public class PaymentController {
 			Date lesson4th = cal.getTime();
 			System.out.println("강의 4회차 : "+lesson4th);
 			
-			model.addAttribute("lesson1st", lesson1st);	
-			model.addAttribute("lesson2nd", lesson2nd);	
-			model.addAttribute("lesson3rd", lesson3rd);	
-			model.addAttribute("lesson4th", lesson4th);	
+			insertMap.put("lesson1st", lesson1st);
+			insertMap.put("lesson2nd", lesson2nd);
+			insertMap.put("lesson3rd", lesson3rd);
+			insertMap.put("lesson4th", lesson4th);	
 			
 		} else {
 			int minusday = 7 + (classdayint - todayint);
@@ -202,72 +235,17 @@ public class PaymentController {
 			Date lesson4th = cal.getTime();
 			System.out.println("강의 4회차 : "+lesson4th);
 			
-			model.addAttribute("lesson1st", lesson1st);	
-			model.addAttribute("lesson2nd", lesson2nd);	
-			model.addAttribute("lesson3rd", lesson3rd);	
-			model.addAttribute("lesson4th", lesson4th);	
+			insertMap.put("lesson1st", lesson1st);
+			insertMap.put("lesson2nd", lesson2nd);
+			insertMap.put("lesson3rd", lesson3rd);
+			insertMap.put("lesson4th", lesson4th);
 		}
 		
-		System.out.println("*****************************************************************");
-		
-		
-		return "payment/payment";
-	}
-	
-	/**
-	 * 결제 진행 
-	 * @param HttpSession session
-	 * @param Map<String, String> jdata
-	 * @return Map<String, Boolean> map
-	 * @author star
-	 */
-	@RequestMapping(value = "/blahpay", method=RequestMethod.POST)
-	@ResponseBody									
-	public Map<String, Boolean> payResult(HttpSession session, @RequestBody Map<String, String> jdata) {
-		
-		logger.info("[payment] checking payment info");
-		
-		//넘어온 json data : impUid, paidAmount, lessonNo, userid
-		System.out.println("impUid : "+jdata.get("impUid"));
-		System.out.println("paidAmount : "+jdata.get("paidAmount"));	//lessonNo로 테이블에서 가져온 값과 비교
-		System.out.println("lessonNo : "+jdata.get("lessonNo"));
-		System.out.println("memberId : "+jdata.get("memberId"));			//session의 id 가져와서 비교
-		
-		String impUid = jdata.get("impUid");
-		String lessonNo = jdata.get("lessonNo");
-		String memberId = jdata.get("memberId");
-		String lesson1st = jdata.get("lesson1st");
-		String lesson2nd = jdata.get("lesson2nd");
-		String lesson3rd = jdata.get("lesson3rd");
-		String lesson4th = jdata.get("lesson4th");
-		
-		
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();	//결제 테이블 재확인
-		selectMap.put("memberId", memberId);
-		selectMap.put("lessonNo", lessonNo);
-		System.out.println("selectMap : "+selectMap);
-
-		HashMap<String, Object> insertMap = new HashMap<String, Object>();	//결제 테이블에 insert
-		insertMap.put("memberId", memberId);
-		insertMap.put("lessonNo", lessonNo);
-		insertMap.put("impUid", impUid);
-		insertMap.put("lesson1st", lesson1st);
-		insertMap.put("lesson2nd", lesson2nd);
-		insertMap.put("lesson3rd", lesson3rd);
-		insertMap.put("lesson4th", lesson4th);
 		System.out.println("insertMap : "+insertMap);
 		
 		boolean	everythings_fine = false;
 		boolean checkPay = ps.checkPay(selectMap);
 		System.out.println("checkPay : "+checkPay);
-		
-		System.out.println("*****************************************************************");
-		
-		Date today = new Date();
-		System.out.println("today : "+today);
-		
-		
-		System.out.println("*****************************************************************");
 		
 		//결제테이블에 userId, lessonNo 등록되어있는지(둘다 없어야 가능)
 		if(checkPay == true) {
