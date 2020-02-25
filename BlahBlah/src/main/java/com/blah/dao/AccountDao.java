@@ -1,6 +1,5 @@
 package com.blah.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import com.blah.vo.MemberVo;
@@ -16,6 +15,7 @@ public interface AccountDao {
 	
 	Map<String,String> selectSearchId(Map<String,String> map);
 	Map<String,String> selectSearchPw(Map<String,String> map);
+	
 	
 	}
 	
