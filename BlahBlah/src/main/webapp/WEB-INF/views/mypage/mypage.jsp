@@ -22,7 +22,13 @@
 	href="resources/vendors/nice-select/css/nice-select.css" />
 <!-- main css -->
 <link rel="stylesheet" href="resources/css/style.css" />
+<!-- calendar css -->
+<link href='resources/calendar/packages/core/main.css' rel='stylesheet' />
+<link href='resources/calendar/packages/daygrid/main.css' rel='stylesheet' />
+
 <style type="text/css">
+
+
 .lic {
 	display: none;
 }
@@ -139,6 +145,57 @@
 			}
 			
 		}
+	
+	//캘린더 script
+	document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar');
+		    alert(calendarEl);
+		    var date = new Date();
+			var clist = new Array();
+			
+			
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		      plugins: [ 'interaction', 'dayGrid' ],
+		      defaultDate: date,
+		      editable: false,
+		      eventLimit: true, // allow "more" link when too many events
+		      events: [
+
+
+		    	  <c:forEach var = "clist2" items = "${clist}">
+		    	 					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
+					},
+							
+										
+				</c:forEach> 
+
+		      ]
+		    });
+
+		    calendar.render();
+		  });
 </script>
 </head>
 
@@ -337,11 +394,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								<p>
+								
                                      <div class="container">
-                                     	<jsp:include page="../calendar/month-view.jsp" />
+                                     	<div id="calendar"></div>
                                      </div>
-                                </p>
+                               
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -439,18 +496,6 @@
 							</div>
 							<!-- 수강만료된 강의 끝-->
 							<!-- 내강의실 부분 끝 -->
-
-							<div id="my-schedule" class="tab-pane fade">
-								<h2>스케줄</h2>
-								<hr>
-								<p>주로 캘린더로 자주 쓰이는 것 : jquery datepicker</p>
-							</div>
-
-							<div id="my-level" class="tab-pane fade">
-								<h2>레벨테스트</h2>
-								<hr>
-								<p>레벨 테스트를 진행하시겠습니까? or 레벨테스트 결과</p>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -480,5 +525,9 @@
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="resources/js/gmaps.min.js"></script>
 	<script src="resources/js/theme.js"></script>
+	<!-- calendar Js -->
+	<script src='resources/calendar/packages/core/main.js'></script>
+	<script src='resources/calendar/packages/interaction/main.js'></script>
+	<script src='resources/calendar/packages/daygrid/main.js'></script>
 </body>
 </html>
