@@ -1,6 +1,7 @@
 package com.blah.vo;
 
 public class ReviewVo {
+	private int reviewNo;
 	private String memberId;
 	private int lessonNo;
 	private String reviewTitle;

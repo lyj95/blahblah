@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -48,9 +49,9 @@
             <h1 class="title">강의 보기</h1>
             <div class="row">
                 <div class="col-lg-8 course_details_left">
-                    <div class="" style="width: 100%; padding: 20% 39%; background-color: cornflowerblue;">
-                        수업 시간이 아닙니다
-                    </div>
+	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
+		                <iframe src="https://192.168.130.31:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
+	                </div>
                     <div class="content_wrapper">
                         <!-- <h4 class="title">자료실</h4>
                         <div class="content">

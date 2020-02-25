@@ -45,7 +45,6 @@ public class AccountController {
 					.getLogger(AccountController.class);
 	@Autowired
 	private AccountService service;
-	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 

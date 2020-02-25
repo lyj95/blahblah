@@ -25,4 +25,10 @@ public class PaymentServiceImpl implements PaymentService{
 		return dao.insert(insertMap);
 	}
 
+	@Override
+	public String selectDay(String lessonNo) {
+		// TODO Auto-generated method stub
+		return dao.selectDay(lessonNo);
+	}
+
 }

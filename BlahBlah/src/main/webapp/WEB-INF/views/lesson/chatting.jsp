@@ -175,7 +175,8 @@
 				var li=$("<li>");												// li 태그 생성
 				var h=$("<h3>").html(signal.members[i]).css("color","gray");	// 자신
 				if(call_token!=signal.members[i]){								// 상대방
-					h.css("color","green");
+					h.css("color","blue");
+					//h.css("background","transparent");
 					h.click(function(){
 						if(confirm($(this).html()+"과 연결하시겠습니까?")){
 							sendArrived();
@@ -247,8 +248,10 @@
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	width: 160px;
-	height: 120px;
+	/* width: 160px;
+	height: 120px; */
+	height: 35%;
+	border: 2px solid white;
 	background: #333333;
 }
 
@@ -256,14 +259,16 @@
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	width: 1024px;
-	height: 768px;
+	/* width: 1024px;
+	height: 768px; */
+	height: 100%;
+	width: 100%;
 	background: #999999;
 }
 #membercontainer{
 	position: absolute;
 	top:20px;
-	left:70%;
+	/* left:70%; */
 }
 
 #membercontainer>ul{
