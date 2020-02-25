@@ -65,21 +65,15 @@ public class AccountController {
 		
 		MemberVo res = service.login(vo);
 		
-
-		String userID = res.getMemberId();
-		String memberType = res.getMemberType();
-		
 		if(res != null) {
-			session.setAttribute("login", res);
-			session.setAttribute("userID", userID);
-			session.setAttribute("memberType", memberType);
-			check=true;
-
-		}
-
-		if(passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) {		//암호화된 비번이랑 원래 비번이랑 같은지 비교
-			session.setAttribute("login", res);
-			check = true;
+			if(passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) {		//암호화된 비번이랑 원래 비번이랑 같은지 비교
+				String userID = res.getMemberId();
+				String memberType = res.getMemberType();
+				session.setAttribute("login", res);
+				session.setAttribute("userID", userID);
+				session.setAttribute("memberType", memberType);
+				check = true;
+			}
 		}
 		
 		Map<String, Boolean> map = new HashMap<String, Boolean>();

@@ -91,9 +91,11 @@
 				dataType:"json",
 				success:function(msg){
 					if(msg.check == true){
-						alert("비밀번호가 성공적으로 변경되었습니다.");
+						$('#pwchk').val('');
+						alert("비밀번호가 성공적으로 변경되었습니다. \n다시 로그인 해주세요.");
 						location.href="logout";
 					} else{
+						$('#pwchk').val('');
 						alert("현재 비밀번호가 일치하지 않습니다.");
 					}
 				},
@@ -118,23 +120,20 @@
 				type : "POST",
 				url : "deleteMember",
 				data:JSON.stringify(deleteval),
-				contentType:"application/json",
-				dataType:"json",
-				success : function(msg) {
-					if(msg.check == true) {
+				contentType:"application/json; charset=utf-8;",
+				dataType:"text",
+				success : function(data) {
+					 if(data == "true") {
 						alert("회원탈퇴가 성공적으로 처리되었습니다.\n그동안 블라블라를 이용해 주셔서 감사합니다.");
 						location.href="logout";
 					} else{
 						$('#delpw').val('');
 						alert('현재 비밀번호가 일치하지 않습니다.');
-					}
+					} 
 				},
 				 error:function(request,status,error){
-				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-				       },
-
-
-
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				       }
 			});
 			}
 			
@@ -371,13 +370,20 @@
 																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
+																<c:forEach items="${tutorPhotoList }" var="tutor">
+																<c:if test="${myclass.tutorId eq tutor.memberId }">
 																<div
 																	class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="resources/img/courses/author1.png" alt="" /> <span
-																			class="d-inline-block ml-2">${myclass.tutorId }</span>
+																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
+																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
+																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
 																	</div>
 																</div>
+																</c:if>
+																
+																
+																</c:forEach>
 																<br>			
 																<div class="percentage">
 																<h5 class="title">진도율</h5>

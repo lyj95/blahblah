@@ -21,5 +21,6 @@ public interface UserService {
 	public List<MyclassVo> selectProgress(MemberVo vo);
 	public void uploadProfile(HttpServletRequest request, HttpSession session, FilesVo uploadFile, MemberVo vo);
 	public Map<String, Boolean> changePw(MemberVo vo, HashMap<String, String> hmap);
-	public Map<String, Boolean> deleteMember(MemberVo vo, String nowpw);
+	public String deleteMember(MemberVo vo, String nowpw);
+	public List<String> selectTutorPhoto(MemberVo vo);
 }

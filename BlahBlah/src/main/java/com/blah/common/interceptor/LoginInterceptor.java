@@ -41,8 +41,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				|| request.getRequestURI().contains("/findidform")
 				|| request.getRequestURI().contains("/naverLogin")
 				|| request.getRequestURI().contains("/callback")
-				|| request.getRequestURI().contains("/signupform")) {
-
+				|| request.getRequestURI().contains("/signupform")){
 	
 			return true;
 

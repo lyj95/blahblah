@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
+	<script type="text/javascript">
 
+</script>
    <!--================ Start Header Menu Area =================-->
     <header class="header_area white-header">
       <div class="main_menu">
@@ -65,7 +67,7 @@
               id="navbarSupportedContent"
             >
               <ul class="nav navbar-nav menu_nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="main">Home</a>
                 </li>
                 <li class="nav-item">
@@ -94,8 +96,9 @@
                   </ul>
                 </li>                
                 	<%
-	                  	// 로그인 안되어있을 경우
-	                  	if(request.getSession().getAttribute("login") == null ) {
+                	// 로그인 안되어있을 경우
+                  	if(request.getSession().getAttribute("login") == null ) {
+                	
             		%>
             			<li class="nav-item">
             					<a class="nav-link" href="signupform">SignUp</a>

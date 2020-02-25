@@ -74,7 +74,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <div class="banner_content text-center">
-              <h2>NOTICE</h2>s
+              <h2>NOTICE</h2>
               <div class="page_link">
                 <p>공지사항</p>
               </div>

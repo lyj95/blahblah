@@ -37,6 +37,7 @@ DROP SEQUENCE lesson_seq;
 DROP SEQUENCE notice_seq;
 DROP SEQUENCE qna_seq;
 DROP SEQUENCE member_seq;
+DROP SEQUENCE review_seq
 -- 시퀀스 생성
 CREATE SEQUENCE member_seq
   START WITH 1
@@ -63,6 +64,13 @@ CREATE SEQUENCE qna_seq
   MAXVALUE 10000
   MINVALUE 1
   NOCYCLE;
+  
+CREATE SEQUENCE review_seq
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 10000
+  MINVALUE 1
+  NOCYCLE;  
 -- 테이블 생성
 CREATE TABLE member (
 	member_id	varchar2(100)	PRIMARY KEY,
@@ -130,6 +138,7 @@ CREATE TABLE qna (
     
 );
 CREATE TABLE review (
+	review_seq number PRIMARY KEY,
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL,
 	review_title	varchar2(500)	NOT NULL,
@@ -168,10 +177,10 @@ ALTER TABLE payment ADD CONSTRAINT PK_PAYMENT PRIMARY KEY (
 	lesson_no
 );
 
-ALTER TABLE review ADD CONSTRAINT PK_REVIEW PRIMARY KEY (
-	member_id,
-	lesson_no
-);
+--ALTER TABLE review ADD CONSTRAINT PK_REVIEW PRIMARY KEY (
+--	member_id,
+--	lesson_no
+--);
 ALTER TABLE calendar ADD CONSTRAINT PK_CALENDAR PRIMARY KEY (
 	calendar_date,
 	member_id
