@@ -43,7 +43,7 @@
                   	블라블라
                 </h2>
                 <div>
-                  <a href="#" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
+                  <a href="courseList?page=1&perPageNum=6" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
                   <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:15px;">레벨 테스트</a>
                 </div>
               </div>
@@ -428,6 +428,22 @@
         </div>
       </div>
     </div>
+    
+    <!-- ================================= 챗봇 ======================================= -->
+    <div id="frogue-container" class="position-right-bottom"
+      data-chatbot="2864ec5a-3099-4752-8fa4-45df068b6e4e"></div>
+      
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed'));
+	</script>
+	<!-- ================================= 챗봇 ======================================= -->
+	
     <!--================ End Testimonial Area =================-->
 
     <!--================ Start footer Area  =================-->

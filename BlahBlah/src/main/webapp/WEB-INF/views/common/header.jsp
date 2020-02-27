@@ -98,7 +98,7 @@
                 </li>                
                 	<%
 	                  	// 로그인 안되어있을 경우
-	                  	if(request.getSession().getAttribute("login") == null ) {            
+	                  	if(request.getSession().getAttribute("login") == null ) { 
             		%>
             			<li class="nav-item">
             					<a class="nav-link" href="signupform">SignUp</a>

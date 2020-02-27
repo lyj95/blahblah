@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.common.validate.FileValidate;
+import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
 import com.blah.vo.FilesVo;
 import com.blah.vo.MemberVo;
@@ -29,6 +30,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	@Autowired
+	private ScheduleService sservice;
 	
 	
 	@RequestMapping(value = "/mypage")
@@ -44,6 +47,8 @@ public class UserController {
 		mav.addObject("closedmyclassList", service.selectClosedMyClass(vo));
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
+		mav.addObject("clist", sservice.selectCalendar(memberId));
+		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		
 		return mav;
 	}
@@ -84,14 +89,13 @@ public class UserController {
 //	}
 	@RequestMapping(value = "/deleteMember",produces = "application/text; charset=utf8")
 	@ResponseBody
-	public Map<String, Boolean> deleteUser(HttpSession session, @RequestBody Map<String, String> deleteval) {
+	public String deleteUser(HttpSession session, @RequestBody Map<String, String> deleteval) {
 		logger.info("deleteMember");
 		MemberVo vo = (MemberVo)session.getAttribute("login");
-		System.out.println(vo +",,,,"+deleteval.get("delpw"));
 		
-		Map<String, Boolean> map = service.deleteMember(vo, deleteval.get("delpw")); 
-		System.out.println("map : "+map);
-		return map;
+		String res = service.deleteMember(vo, deleteval.get("delpw")); 
+		System.out.println(res);
+		return res;
 	}
 	
 	@RequestMapping(value = "/lessonRoom")

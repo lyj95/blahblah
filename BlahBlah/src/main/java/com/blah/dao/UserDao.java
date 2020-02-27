@@ -15,4 +15,5 @@ public interface UserDao {
 	public int updateProfile(MemberVo vo);
 	public int updatePassword(MemberVo vo);
 	public int deleteMember(MemberVo vo);
+	public List<String> selectTutorPhoto(MemberVo vo);
 }

@@ -24,6 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if (request.getRequestURI().contains("/login")
 				|| request.getRequestURI().contains("/ajaxlogin")
 				|| request.getRequestURI().contains("/main")
+				|| request.getRequestURI().contains("/lessonRoom")		// 테스트용
 				|| request.getRequestURI().contains("/signup")
 				|| request.getRequestURI().contains("/courseList")
 				|| request.getRequestURI().contains("/notice")
@@ -41,8 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				|| request.getRequestURI().contains("/findidform")
 				|| request.getRequestURI().contains("/naverLogin")
 				|| request.getRequestURI().contains("/callback")
-				|| request.getRequestURI().contains("/signupform")) {
-
+				|| request.getRequestURI().contains("/signupform")){
 	
 			return true;
 
