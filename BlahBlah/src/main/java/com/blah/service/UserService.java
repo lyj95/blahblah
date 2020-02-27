@@ -23,4 +23,5 @@ public interface UserService {
 	public Map<String, Boolean> changePw(MemberVo vo, HashMap<String, String> hmap);
 	public String deleteMember(MemberVo vo, String nowpw);
 	public List<String> selectTutorPhoto(MemberVo vo);
+
 }

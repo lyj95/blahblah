@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.common.validate.FileValidate;
+import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
 import com.blah.vo.FilesVo;
 import com.blah.vo.MemberVo;
@@ -29,6 +30,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	@Autowired
+	private ScheduleService sservice;
 	
 	
 	@RequestMapping(value = "/mypage")
@@ -44,6 +47,7 @@ public class UserController {
 		mav.addObject("closedmyclassList", service.selectClosedMyClass(vo));
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
+		mav.addObject("clist", sservice.selectCalendar(memberId));
 		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		
 		return mav;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
 import com.blah.vo.LessonVo;
+import com.blah.vo.MemberVo;
 import com.blah.vo.PageMakerVo;
 import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
@@ -35,25 +37,42 @@ public class LessonController {
 	@Autowired
 	private LessonService service;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/courseList")
 	public ModelAndView list(PagingVo page) { 
-		logger.info("[course]Select List"); //log에 info 찍어주는 것
+		logger.info("[course]Select List"); 
 		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.selectList(page));
 		
 		page.setPerPageNum(6);
+		
 		PageMakerVo pageMaker = new PageMakerVo();
 		pageMaker.setPageVo(page);
 		pageMaker.setDisplayPageNum(6);
 		pageMaker.setTotalCount(service.listCount());
 		
+		mav.addObject("list", service.selectList(page));
 		mav.addObject("pageMaker", pageMaker);
-		
+		mav.addObject("orderby", 1);
 		
 		return mav; //강의 전체목록 조회
+	}
+
+	@RequestMapping(value = "/courseOrderByReview")
+	public ModelAndView orderByRiview(PagingVo page) {
+		logger.info("[course] orderByRiview"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+
+		page.setPerPageNum(6);
+		
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(6);
+		pageMaker.setTotalCount(service.listCount());
+
+		mav.addObject("list", service.orderByRiview(page));		
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("orderby", 2);
+
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/SearchKeywordCourse")
@@ -62,7 +81,7 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchKeyword(keyword));
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/courseTypeLICENSE")
@@ -71,7 +90,7 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchLICENSE());
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/courseTypeSPEAKING")
@@ -80,7 +99,7 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchSPEAKING());
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/searchHighLevel")
@@ -89,7 +108,7 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchHighLevel());
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/searchMidLevel")
@@ -98,7 +117,7 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchMidLevel());
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/searchLowLevel")
@@ -107,24 +126,24 @@ public class LessonController {
 		ModelAndView mav = new ModelAndView("lesson/course");
 		mav.addObject("list", service.searchLowLevel());
 		
-		return mav; //강의 검색된 목록 조회
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/courseDetail")
 	public ModelAndView detail(Model model, int lessonNo) {
-		logger.info("[course]Select One"); //log에 info 찍어주는 것
+		logger.info("[course]Select One"); 
 		ModelAndView mav = new ModelAndView("lesson/courseDetail");
+	
 		mav.addObject("vo", service.selectOne(lessonNo));
-		mav.addObject("reviewAvg",service.getReviewAvg(lessonNo));
+		mav.addObject("reviewAvg",service.getReviewAvg(lessonNo));	
 		
-		
-		return mav; //강의 디테일로
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/insertCourseForm")
 	public String insertForm() {
-		logger.info("[course]insertFrom"); //log에 info 찍어주는 것		
-		return "lesson/courseWriting"; //강의글 작성화면으로 
+		logger.info("[course]insertFrom"); 	
+		return "lesson/courseWriting"; 
 	}
 	
 	
@@ -136,7 +155,7 @@ public class LessonController {
 		
 		if (res > 0) {
 			logger.info("[course]insert success");
-			return "redirect:courseList";
+			return "redirect:courseList?page=1&perPageNum=6";
 		} else {
 			logger.info("[course]insert fail....");
 			return "redirect:insertCourseForm";
@@ -173,7 +192,7 @@ public class LessonController {
 		int res = service.delete(lessonNo);
 		if(res>0) {
 			logger.info("delete success");
-			return "redirect:courseList";
+			return "redirect:courseList?page=1&perPageNum=6";
 		}else {
 			logger.info("delete fail....");
 			return "redirect:courseDetail?lessonNo="+lessonNo;
@@ -227,22 +246,18 @@ public class LessonController {
 		 return map;	
 		 
 	 }
+	@RequestMapping(value="deleteReview")
+	public String deleteReview(int reviewNo, int lessonNo) {
+		logger.info("[course]deleteReview");	
+		int res = service.deleteReview(reviewNo);
+		if(res>0) {
+			logger.info("delete success");
+			return "redirect:courseDetail?lessonNo="+lessonNo;
+		}else {
+			logger.info("delete fail....");
+			return "redirect:courseDetail?lessonNo="+lessonNo;
+		}
+	}
 	 
 
-	@RequestMapping(value = "/courseOrderByReview")
-	public ModelAndView orderByRiview(PagingVo page) {
-		logger.info("[course] orderByRiview"); // log에 info 찍어주는 것
-		ModelAndView mav = new ModelAndView("lesson/course");
-
-		page.setPerPageNum(6);
-		PageMakerVo pageMaker = new PageMakerVo();
-		pageMaker.setPageVo(page);
-		pageMaker.setDisplayPageNum(6);
-		pageMaker.setTotalCount(service.listReviewCount());
-
-		mav.addObject("list", service.orderByRiview(page));
-		mav.addObject("pageMaker", pageMaker);
-
-		return mav; 
-	}
 }
