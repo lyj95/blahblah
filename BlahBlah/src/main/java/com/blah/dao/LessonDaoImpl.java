@@ -28,23 +28,32 @@ public class LessonDaoImpl implements LessonDao {
 		}
 		return res;
 	}
-	@Override
-	public int getLastLessonSeq(){
-		int res=0;
-		try {
-			res= sqlSession.selectOne(namespace+"getLastLessonSeq");
-		}catch(Exception e) {
-			System.out.println("[error] : getLastLessonSeq");
-			e.printStackTrace();
-		}
-		return res;		
-	}
 
 	@Override
 	public List<LessonVo> selectList(PagingVo page) {
 		List<LessonVo> list = new ArrayList<LessonVo>();
 		try {
+			
 			list = sqlSession.selectList(namespace+"selectList", page);		
+		}catch(Exception e) {
+			System.out.println("[error] : selectList ");
+			e.printStackTrace();
+		}	
+		return list;
+	}
+	
+	@Override
+	public List<LessonVo> orderByRiview(PagingVo page) {
+		
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		
+		try {
+			System.out.println(page.getRowStart()+"/n"+page.getRowEnd());
+			
+			list = sqlSession.selectList(namespace+"orderByRiview", page);	
+			for(LessonVo vo : list) {
+				System.out.println("dao 순서대로 담긴 글 : "+vo);
+			}
 		}catch(Exception e) {
 			System.out.println("[error] : selectList ");
 			e.printStackTrace();
@@ -162,19 +171,6 @@ public class LessonDaoImpl implements LessonDao {
 	}
 
 	@Override
-	public int addReview(ReviewVo vo) {
-		int res=0;
-		System.out.println(vo);
-		try {
-			res= sqlSession.insert(namespace+"addReview", vo);
-		}catch(Exception e) {
-			System.out.println("[error] : addReview ");
-			e.printStackTrace();
-		}
-		return res;
-	}
-
-	@Override
 	public List<ReviewVo> selectReviewList(int lessonNo) {
 
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
@@ -189,19 +185,18 @@ public class LessonDaoImpl implements LessonDao {
 	}
 	
 	@Override
-	public int listCount() {
-		
-		int res = 0;
-		
+	public int addReview(ReviewVo vo) {
+		int res=0;
+		System.out.println(vo);
 		try {
-			res = sqlSession.selectOne(namespace+"listCount");
-		} catch (Exception e) {
-			System.out.println("[error] : Course list count");
+			res= sqlSession.insert(namespace+"addReview", vo);
+		}catch(Exception e) {
+			System.out.println("[error] : addReview ");
 			e.printStackTrace();
 		}
-		
 		return res;
 	}
+	
 	@Override
 	public int listReviewCount() {
 		
@@ -216,6 +211,7 @@ public class LessonDaoImpl implements LessonDao {
 		
 		return res;
 	}
+
 	@Override
 	public Double getReviewAvg(int lessonNo) {
 		Double reviewAvg = 0.0;
@@ -238,21 +234,44 @@ public class LessonDaoImpl implements LessonDao {
 		
 		return reviewAvg;
 	}
+
+	@Override //리뷰삭제
+	public int deleteReview(int reviewNo) {
+		int res=0;
+		try {
+			res=sqlSession.update(namespace+"deleteReview", reviewNo);
+		}catch(Exception e) {
+			System.out.println("[error] : deleteReview ");
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	@Override
-	public List<LessonVo> orderByRiview(PagingVo page) {//수정예정
+	public int getLastLessonSeq(){
+		int res=0;
+		try {
+			res= sqlSession.selectOne(namespace+"getLastLessonSeq");
+		}catch(Exception e) {
+			System.out.println("[error] : getLastLessonSeq");
+			e.printStackTrace();
+		}
+		return res;		
+	}
+	
+	@Override
+	public int listCount() {
 		
-		List<LessonVo> list = new ArrayList<LessonVo>();
+		int res = 0;
 		
 		try {
-			list = sqlSession.selectList(namespace+"orderByRiview", page);	
-			for(LessonVo vo : list) {
-				System.out.println("dao 순서대로 담긴 글 : "+vo);
-			}
-		}catch(Exception e) {
-			System.out.println("[error] : selectList ");
+			res = sqlSession.selectOne(namespace+"listCount");
+		} catch (Exception e) {
+			System.out.println("[error] : Course list count");
 			e.printStackTrace();
-		}	
-		return list;
+		}
+		
+		return res;
 	}
-
+	
 }

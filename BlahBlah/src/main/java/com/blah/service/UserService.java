@@ -22,4 +22,5 @@ public interface UserService {
 	public void uploadProfile(HttpServletRequest request, HttpSession session, FilesVo uploadFile, MemberVo vo);
 	public Map<String, Boolean> changePw(MemberVo vo, HashMap<String, String> hmap);
 	public Map<String, Boolean> deleteMember(MemberVo vo, String nowpw);
+
 }

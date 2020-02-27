@@ -76,4 +76,11 @@ public class PageMakerVo {
 		   
 		return uriComponents.toUriString();
 	}
+
+	@Override
+	public String toString() {
+		return "PageMakerVo [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
+				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", pageVo=" + pageVo + "]";
+	}
+	
 }

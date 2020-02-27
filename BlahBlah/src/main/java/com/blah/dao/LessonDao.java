@@ -28,6 +28,7 @@ public interface LessonDao {
 	Double getReviewAvg(int lessonNo);
 	List<LessonVo> orderByRiview(PagingVo page);
 	int listReviewCount();
+	int deleteReview(int reviewNo);
 
 	
 
