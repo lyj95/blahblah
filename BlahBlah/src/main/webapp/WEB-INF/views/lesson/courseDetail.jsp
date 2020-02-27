@@ -146,7 +146,7 @@
                            <form id="reviewForm" name="reviewForm" method="post"></form>
                               <div class="d-flex flex-row reviews justify-content-between">
                               <input type="hidden" name="lessonVo" value="${vo.lessonNo}"> <!--강의번호  -->
-                              <input type="hidden" name="memberId" value="tu123"> <!-- 세션에 있는  아이디 갖고오는걸로 수정  -->
+                              <input type="hidden" name="memberId" value="${vo.tutorId}"> <!-- 세션에 있는  아이디 갖고오는걸로 수정  -->
 								<!-- 평점 선택창 -->
 								<span>평점</span>
 								<div class="default-select" id="reviewGrade">
@@ -172,15 +172,7 @@
                         <div class="review-top row pt-40">
                             <div class="col-lg-12">
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                <div id="reviewAvg"></div>
-<!--                                    <h5>평균 평점 &nbsp;${reviewAvg }</h5>
-                                     <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>  -->                          
+                                <div id="reviewAvg"></div>                          
                                 </div>
                             </div>
                         </div>
@@ -191,23 +183,21 @@
 							<div id="reviewList"></div>
 						</div>
 
-  				<!-- ------------- 강의리뷰 반복되는 부분 종료 ------------ -->
-						
-							<a href="courseList"
+  				<!-- ------------- 강의리뷰 반복되는 부분 종료 ------------ -->				
+						<a href="courseList"
 								class="primary-btn2 text-uppercase enroll rounded-0 text-white">강의목록</a>
-							<div class="row" style="padding: 2.5%;"></div>
+						<div class="row" style="padding: 2.5%;"></div>
+						<c:if test="${userID eq vo.tutorId}">
 							<div class="row">
 								<div class="col">
-									<button type="button" class="genric-btn info "
-										style="width: 45%;"
+									<button type="button" class="genric-btn info "style="width: 45%;"
 										onclick="location.href='updateCourseForm?lessonNo=${vo.lessonNo}'">수정</button>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<button type="button" class="genric-btn info "
-										style="width: 45%;"
+									<button type="button" class="genric-btn info " style="width: 45%;"
 										onclick="location.href='deleteCourse?lessonNo=${vo.lessonNo}'">삭제</button>
 								</div>
 							</div>
-
+						</c:if>
 						</div>
 					</div>
                 </div>
@@ -246,7 +236,7 @@ function reviewsubmit(){
 	
 	 var reviewContent = $("#reviewContent").val(); //댓글의 내용
      var lessonNo = "${vo.lessonNo}"; //강의번호
-     var memberId = "tu123";
+     var memberId = "${userID}";
      var reviewGrade = $("#reviewGrade option:selected").val();
      var params = {
     		 "reviewContent" : reviewContent, 
@@ -284,6 +274,7 @@ function getCommentList(){
 	        dataType : "json",
 	        success : function(data){
 	        	var res = data.reviewlist;
+	        	var memberId = "${userID}";
 	            var html = "";
 	            $.each(res, function(i){ 
 
@@ -295,7 +286,7 @@ function getCommentList(){
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
 	                    html += "<img src='resources/img/blog/c1.jpg' alt=''></div><div class='desc'>";  //1.프로필사진 링크 넣기
-	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //1.작성자 아이디
+	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //2.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
 						var grade=res[i].reviewGrade;
@@ -306,11 +297,14 @@ function getCommentList(){
 		                	}else{
 		                		html += "<span class='ti-star checked'></span> ";
 		                	}
-		                }                               
+		                } 
 	                    html += "</div></h5>";	                
 	                    html += "<p class='reviewDate'>"+res[i].reviewDate+"</p>";
-	                    html += "<p class='reviewDate'>"+res[i].reviewContent+"</p>";
-	                    html += "</div></div></div></div>";
+	                    html += "<p class='reviewDate'>"+res[i].reviewContent+"&nbsp; &nbsp;";
+	                    if(res[i].memberId == memberId){
+	                    html += "<a href='deleteReview?reviewNo="+res[i].reviewNo+"&lessonNo="+res[i].lessonNo+"';'><img src='resources/img/delete.png' width='12%'alt=''></a>";
+	                    }
+	                    html += "</p></div></div></div></div>";
 	            });
        
             	$("#reviewList").html(html); //페이지에 목록 출력      

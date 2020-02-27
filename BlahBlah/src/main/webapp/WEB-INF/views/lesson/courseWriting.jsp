@@ -58,6 +58,7 @@
 					<label for="lessonName" class="col-sm-2 col-form-label">강의명</label>
 					<div class="col-sm-6 lg-6">
 						<input type="text" class="form-control" id="lessonName" name="lessonName" placeholder="강의명을 입력하세요" required>
+						<input type="hidden" name="tutorId" value="${userID}">
 					</div>
 				</div>
 				<div class="form-group row">

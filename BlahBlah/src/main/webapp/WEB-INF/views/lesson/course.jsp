@@ -136,6 +136,7 @@
 				<!-- ------------- 강의목록 반복되는 부분 끝 ------------- -->
 
 			</div>
+			<c:if test="${orderby eq 1}">
 				<nav class="blog-pagination justify-content-center d-flex"
 					style="padding: 2.5% 0;">
 					<ul class="pagination">
@@ -160,11 +161,39 @@
 									<span aria-hidden="true"> <i class="ti-angle-right"></i>
 								</span>
 							</a></li>
-
 						</c:if>
 					</ul>
 				</nav>
-
+			</c:if>
+			<c:if test="${orderby eq 2}">
+				<nav class="blog-pagination justify-content-center d-flex"
+					style="padding: 2.5% 0;">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="page-item"><a
+								href="javascript:courseOrderByReview${pageMaker.makeQuery(pageMaker.startPage -1 )}"
+								class="page-link" aria-label="Previous"> <span
+									aria-hidden="true"> <i class="ti-angle-left"></i>
+								</span>
+							</a></li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
+						<c:if test="${i>0}">
+							<li class="page-item"><a
+								href="courseOrderByReview${pageMaker.makeQuery(i)}" class="page-link">${i}</a>
+							</li>
+						</c:if>
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
+							<li><a class="page-link" aria-label="Next"
+								href="javascript:courseOrderByReview${pageMaker.makeQuery(pageMaker.endPage +1 )}">
+									<span aria-hidden="true"> <i class="ti-angle-right"></i>
+								</span>
+							</a></li>
+						</c:if>
+					</ul>
+				</nav>
+			</c:if>
 
 			<div class="row" style="padding: 2%"></div>
 			<div class="col-md-12 text-right">

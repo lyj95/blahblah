@@ -43,7 +43,7 @@
                   	블라블라
                 </h2>
                 <div>
-                  <a href="#" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
+                  <a href="courseList?page=1&perPageNum=6" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
                   <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:15px;">레벨 테스트</a>
                 </div>
               </div>

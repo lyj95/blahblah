@@ -110,5 +110,18 @@ public class UserDaoImpl implements UserDao{
 		return res;
 	}
 
+	@Override
+	public List<String> selectTutorPhoto(MemberVo vo) {
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "selectTutorPhoto", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : selectTutorPhoto");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 
 }

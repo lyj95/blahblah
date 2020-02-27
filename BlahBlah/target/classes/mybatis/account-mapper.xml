@@ -21,9 +21,34 @@
 		WHERE MEMBER_ID = #{memberId} AND MEMBER_ENABLED = 'Y'
 </select>
 
+<insert id="sign" parameterType="memberVo" >
+		INSERT INTO MEMBER 
+		VALUES(#{memberId},#{memberPw},#{memberType},#{memberName},#{memberEmail},null,null,'Y')
 	
-	
+</insert>
 
+<select id="checkApiId" parameterType="memberVo" resultMap="memberMap" >
+	SELECT * 
+	FROM MEMBER
+	WHERE MEMBER_ID = #{memberId}
+</select>	
+	
+<insert id="insertApiMember"  parameterType="memberVo" >
+	INSERT INTO MEMBER 
+	VALUES(#{memberId},#{memberPw},#{memberType},#{memberName},#{memberEmail},null,null,#{memberEnabled})
+</insert>	
+
+
+<select id="selectEmail" resultType="map">
+	SELECT MEMBER_EMAIL
+	FROM MEMBER 
+	WHERE MEMBER_ID=#{memberId}
+</select>
+
+	<update id="updatePwd" parameterType="MemberVo">
+		UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 
 </mapper>
 
