@@ -113,7 +113,7 @@
            					<a class="nav-link" href="mypage">My Page</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="main">Sign-Out</a>
+           					<a class="nav-link" href="logout">Logout</a>
            				</li>
                      <%
                         }

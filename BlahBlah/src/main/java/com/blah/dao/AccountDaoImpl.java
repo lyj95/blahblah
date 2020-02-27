@@ -37,9 +37,9 @@ public class AccountDaoImpl implements AccountDao {
 	public int signup(MemberVo vo) {
 		int res = 0;
 		try {
-			res = sqlSession.insert(NAMESPACE2+"sign",vo);
+			res = sqlSession.insert(NAMESPACE+"sign",vo);
 		}catch (Exception e) {
-			System.out.println("[error] : insert");
+			System.out.println("[error] : sign");
 			e.printStackTrace();
 		}
 		return res;
@@ -50,17 +50,55 @@ public class AccountDaoImpl implements AccountDao {
 		return sqlSession.selectOne(NAMESPACE2+"findId",map);
 		}
 
+
 	@Override
-	public Map<String, String> selectSearchPw(Map<String, String> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(NAMESPACE2+"findPw",map);
+	public MemberVo checkApiId(String memberId) {
+		MemberVo res = null;
+		try {
+			res = sqlSession.selectOne(NAMESPACE+"checkApiId",memberId);
+		}catch (Exception e) {
+			System.out.println("[error] : checkApiId");
+			e.printStackTrace();
+		}
+		
+		return res;	
 	}
 
+	@Override
+	public int insertApiMember(MemberVo vo) {
+		int res = 0;
+		try {
+			res = sqlSession.insert(NAMESPACE+"insertApiMember",vo);
+		}catch (Exception e) {
+			System.out.println("[error] : insertApiMember");
+			e.printStackTrace();
+		}
+		return res;
+	}
 
-	
-	
+	@Override
+	public Map<String, String> selectEmail(String memberId) {
+		Map<String, String> res = null;
+		try {
+			res = sqlSession.selectOne(NAMESPACE+"selectEmail",memberId);
+		}catch (Exception e) {
+			System.out.println("[error] : selectEmail");
+			e.printStackTrace();
+		}
+		return res;
+	}
 
-
+	@Override
+	public int updatePwd(MemberVo vo) {
+		int res = 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"updatePwd",vo);
+		}catch (Exception e) {
+			System.out.println("[error] : updatePwd");
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 }
 

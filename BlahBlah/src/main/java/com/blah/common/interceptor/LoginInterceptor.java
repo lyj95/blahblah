@@ -40,9 +40,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 				|| request.getRequestURI().contains("/idchk")
 				|| request.getRequestURI().contains("/findpwform")
 				|| request.getRequestURI().contains("/findidform")
+				|| request.getRequestURI().contains("/signupform")
 				|| request.getRequestURI().contains("/naverLogin")
 				|| request.getRequestURI().contains("/callback")
-				|| request.getRequestURI().contains("/signupform")){
+				|| request.getRequestURI().contains("/kakaoLogin")){
 	
 			return true;
 
