@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -27,7 +27,7 @@
 
   <body>
     <script> 
-        // textarea 크기 자동 조절
+    	// textarea 크기 자동 조절
         function resize(obj) {
           obj.style.height = "1px";
           obj.style.height = (12+obj.scrollHeight)+"px";
@@ -38,7 +38,8 @@
 		window.open('dictionary', '사전', 'top=150, left=1000, width=320px, height=250px, status=no, menubar=no, toolbar=no, resizable=no');
 
    }
-    </script>  
+    </script>
+
    <!--================ Start Header Menu Area =================-->
    <jsp:include page="../common/menu-header.jsp" />
   <!--================ End Header Menu Area =================-->
@@ -50,7 +51,15 @@
             <div class="row">
                 <div class="col-lg-8 course_details_left">
 	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
-		                <iframe src="https://192.168.130.31:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
+	                <c:choose>
+		                <c:when test="${lesson['classDay'] eq true}">
+		                	<iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
+			                <%-- <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
+		                </c:when>
+		                <c:otherwise>
+		                	수업 날짜가 아닙니다.
+		                </c:otherwise>
+	                </c:choose>
 	                </div>
                     <div class="content_wrapper">
                         <!-- <h4 class="title">자료실</h4>
@@ -92,19 +101,19 @@
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Course Name </p>
-                                <span class="or">기초 회화 수업</span>
+                                <span class="or">${lesson["LESSON_NAME"]}</span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Trainer’s Name</p>
-                                <span class="or">George Mathews</span>
+                                <span class="or">${lesson["TUTOR_ID"]}</span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Level </p>
-                                <span class="genric-btn primary small">normal</span>
+                                <span class="genric-btn primary small">${lesson["LESSON_LEVEL"]}</span>
                             </a>
                         </li>
                     </ul>
@@ -161,5 +170,18 @@
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
           <script src="resources/js/gmaps.min.js"></script>
           <script src="resources/js/theme.js"></script>
+          <script type="text/javascript">
+          	  window.onbeforeunload = function() {
+        		 return "이 페이지를 나가면 종료합니다.";
+    	      }
+          	  $(document).ready(function(){
+          		 var test = ${lesson["flag"]};
+          		 console.log(test);
+          		 if(!${lesson["flag"]}){
+          			 alert("강의 대상자가 아닙니다! 레슨룸을 나갑니다.");
+          			 location.href="mypage";
+          		 }
+          	  });
+          </script>
         </body>
 </html>

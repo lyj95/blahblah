@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,6 +160,34 @@ public class UserServiceImpl implements UserService {
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("check", check);
 		
+		return map;
+	}
+	
+	@Override
+	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
+		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	// lesson & myClass join 한 정보 출력
+//		for(Object key : map.keySet()) {
+//			System.out.println(key+" : "+map.get(key));
+//		}
+		// 기본값 false로 세팅
+		map.put("flag", false);
+		map.put("classDay",false);
+		
+		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
+			map.put("flag", true);		// session 정보와 비교
+		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
+		String today = format.format(new Date());							// 오늘 날짜 String Type
+		
+		int classCnt = 4;						// 수업 횟수  FIXME 리터럴로 적는게 아닌 DB에서 받아올 수 있는 값 생각해보기
+		for(int i=1; i<=classCnt; i++) {
+			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
+			if(today.compareTo(format.format(compareDay)) == 0) {
+				map.put("classDay",true);		// DB 날짜와 오늘 날짜가 같으면 수업날짜를 true로 출력
+				break;
+			}
+		}
 		return map;
 	}
 }

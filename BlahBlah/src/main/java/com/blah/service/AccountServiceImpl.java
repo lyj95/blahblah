@@ -1,10 +1,7 @@
 package com.blah.service;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +22,10 @@ public class AccountServiceImpl implements AccountService {
 		return dao.login(vo);
 	}
 
-
 	@Override
 	public int signup(MemberVo vo) {
 		return dao.signup(vo);
 	}
-
 	@Override
 	public String idchk(String memberId) throws Exception {
 		

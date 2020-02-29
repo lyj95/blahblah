@@ -1,5 +1,6 @@
 package com.blah.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.blah.vo.LessonVo;
@@ -15,4 +16,7 @@ public interface UserDao {
 	public int updateProfile(MemberVo vo);
 	public int updatePassword(MemberVo vo);
 	public int deleteMember(MemberVo vo);
+	public LessonVo getLessonInfo1(int lessonNo);
+	public MyclassVo getClassInfo(int lessonNo);
+	public HashMap<String, Object> getLessonInfo(int lessonNo);
 }

@@ -25,6 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				|| request.getRequestURI().contains("/ajaxlogin")
 				|| request.getRequestURI().contains("/main")
 				|| request.getRequestURI().contains("/lessonRoom")		// 테스트용
+				|| request.getRequestURI().contains("/chatting")
 				|| request.getRequestURI().contains("/signup")
 				|| request.getRequestURI().contains("/courseList")
 				|| request.getRequestURI().contains("/notice")

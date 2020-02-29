@@ -36,14 +36,15 @@ public class LogFilter implements Filter  {
 		String agent =  req.getHeader("User-Agent");
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("remoteAddr: " + remoteAddr+"\n")
-			.append("uri: " +uri+"\n")
-			.append("url: " +url+"\n")
-			.append("queryString: " + queryString + "\n")
-			.append("referer: "+refere+"\n")
-			.append("agent: " + agent);
+//		sb.append("remoteAddr: " + remoteAddr+"\n")
+//			.append("uri: " +uri+"\n")
+//			.append("url: " +url+"\n")
+//			.append("queryString: " + queryString + "\n")
+//			.append("referer: "+refere+"\n")
+//			.append("agent: " + agent);
 		
-		logger.info("[[[ LOG FILTER ]]]\n"+sb);
+		
+//		logger.info("[[[ LOG FILTER ]]]\n"+sb);
 		
 		chain.doFilter(req, response);
 		

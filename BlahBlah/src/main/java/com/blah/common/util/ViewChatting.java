@@ -23,7 +23,7 @@ public class ViewChatting extends BinaryWebSocketHandler{
 	//websocket에 접속한 session 관리하기!
 	private static Map<String,WebSocketSession> clients=new HashMap();
 	public ViewChatting() {
-		System.out.println("웹소켓 서버를 위한 빈 생성");
+		// System.out.println("웹소켓 서버를 위한 빈 생성");
 	}
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) {
