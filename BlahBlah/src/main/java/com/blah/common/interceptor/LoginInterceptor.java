@@ -52,7 +52,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 			|| request.getRequestURI().contains("/findID")
 			|| request.getRequestURI().contains("/naverLogin")
 			|| request.getRequestURI().contains("/callback")
-			
+			|| request.getRequestURI().contains("/notice")
+			|| request.getRequestURI().contains("/noticeDetail")
+			|| request.getRequestURI().contains("/noticeOrderByNoticeView")
+			|| request.getRequestURI().contains("/searchByTitle")
+			|| request.getRequestURI().contains("/searchByContent")
+			|| request.getRequestURI().contains("/qna")
+			|| request.getRequestURI().contains("/qnaDetail")
+			|| request.getRequestURI().contains("/openLockedQnaDetail")
+			|| request.getRequestURI().contains("/searchByQnaTitle")
+			|| request.getRequestURI().contains("/searchByQnaContent")
 				) {
 			return true;
 
