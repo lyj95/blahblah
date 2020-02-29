@@ -21,27 +21,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 		logger.info("[interceptor] : preHandle");
 		System.out.println("인터셉터 실행!!!!!!");
 
-		if (request.getRequestURI().contains("/login")
-				|| request.getRequestURI().contains("/ajaxlogin")
-				|| request.getRequestURI().contains("/main")
-				|| request.getRequestURI().contains("/lessonRoom")		// 테스트용
-				|| request.getRequestURI().contains("/chatting")
-				|| request.getRequestURI().contains("/signup")
-				|| request.getRequestURI().contains("/courseList")
-				|| request.getRequestURI().contains("/notice")
-				|| request.getRequestURI().contains("/noticeDetail")
-				|| request.getRequestURI().contains("/noticeOrderByNoticeView")
-				|| request.getRequestURI().contains("/searchByTitle")
-				|| request.getRequestURI().contains("/searchByContent")
-				|| request.getRequestURI().contains("/qna")
-				|| request.getRequestURI().contains("/qnaDetail")
-				|| request.getRequestURI().contains("/openLockedQnaDetail")
-				|| request.getRequestURI().contains("/searchByQnaTitle")
-				|| request.getRequestURI().contains("/searchByQnaContent")
-				|| request.getRequestURI().contains("/idchk")
-<<<<<<< HEAD
-				|| request.getRequestURI().contains("/signupform")) {
-
 		if(request.getRequestURI().contains("/login") ||
 			request.getRequestURI().contains("/ajaxlogin")
 			|| request.getRequestURI().contains("/main")
@@ -64,16 +43,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			|| request.getRequestURI().contains("/openLockedQnaDetail")
 			|| request.getRequestURI().contains("/searchByQnaTitle")
 			|| request.getRequestURI().contains("/searchByQnaContent")
-				) {
-=======
-				|| request.getRequestURI().contains("/findpwform")
-				|| request.getRequestURI().contains("/findidform")
-				|| request.getRequestURI().contains("/signupform")
-				|| request.getRequestURI().contains("/naverLogin")
-				|| request.getRequestURI().contains("/callback")
-				|| request.getRequestURI().contains("/kakaoLogin")){
-	
->>>>>>> 3c1826ac53ce15c254cdb3287c914a9508ceeabf
+			|| request.getRequestURI().contains("/kakaoLogin")){
+
 			return true;
 
 		}

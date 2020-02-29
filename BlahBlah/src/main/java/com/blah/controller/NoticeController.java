@@ -27,7 +27,7 @@ public class NoticeController {
 	private NoticeService service = new NoticeServiceImpl();
 	
 	@RequestMapping(value = "/notice")
-	public String openNotice(Locale locale, Model model, PagingVo page) {
+	public String openNotice(Locale locale, Model model, PagingVo page, HttpServletRequest request) {
 		
 		logger.info("공지 페이지 (최신순 정렬)");
 		
@@ -35,16 +35,22 @@ public class NoticeController {
 		
 		PageMakerVo pageMaker = new PageMakerVo();
 		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(10);
 		pageMaker.setTotalCount(service.listCount());
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderby", 1);
 		
 		model.addAttribute("sysdate", service.findSysdate());
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
+		System.out.println(memberType);
 		
 		return "board/notice";
 	}
 	
 	@RequestMapping(value = "/noticeOrderByNoticeView")
-	public String openNoticeOrderByNoticeView(Locale locale, Model model, PagingVo page) {
+	public String openNoticeOrderByNoticeView(Locale locale, Model model, PagingVo page, HttpServletRequest request) {
 		
 		logger.info("공지 페이지 (조회순 정렬)");
 		
@@ -52,22 +58,30 @@ public class NoticeController {
 		
 		PageMakerVo pageMaker = new PageMakerVo();
 		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(10);
 		pageMaker.setTotalCount(service.listCount());
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("orderby", 2);
 		
 		model.addAttribute("sysdate", service.findSysdate());
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
 		
 		return "board/notice";
 	}
 	
 	@RequestMapping(value = "/noticeDetail")
-	public String noticeDetail(Model model, int noticeNo) {
+	public String noticeDetail(Model model, int noticeNo, HttpServletRequest request) {
 		
 		logger.info("공지 상세 보기");
 		
 		model.addAttribute("vo", service.selectOne(noticeNo));
 		model.addAttribute("pre", service.selectPrePost(noticeNo));
 		model.addAttribute("next", service.selectNextPost(noticeNo));
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
 		
 		return "board/noticeDetail";
 	}
@@ -148,7 +162,10 @@ public class NoticeController {
 		
 		model.addAttribute("sysdate", service.findSysdate());
 		
-		return "board/notice";
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
+		
+		return "board/noticeSearch";
 	}
 	
 	@RequestMapping(value = "searchByContent", method=RequestMethod.POST)
@@ -166,7 +183,10 @@ public class NoticeController {
 		
 		model.addAttribute("sysdate", service.findSysdate());
 		
-		return "board/notice";
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
+		
+		return "board/noticeSearch";
 	}
 	
 }

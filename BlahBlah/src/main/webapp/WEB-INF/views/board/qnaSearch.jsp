@@ -185,29 +185,9 @@ function qnaPwCheck(qnaNo, memberId) {
 				</div>
 				</div>
 				</form>
-
-				<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
-					<ul class="pagination">
-						<c:if test="${pageMaker.prev}">
-							<li class="page-item">
-								<a href="notice${pageMaker.makeQuery(pageMaker.startPage -1 )}" class="page-link">이전</a>
-							</li>
-						</c:if>
-						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-							<li class="page-item">
-								<a href="notice${pageMaker.makeQuery(idx)}" class="page-link">${idx}</a>
-							</li>
-						</c:forEach>
-						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
-							<li class="page-item">
-								<a href="notice${pageMaker.makeQuery(pageMaker.endPage +1 )}" class="page-link">다음</a>
-							</li>
-						</c:if>
-					</ul>
-				</nav>
 			
 				<div class="col-md-12 text-right">
-					<button class="btn primary-btn" onclick ="location.href='qnaWriteForm'">글쓰기</button>
+						<button class="btn primary-btn" onclick ="location.href='qnaWriteForm'">글쓰기 </button>
 				</div>
 		</div>	
   </section>

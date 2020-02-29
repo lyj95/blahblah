@@ -1,7 +1,6 @@
 package com.blah.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +38,7 @@ public class QnaController {
 		
 		PageMakerVo pageMaker = new PageMakerVo();
 		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(10);
 		pageMaker.setTotalCount(service.listCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -46,14 +46,17 @@ public class QnaController {
 		
 		return "board/qna";
 	}
-	
+
 	@RequestMapping(value = "/qnaDetail")
-	public String qnaDetail(Model model, int qnaNo) {
+	public String qnaDetail(Model model, int qnaNo, HttpServletRequest request) {
 		
 		logger.info("QnA 상세 보기");
 		
 		model.addAttribute("vo", service.selectOne(qnaNo));
 		model.addAttribute("reply", service.selectReply(qnaNo));
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		model.addAttribute("memberType", memberType);
 		
 		return "board/qnaDetail";
 	}
@@ -61,23 +64,25 @@ public class QnaController {
 	@RequestMapping(value = "/openLockedQnaDetail")
 	public String openLockedQnaDetail(Model model, int qnaNo, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		logger.info("QnA 상세 보기 열기");
+		logger.info("QnA 상세 보기 (비밀글)");
 		
 		String userID = (String) request.getSession().getAttribute("userID");
+		String memberType = (String) request.getSession().getAttribute("memberType");
 		String memberID = service.selectOne(qnaNo).getMemberId();
 		
 		if (request.getSession().getAttribute("login") != null) {
-			if (userID.equals(memberID)) {
+			if (userID.equals(memberID) || memberType.equals("ADMIN")) {
 				
 				model.addAttribute("vo", service.selectOne(qnaNo));
 				model.addAttribute("reply", service.selectReply(qnaNo));
+				model.addAttribute("memberType", memberType);
 				
 				return "board/qnaDetail";
 			} else {
 				return "redirect:qna";
 			}
 		} else {
-			return "redirect:login";
+			return "account/login";
 		}
 	}
 	
@@ -90,13 +95,7 @@ public class QnaController {
 			return "board/qnaInsert";
 			
 		} else {
-			PrintWriter out = response.getWriter();
-			out.print("<script type='text/javascript' charset='UTF-8'>");
-			out.print("alert('로그인한 회원만 글쓰기가 가능합니다');");
-			out.print("</script>");
-			out.flush();
-			
-			return "redirect:login";
+			return "account/login";
 		}
 	}
 	
@@ -167,7 +166,7 @@ public class QnaController {
 		
 		model.addAttribute("sysdate", service.findSysdate());
 		
-		return "board/qna";
+		return "board/qnaSearch";
 	}
 	
 	@RequestMapping(value = "searchByQnaContent", method=RequestMethod.POST)
@@ -185,7 +184,7 @@ public class QnaController {
 		
 		model.addAttribute("sysdate", service.findSysdate());
 		
-		return "board/qna";
+		return "board/qnaSearch";
 	}
 	
 	@RequestMapping(value = "insertReply", method=RequestMethod.POST)
