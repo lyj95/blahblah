@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
@@ -145,22 +144,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<String, Boolean> deleteMember(MemberVo vo, String nowpw) {
+	public String deleteMember(MemberVo vo, String nowpw) {
 		
-		boolean check = false;
-		System.out.println(nowpw+","+ vo.getMemberPw());
+		String check = "false";
 		if(passwordEncoder.matches(nowpw, vo.getMemberPw())) {
 			if(dao.deleteMember(vo) > 0) {
-				check = true;
+				check = "true";
 			}else {
 				System.out.println("탈퇴실패");
 			}
 		}
-		
-		Map<String, Boolean> map = new HashMap<String, Boolean>();
-		map.put("check", check);
-		
-		return map;
+		return check;
+	}
+
+	@Override
+	public List<String> selectTutorPhoto(MemberVo vo) {
+		return dao.selectTutorPhoto(vo);
 	}
 	
 	@Override

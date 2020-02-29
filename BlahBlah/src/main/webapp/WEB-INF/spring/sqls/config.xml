@@ -19,9 +19,7 @@
 		<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
 		<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />
-
 	<!-- 
-		<typeAlias type="com.blah.vo.CalenderVo" alias="calenderVo" />
 		<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
 		<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />  -->
 	</typeAliases>
@@ -37,19 +35,14 @@
 		<mapper resource="/mybatis/lesson-mapper.xml"/>	
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
-		
-
-
-		<!-- 
-<<<<<<< HEAD 이부분 관련있으신분 충돌 해결해주세욥 ~
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
-=======
 		<mapper resource="/mybatis/qna-mapper.xml"/>
->>>>>>> badf8bc2a4b6886534c9c782b74b8cd507d8d275
+		<!-- 
 		<mapper resource="/mybatis/chatbot-mapper.xml"/>
 		<mapper resource="/mybatis/dictionary-mapper.xml"/>
 		<mapper resource="/mybatis/schedule-mapper.xml"/>
 		<mapper resource="/mybatis/webcam-mapper.xml"/> -->
+
 	</mappers> 
 
 

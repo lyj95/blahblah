@@ -19,4 +19,5 @@ public interface UserDao {
 	public LessonVo getLessonInfo1(int lessonNo);
 	public MyclassVo getClassInfo(int lessonNo);
 	public HashMap<String, Object> getLessonInfo(int lessonNo);
+	public List<String> selectTutorPhoto(MemberVo vo);
 }

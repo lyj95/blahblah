@@ -122,5 +122,21 @@
 		JOIN LESSON
 		on MYCLASS.lesson_no = LESSON.lesson_no
 		WHERE LESSON.lesson_no = #{lessonNo}
+	</select>	
+	
+	<select id="selectTutorPhoto" parameterType="MemberVo" resultMap="memberMap">
+		SELECT member_photo, member_id
+		FROM MEMBER
+		JOIN lesson ON(member_id = tutor_id)
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE lesson_no IN (select lesson_no
+                    					from myclass
+                    					where member_id = #{memberId})
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id = #{memberId}
+                </when>
+		</choose>
 	</select>
 </mapper>

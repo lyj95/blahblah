@@ -139,4 +139,18 @@ public class UserDaoImpl implements UserDao{
 		HashMap<String, Object> map = sqlSession.selectOne(NAMESPACE+"getLessonInfo",lessonNo);
 		return map;
 	}
+
+	@Override
+	public List<String> selectTutorPhoto(MemberVo vo) {
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "selectTutorPhoto", vo);
+		} catch(Exception e) {
+			System.out.println("[error] : selectTutorPhoto");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

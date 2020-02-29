@@ -1,4 +1,4 @@
-package com.blah.controller;
+package com.blah.common.util;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;              
 

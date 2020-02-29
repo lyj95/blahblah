@@ -26,10 +26,10 @@
           <div class="col-lg-2 col-md-6 single-footer-widget">
             <h4>Menu</h4>
             <ul>
-              <li><a href="#">Level Test</a></li>
-              <li><a href="#">Course</a></li>
-              <li><a href="#">Notice</a></li>
-              <li><a href="#">QnA</a></li>
+              <li><a href="leveltest">Level Test</a></li>
+              <li><a href="courseList?page=1&perPageNum=6">Course</a></li>
+              <li><a href="notice">Notice</a></li>
+              <li><a href="qna">QnA</a></li>
             </ul>
           </div>
           <div class="col-lg-2 col-md-6 single-footer-widget">
