@@ -18,7 +18,7 @@
         
         var lessonNo = ${lessonNo};
         var lessonPrice = ${lessonPrice};
-        var MemberId = "${MemberId}";
+        var memberId = "${memberId}";
         var userName = "${userName}";
         var userEmail = "${userEmail}";
         
@@ -46,7 +46,7 @@
                         'impUid' : rsp.imp_uid,			//아임포트 거래고유번호, 서버단에서 REST API로 조회 후 검증
                         'paidAmount' : rsp.paid_amount,	//결제 금액 서버단에서 계산한 {실제주문금액}과 일치하는지 최종 검증 
                         'lessonNo'	: lessonNo,
-                        'MemberId' : MemberId	
+                        'memberId' : memberId
                     })
                      
                 }).done(function(data) {

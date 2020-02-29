@@ -23,7 +23,7 @@ public class ViewChatting extends BinaryWebSocketHandler{
 	//websocket에 접속한 session 관리하기!
 	private static Map<String,WebSocketSession> clients=new HashMap();
 	public ViewChatting() {
-		System.out.println("웹소켓 서버를 위한 빈 생성");
+		// System.out.println("웹소켓 서버를 위한 빈 생성");
 	}
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) {
@@ -91,11 +91,11 @@ public class ViewChatting extends BinaryWebSocketHandler{
 		// Jackson ObjectMapper 선언
 		ObjectMapper mapper=new ObjectMapper();
 		// 변환된 값을 받을 객체
-		RtcMessage m = null;
+		RtcMessage msg = null;
 		try {
 			// 객체의 field값과 json을 비교해서 알아서 담아주는 메소드 한줄
-			m = mapper.readValue(message.getPayload(), RtcMessage.class);
-			System.out.println("변환된 RTC 메세지 : "+m.toString());
+			msg = mapper.readValue(message.getPayload(), RtcMessage.class);
+			System.out.println("변환된 RTC 메세지 : "+msg.toString());
 		}catch(JsonParseException e) {
 			e.printStackTrace();
 		}catch(JsonMappingException e) {
@@ -103,7 +103,7 @@ public class ViewChatting extends BinaryWebSocketHandler{
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
-		return m;
+		return msg;
 	}
 	
 }

@@ -41,15 +41,15 @@
 	
 	<div class="container-login100" style="background-image: url('resources/img/banner/home-banner.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form action="${path }/account/memberSearchPwEnd.do" method="post" class="login100-form validate-form">
+			<form action="${path }/sendMail/password" method="post" class="login100-form validate-form">
 				<span class="login100-form-title p-b-37">
 					비밀번호 찾기
 				</span>
 
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+<!-- 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
 					<input class="input100" type="text" name="memberName" id="memberName" placeholder="이름">
 					<span class="focus-input100"></span>
-				</div>
+				</div> -->
 				
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
 					<input class="input100" type="text" name="memberId" id="memberId" placeholder="아이디">

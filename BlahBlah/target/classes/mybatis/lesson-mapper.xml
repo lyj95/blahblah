@@ -25,6 +25,17 @@
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY LESSON_NO DESC
 	</select>
+	
+	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">
+		SELECT * 
+		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+                	ROW_NUMBER() OVER (ORDER BY RATE DESC NULLS LAST) AS PAGE
+                FROM LESSON
+                LEFT OUTER JOIN (SELECT LESSON_NO, avg(review_grade) RATE FROM REVIEW GROUP BY LESSON_NO ORDER BY AVG(review_grade) DESC) REVIEW_AVG
+                ON LESSON.LESSON_NO = REVIEW_AVG.LESSON_NO)
+		WHERE PAGE BETWEEN #{rowStart} AND #{rowEnd}
+	</select>
+	
 	<select id="listCount" resultType="int">
 		<![CDATA[
 			SELECT COUNT(LESSON_NO)
@@ -32,55 +43,72 @@
 			WHERE LESSON_NO > 0
 		]]>
 	</select>
+	
+	<select id="listReviewCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(distinct LESSON_NO) FROM REVIEW
+		]]>
+	</select>
+	
 	<select id="selectOne" parameterType="int" resultMap="LessonMap">
 		SELECT *
 		FROM LESSON
 		WHERE LESSON_NO=#{lessonNo}
 	</select>
+	
 	<insert id="insert" parameterType="LessonVo">
 		INSERT INTO LESSON
-		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,'tu123','')
-	</insert>
+		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,#{tutorId},'')
+	</insert>	
 	
 	<select id="getLastLessonSeq" resultType="int">
 	 SELECT LESSON_SEQ.CURRVAL
      FROM DUAL
 	</select>	
-	
+		
 	<update id="update" parameterType="LessonVo">
 		UPDATE LESSON
 		SET LESSON_NAME =#{lessonName}, LESSON_INFO = #{lessonInfo}, LESSON_LEVEL= #{lessonLevel},LESSON_TYPE=#{lessonType},LESSON_TIME=#{lessonTime},LESSON_PRICE=#{lessonPrice},LESSON_TOTAL=4
 		WHERE LESSON_NO = #{lessonNo}
 	</update>
+	
 	<delete id="delete" parameterType="int">
 		DELETE FROM LESSON WHERE LESSON_NO = #{lessonNo}
 	</delete>
+	
 	<select id="searchKeyword" parameterType="String" resultMap="LessonMap">
 		SELECT *
 		FROM LESSON
 		WHERE LESSON_NAME LIKE '%'||#{keyword}||'%' OR LESSON_INFO LIKE '%'||#{keyword}||'%' OR TUTOR_ID LIKE '%'||#{keyword}||'%'
 	</select>
+	
 	<select id="searchLICENSE" resultMap="LessonMap" >
 		SELECT * FROM LESSON
 		WHERE LESSON_TYPE ='LICENSE'
 	</select>
+	
 	<select id="searchSPEAKING" resultMap="LessonMap" >
 		SELECT * FROM LESSON
 		WHERE LESSON_TYPE ='SPEAKING'
 	</select>
+	
 	<select id="searchHighLevel" resultMap="LessonMap" >
 		SELECT * FROM LESSON
 		WHERE LESSON_LEVEL ='상'
 	</select>
+	
 	<select id="searchMidLevel" resultMap="LessonMap" >
 		SELECT * FROM LESSON
 		WHERE LESSON_LEVEL ='중'
 	</select>
+	
 	<select id="searchLowLevel" resultMap="LessonMap" >
 		SELECT * FROM LESSON
 		WHERE LESSON_LEVEL ='하'
 	</select>
+
 	<resultMap type="ReviewVo" id="ReviewMap">
+		<result property="reviewNo" column="review_seq" />
 		<result property="memberId" column="member_id" />
 		<result property="lessonNo" column="lesson_no" />
 		<result property="reviewTitle" column="review_title" />
@@ -93,6 +121,7 @@
 		INSERT INTO REVIEW
 		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade})
 	</insert>
+	
 	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
 		SELECT *
 		FROM REVIEW
@@ -100,4 +129,13 @@
 		ORDER BY review_date DESC
 	</select>
 	
+	<select id="getReviewGrade" parameterType="int" resultType="int" >
+		SELECT REVIEW_GRADE
+		FROM REVIEW
+		WHERE LESSON_NO=#{lessonNo}
+	</select>
+	
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM REVIEW WHERE REVIEW_SEQ = #{reviewNo}
+	</delete>	
 </mapper>

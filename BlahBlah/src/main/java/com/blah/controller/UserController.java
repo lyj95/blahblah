@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.common.validate.FileValidate;
+import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
 import com.blah.vo.FilesVo;
+import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 
 @Controller
@@ -29,6 +31,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	@Autowired
+	private ScheduleService sservice;
 	
 	
 	@RequestMapping(value = "/mypage")
@@ -37,14 +41,15 @@ public class UserController {
 		
 		MemberVo vo = (MemberVo)session.getAttribute("login");
 		String memberId = vo.getMemberId();
-		System.out.println(vo);
-
-
+		
+		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
-		mav.addObject("myclassList", service.selectMyClass(memberId));
-		mav.addObject("closedmyclassList", service.selectMyClass(memberId));
-		mav.addObject("member", service.selectMember(memberId));
-		mav.addObject("progressList", service.selectProgress(memberId));
+		mav.addObject("myclassList", service.selectMyClass(vo));
+		mav.addObject("closedmyclassList", service.selectClosedMyClass(vo));
+		mav.addObject("member", service.selectMember(vo));
+		mav.addObject("progressList", service.selectProgress(vo));
+		mav.addObject("clist", sservice.selectCalendar(memberId));
+		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		
 		return mav;
 	}
@@ -55,11 +60,10 @@ public class UserController {
 		// BindingResult : 객체를 Binding하다 에러가 발생하면 해당 에러의 정보를 받기위해 사용된다.
 		logger.info("chageProfile");
 		MemberVo vo = (MemberVo) session.getAttribute("login");
-		System.out.println(uploadFile);
 		
 		service.uploadProfile(request,session,uploadFile,vo);
 		
-		model.addAttribute("member", service.selectMember(vo.getMemberId()));
+		model.addAttribute("member", service.selectMember(vo));
 		return "mypage/mypage";
 	}
 	
@@ -75,21 +79,34 @@ public class UserController {
 		return map;
 	}
 	
+//	@RequestMapping(value = "/deleteMember")
+//	public String deleteUser(HttpSession session, Model model, MemberVo memVo) {
+//		logger.info("deleteMember");
+//		MemberVo vo = (MemberVo)session.getAttribute("login");
+//		System.out.println(memVo.getMemberPw());
+//		
+//		Map<String, Boolean> map = service.deleteMember(vo, memVo.getMemberPw()); 
+//		return "common/main";
+//	}
 	@RequestMapping(value = "/deleteMember",produces = "application/text; charset=utf8")
 	@ResponseBody
-	public Map<String, Boolean> deleteUser(Model model, String nowpw, HttpSession session) {
+	public String deleteUser(HttpSession session, @RequestBody Map<String, String> deleteval) {
 		logger.info("deleteMember");
 		MemberVo vo = (MemberVo)session.getAttribute("login");
 		
-		Map<String, Boolean> map = service.deleteMember(vo, nowpw); 
-		
-		return map;
+		String res = service.deleteMember(vo, deleteval.get("delpw")); 
+		System.out.println(res);
+		return res;
 	}
 	
 	@RequestMapping(value = "/lessonRoom")
-	public String lessonRoom (Model model) {
-		logger.info("into the lesson");
+	public String lessonRoom (HttpSession session, int lessonNo, Model model) {
+		logger.info("lessonRoom");
+		String userId = (String)session.getAttribute("userID");
 		
+		HashMap<String, Object> lesson = service.getLessonInfo(lessonNo,userId);
+		model.addAttribute("lesson", lesson);
+
 		return "mypage/mypageLessonRoom";
 	}
 

@@ -74,6 +74,8 @@
 						<div class="single-sidebar-widget tag_cloud_widget ">
 							<!--  <h4 class="widget_title">Tag Clouds</h4>-->
 							<ul class="list">
+								<li><a href="courseList?page=1&perPageNum=6" id="Newest">최신순</a></li>
+								<li><a href="courseOrderByReview?page=1&perPageNum=6" id="OrderByReview">평점순</a></li>
 								<li><a href="courseTypeLICENSE" id="LICENSEbtn">시험대비</a></li>
 								<li><a href="courseTypeSPEAKING" id="SPEAKINGbtn">자유회화</a></li>
 								<li><a href="searchLowLevel" id="LowLevelbtn">초급영어</a></li>
@@ -134,6 +136,7 @@
 				<!-- ------------- 강의목록 반복되는 부분 끝 ------------- -->
 
 			</div>
+			<c:if test="${orderby eq 1}">
 				<nav class="blog-pagination justify-content-center d-flex"
 					style="padding: 2.5% 0;">
 					<ul class="pagination">
@@ -146,11 +149,11 @@
 							</a></li>
 						</c:if>
 						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
-
+						<c:if test="${i>0}">
 							<li class="page-item"><a
 								href="courseList${pageMaker.makeQuery(i)}" class="page-link">${i}</a>
 							</li>
-
+						</c:if>
 						</c:forEach>
 						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
 							<li><a class="page-link" aria-label="Next"
@@ -158,11 +161,39 @@
 									<span aria-hidden="true"> <i class="ti-angle-right"></i>
 								</span>
 							</a></li>
-
 						</c:if>
 					</ul>
 				</nav>
-
+			</c:if>
+			<c:if test="${orderby eq 2}">
+				<nav class="blog-pagination justify-content-center d-flex"
+					style="padding: 2.5% 0;">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="page-item"><a
+								href="javascript:courseOrderByReview${pageMaker.makeQuery(pageMaker.startPage -1 )}"
+								class="page-link" aria-label="Previous"> <span
+									aria-hidden="true"> <i class="ti-angle-left"></i>
+								</span>
+							</a></li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="i">
+						<c:if test="${i>0}">
+							<li class="page-item"><a
+								href="courseOrderByReview${pageMaker.makeQuery(i)}" class="page-link">${i}</a>
+							</li>
+						</c:if>
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
+							<li><a class="page-link" aria-label="Next"
+								href="javascript:courseOrderByReview${pageMaker.makeQuery(pageMaker.endPage +1 )}">
+									<span aria-hidden="true"> <i class="ti-angle-right"></i>
+								</span>
+							</a></li>
+						</c:if>
+					</ul>
+				</nav>
+			</c:if>
 
 			<div class="row" style="padding: 2%"></div>
 			<div class="col-md-12 text-right">

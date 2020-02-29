@@ -22,7 +22,13 @@
 	href="resources/vendors/nice-select/css/nice-select.css" />
 <!-- main css -->
 <link rel="stylesheet" href="resources/css/style.css" />
+<!-- calendar css -->
+<link href='resources/calendar/packages/core/main.css' rel='stylesheet' />
+<link href='resources/calendar/packages/daygrid/main.css' rel='stylesheet' />
+
 <style type="text/css">
+
+
 .lic {
 	display: none;
 }
@@ -91,9 +97,11 @@
 				dataType:"json",
 				success:function(msg){
 					if(msg.check == true){
-						alert("비밀번호가 성공적으로 변경되었습니다.");
-						location.href="mypage";
+						$('#pwchk').val('');
+						alert("비밀번호가 성공적으로 변경되었습니다. \n다시 로그인 해주세요.");
+						location.href="logout";
 					} else{
+						$('#pwchk').val('');
 						alert("현재 비밀번호가 일치하지 않습니다.");
 					}
 				},
@@ -106,7 +114,10 @@
     
 		
 	function deleteMemberFunction(){
-			var nowPw = $("#delpw").val().trim();
+			var delpw = $("#delpw").val().trim();
+			var deleteval = {
+				"delpw" : delpw
+			};
 			if(nowPw == null || nowPw == "" ){
 				alert("현재 비밀번호를 입력해 주세요.");
 				$('#delpw').focus();
@@ -114,25 +125,76 @@
 			$.ajax({
 				type : "POST",
 				url : "deleteMember",
-				data : {
-					nowPw : nowPw
-				},
-				success : function(msg) {
-					if(msg.check == true) {
+				data:JSON.stringify(deleteval),
+				contentType:"application/json; charset=utf-8;",
+				dataType:"text",
+				success : function(data) {
+					 if(data == "true") {
 						alert("회원탈퇴가 성공적으로 처리되었습니다.\n그동안 블라블라를 이용해 주셔서 감사합니다.");
 						location.href="logout";
 					} else{
 						$('#delpw').val('');
 						alert('현재 비밀번호가 일치하지 않습니다.');
-					}
+					} 
 				},
-				error:function(){
-					alert("통신 실패");
-				}
+				 error:function(request,status,error){
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				       }
 			});
 			}
 			
 		}
+	
+	//캘린더 script
+	document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar');
+		    alert(calendarEl);
+		    var date = new Date();
+			var clist = new Array();
+			
+			
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		      plugins: [ 'interaction', 'dayGrid' ],
+		      defaultDate: date,
+		      editable: false,
+		      eventLimit: true, // allow "more" link when too many events
+		      events: [
+
+
+		    	  <c:forEach var = "clist2" items = "${clist}">
+		    	 					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
+					},
+					
+					{
+						title: "${clist2.lessonName}",
+						url : '..',
+						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
+					},
+							
+										
+				</c:forEach> 
+
+		      ]
+		    });
+
+		    calendar.render();
+		  });
 </script>
 </head>
 
@@ -306,7 +368,7 @@
 								<h2>회원 탈퇴</h2>
 								<hr>
 								<div style="padding: 30px 70px 30px">
-									
+									<form action="deleteMember">
 										<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
 										<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p>
 										<br>
@@ -316,6 +378,7 @@
 										<div class="text-center">
 											<input type="button" value="회원 탈퇴" class="btn primary-btn" onclick="deleteMemberFunction();">
 										</div>
+									</form>	
 								</div>
 							</div>
 							<!-- 회원 탈퇴 끝-->
@@ -330,11 +393,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								<p>
+								
                                      <div class="container">
-                                     	<jsp:include page="../calendar/month-view.jsp" />
+                                     	<div id="calendar"></div>
                                      </div>
-                                </p>
+                               
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -361,22 +424,29 @@
 															<div class="course_content">
 																<span class="tag mb-4 d-inline-block">${myclass.lessonType }</span>
 																<h4 class="mb-3">
-																	<a href="room.html">${myclass.lessonName }</a>
+																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
+																<c:forEach items="${tutorPhotoList }" var="tutor">
+																<c:if test="${myclass.tutorId eq tutor.memberId }">
 																<div
 																	class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="resources/img/courses/author1.png" alt="" /> <span
-																			class="d-inline-block ml-2">${myclass.tutorId }</span>
+																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
+																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
+																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
 																	</div>
 																</div>
+																</c:if>
+																
+																
+																</c:forEach>
 																<br>			
 																<div class="percentage">
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
@@ -432,18 +502,6 @@
 							</div>
 							<!-- 수강만료된 강의 끝-->
 							<!-- 내강의실 부분 끝 -->
-
-							<div id="my-schedule" class="tab-pane fade">
-								<h2>스케줄</h2>
-								<hr>
-								<p>주로 캘린더로 자주 쓰이는 것 : jquery datepicker</p>
-							</div>
-
-							<div id="my-level" class="tab-pane fade">
-								<h2>레벨테스트</h2>
-								<hr>
-								<p>레벨 테스트를 진행하시겠습니까? or 레벨테스트 결과</p>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -473,5 +531,9 @@
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="resources/js/gmaps.min.js"></script>
 	<script src="resources/js/theme.js"></script>
+	<!-- calendar Js -->
+	<script src='resources/calendar/packages/core/main.js'></script>
+	<script src='resources/calendar/packages/interaction/main.js'></script>
+	<script src='resources/calendar/packages/daygrid/main.js'></script>
 </body>
 </html>

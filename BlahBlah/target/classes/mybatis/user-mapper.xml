@@ -32,32 +32,59 @@
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="myclassTotalcnt" column="MYCLASS_TOTALCNT"/>
 		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
+		<result property="lesson1st" column="MYCLASS_DATE1"/>
+		<result property="lesson2nd" column="MYCLASS_DATE2"/>
+		<result property="lesson3rd" column="MYCLASS_DATE3"/>
+		<result property="lesson4th" column="MYCLASS_DATE4"/>
 	</resultMap>
 	
-	<select id="selectMember" resultMap="memberMap">
+	<select id="selectMember" parameterType="MemberVo" resultMap="memberMap">
 		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
 		FROM MEMBER
 		WHERE MEMBER_ID=#{memberId}
 	</select>
 
-	<select id="selectMyClass" resultMap="lessonMap">
+	<select id="selectMyClass" parameterType="MemberVo" resultMap="lessonMap">
 		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
 		FROM lesson
 		JOIN myclass USING(lesson_no)
-		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId} AND myclass.myclass_remaincnt > 0
+                </when>
+		</choose>
 	</select>
 	
-	<select id="selectMyClosedClass" resultMap="lessonMap">
+	<select id="selectMyClosedClass" parameterType="MemberVo" resultMap="lessonMap">
 		SELECT lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id
 		FROM lesson
 		JOIN myclass USING(lesson_no)
-		WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId} AND myclass.myclass_remaincnt = 0
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId} AND myclass.myclass_remaincnt = 0
+                </when>
+		</choose>
+		
 	</select>
 	
-	<select id="selectProgress" resultMap="myclassMap">
+	<select id="selectProgress" parameterType="MemberVo" resultMap="myclassMap">
 		SELECT LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
 		FROM myclass
-		WHERE member_id = #{memberId}
+		JOIN lesson USING(lesson_no)
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE member_id=#{memberId}
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id=#{memberId}
+                </when>
+		</choose>
 	</select>
 	
 	<update id="updateProfile" parameterType="MemberVo">
@@ -70,9 +97,46 @@
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 
-	<update id="deleteMember" parameterType="MemberVo">
+	<update id="deleteMember" parameterType="MemberVo" >
 		UPDATE MEMBER SET MEMBER_ENABLED = 'N'
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+
+	<select id="getLessonInfo1" parameterType="int" resultMap="lessonMap">
+		SELECT lesson_no, lesson_name, lesson_info, 
+				lesson_level, lesson_type, lesson_time, lesson_price, lesson_total, tutor_id
+		FROM LESSON 
+		WHERE lesson_no = #{lessonNo}
+	</select>
+	<select id="getClassInfo" parameterType="int" resultMap="lessonMap">
+		SELECT member_id, myclass_totalcnt, myclass_remaincnt, 
+				myclass_date1, myclass_date2, myclass_date3, myclass_date4
+		FROM MYCLASS
+		WHERE lesson_no = #{lessonNo}
+	</select>
+	<select id="getLessonInfo" parameterType="int" resultType="HashMap">
+		SELECT LESSON.lesson_no, member_id, tutor_id, myclass_totalcnt, myclass_remaincnt, 
+            lesson_name, lesson_info, lesson_level, lesson_type, lesson_time,
+            myclass_date1, myclass_date2, myclass_date3, myclass_date4
+		FROM MYCLASS
+		JOIN LESSON
+		on MYCLASS.lesson_no = LESSON.lesson_no
+		WHERE LESSON.lesson_no = #{lessonNo}
+	</select>	
 	
+	<select id="selectTutorPhoto" parameterType="MemberVo" resultMap="memberMap">
+		SELECT member_photo, member_id
+		FROM MEMBER
+		JOIN lesson ON(member_id = tutor_id)
+		<choose>
+                <when test='memberType.equals("USER")'>
+					WHERE lesson_no IN (select lesson_no
+                    					from myclass
+                    					where member_id = #{memberId})
+                </when>
+                <when test='memberType.equals("TUTOR")'>
+                	WHERE tutor_id = #{memberId}
+                </when>
+		</choose>
+	</select>
 </mapper>

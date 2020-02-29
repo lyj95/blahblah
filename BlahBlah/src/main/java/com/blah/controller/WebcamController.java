@@ -12,10 +12,15 @@ public class WebcamController {
 	// https://192.168.130.31:8443/controller/chatting?userId=13212
 	@RequestMapping(value = "chatting", method = RequestMethod.GET)
 	public String goViewChatting(HttpServletRequest request) {
-		String userId = request.getParameter("userId");
-		System.out.println(userId+" 유저 입장");
-		HttpSession session = request.getSession();
-		session.setAttribute("userId", userId);
+		try {
+			String userId = request.getParameter("userId");
+			System.out.println(userId+" 유저 입장");
+			
+		} catch (Exception e) {
+			System.out.println("채팅 들어가기 전에 유저 널값 !! ");
+		}
+//		HttpSession session = request.getSession();
+//		session.setAttribute("userId", userId);
 		
 		return "lesson/chatting";
 	}

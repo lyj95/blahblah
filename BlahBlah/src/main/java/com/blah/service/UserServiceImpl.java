@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
@@ -35,23 +38,23 @@ public class UserServiceImpl implements UserService {
 	 * @author User
 	 */
 	@Override
-	public List<LessonVo> selectMyClass(String memberId) {
-		return dao.selectMyClass(memberId);
+	public List<LessonVo> selectMyClass(MemberVo vo) {
+		return dao.selectMyClass(vo);
 	}
 
 	@Override
-	public List<LessonVo> selectClosedMyClass(String memberId) {
-		return dao.selectClosedMyClass(memberId);
+	public List<LessonVo> selectClosedMyClass(MemberVo vo) {
+		return dao.selectClosedMyClass(vo);
 	}
 
 	@Override
-	public MemberVo selectMember(String memberId) {
-		return dao.selectMember(memberId);
+	public MemberVo selectMember(MemberVo vo) {
+		return dao.selectMember(vo);
 	}
 
 	@Override
-	public List<MyclassVo> selectProgress(String memberId) {
-		return dao.selectProgress(memberId);
+	public List<MyclassVo> selectProgress(MemberVo vo) {
+		return dao.selectProgress(vo);
 	}
 
 	@Override
@@ -141,18 +144,49 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<String, Boolean> deleteMember(MemberVo vo, String nowpw) {
+	public String deleteMember(MemberVo vo, String nowpw) {
 		
-		boolean check = false;
-		System.out.println(nowpw+","+ vo.getMemberPw());
+		String check = "false";
 		if(passwordEncoder.matches(nowpw, vo.getMemberPw())) {
-			dao.deleteMember(vo);
-			check = true;
+			if(dao.deleteMember(vo) > 0) {
+				check = "true";
+			}else {
+				System.out.println("탈퇴실패");
+			}
+		}
+		return check;
+	}
+
+	@Override
+	public List<String> selectTutorPhoto(MemberVo vo) {
+		return dao.selectTutorPhoto(vo);
+	}
+	
+	@Override
+	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
+		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	// lesson & myClass join 한 정보 출력
+//		for(Object key : map.keySet()) {
+//			System.out.println(key+" : "+map.get(key));
+//		}
+		// 기본값 false로 세팅
+		map.put("flag", false);
+		map.put("classDay",false);
+		
+		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
+			map.put("flag", true);		// session 정보와 비교
 		}
 		
-		Map<String, Boolean> map = new HashMap<String, Boolean>();
-		map.put("check", check);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
+		String today = format.format(new Date());							// 오늘 날짜 String Type
 		
+		int classCnt = 4;						// 수업 횟수  FIXME 리터럴로 적는게 아닌 DB에서 받아올 수 있는 값 생각해보기
+		for(int i=1; i<=classCnt; i++) {
+			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
+			if(today.compareTo(format.format(compareDay)) == 0) {
+				map.put("classDay",true);		// DB 날짜와 오늘 날짜가 같으면 수업날짜를 true로 출력
+				break;
+			}
+		}
 		return map;
 	}
 }

@@ -26,10 +26,10 @@
           <div class="col-lg-2 col-md-6 single-footer-widget">
             <h4>Menu</h4>
             <ul>
-              <li><a href="#">Level Test</a></li>
-              <li><a href="#">Course</a></li>
-              <li><a href="#">Notice</a></li>
-              <li><a href="#">QnA</a></li>
+              <li><a href="leveltest">Level Test</a></li>
+              <li><a href="courseList?page=1&perPageNum=6">Course</a></li>
+              <li><a href="notice">Notice</a></li>
+              <li><a href="qna">QnA</a></li>
             </ul>
           </div>
           <div class="col-lg-2 col-md-6 single-footer-widget">
@@ -44,7 +44,7 @@
         <div class="row footer-bottom d-flex justify-content-between">
           <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;2020 All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
         </div>

@@ -7,12 +7,5 @@
 	<bean id="bcrpytPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"			>
 	</bean>
-	
-	
-	
-	
-	
-	
-	
 		
 </beans>

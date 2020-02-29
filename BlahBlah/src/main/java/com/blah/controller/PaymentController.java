@@ -1,5 +1,7 @@
 package com.blah.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
 import com.blah.service.PaymentService;
 import com.blah.service.UserService;
+import com.blah.vo.MemberVo;
 
 @Controller
 public class PaymentController {
@@ -47,10 +49,10 @@ public class PaymentController {
 		logger.info("[payment] checking payment Table");
 		
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("MemberId");	//session의 ID
+		MemberVo vo = (MemberVo)session.getAttribute("login");				//세션
+		String memberId = us.selectMember(vo).getMemberId();
 		
 		String lessonNo = jdata.get("lessonNo");	//넘어온 json data : lessonNo
-		System.out.println("ctrl lessonNo : "+lessonNo);
 		HashMap<String, Object> lessonNoMap = new HashMap<String, Object>();
 		lessonNoMap.put("lessonNo", lessonNo);
 		lessonNoMap.put("memberId", memberId);
@@ -87,12 +89,13 @@ public class PaymentController {
 		logger.info("[payment] into the payment");
 		
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("MemberId");	//session의 ID
+		MemberVo vo = (MemberVo)session.getAttribute("login");				//세션
 		
 		logger.info("lessonNo : "+lessonNo);
-		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();		//lessonNo로 결제금액 가져오기
-		String userName = us.selectMember(memberId).getMemberName();		//ID로 회원이름 가져오기
-		String userEmail = us.selectMember(memberId).getMemberEmail();		//ID로 회원메일 가져오기
+		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();			//lessonNo로 결제금액 가져오기
+		String memberId = us.selectMember(vo).getMemberId();
+		String userName = us.selectMember(vo).getMemberName();		//ID로 회원이름 가져오기
+		String userEmail = us.selectMember(vo).getMemberEmail();		//ID로 회원메일 가져오기
 		
 		model.addAttribute("lessonNo", lessonNo);
 		model.addAttribute("lessonPrice", lessonPrice);	
@@ -120,11 +123,11 @@ public class PaymentController {
 		System.out.println("impUid : "+jdata.get("impUid"));
 		System.out.println("paidAmount : "+jdata.get("paidAmount"));	//lessonNo로 테이블에서 가져온 값과 비교
 		System.out.println("lessonNo : "+jdata.get("lessonNo"));
-		System.out.println("memberId : "+jdata.get("MemberId"));			//session의 id 가져와서 비교
+		System.out.println("memberId : "+jdata.get("memberId"));			//session의 id 가져와서 비교
 		
 		String impUid = jdata.get("impUid");
 		String lessonNo = jdata.get("lessonNo");
-		String memberId = jdata.get("MemberId");
+		String memberId = jdata.get("memberId");
 		
 		HashMap<String, Object> selectMap = new HashMap<String, Object>();	//결제 테이블 재확인
 		selectMap.put("memberId", memberId);
@@ -135,6 +138,109 @@ public class PaymentController {
 		insertMap.put("memberId", memberId);
 		insertMap.put("lessonNo", lessonNo);
 		insertMap.put("impUid", impUid);
+		
+		//결제일(오늘) 요일 구하기
+		String[] weekDay = { "일", "월", "화", "수", "목", "금", "토" };
+		Calendar cal = Calendar.getInstance(); 
+		int num = cal.get(Calendar.DAY_OF_WEEK)-1; 
+		String today = weekDay[num]; 
+		System.out.println("오늘의 요일 : " + today ); 
+		
+		//일(1), 월(2), 화(3), 수(4), 목(5), 금(6), 토(7)
+		int todayint = 0;
+		//결제일(오늘)의 요일 번호 todayint
+		switch(today) {
+		case "일" : 
+			todayint = 1; break;
+		case "월" :
+			todayint = 2; break;
+		case "화" : 
+			todayint = 3; break;
+		case "수" : 
+			todayint = 4; break;
+		case "목" :
+			todayint = 5; break;
+		case "금" : 
+			todayint = 6; break;
+		case "토" : 
+			todayint = 7; break;
+		}
+		
+		//강의요일
+		String classday = ps.selectDay(lessonNo);
+		System.out.println("강의요일 select : "+classday);
+		int classdayint = 0;
+		//강의 요일 번호 classdayint
+		switch(classday) {
+		case "일" : 
+			classdayint = 1; break;
+		case "월" :
+			classdayint = 2; break;
+		case "화" : 
+			classdayint = 3; break;
+		case "수" : 
+			classdayint = 4; break;
+		case "목" :
+			classdayint = 5; break;
+		case "금" : 
+			classdayint = 6; break;
+		case "토" : 
+			classdayint = 7; break;
+		}
+		
+		if(todayint >= classdayint) {
+			int minusday = 7 - (todayint - classdayint);
+			
+			//오늘날짜(결제) + (7 - (결제요일 - 강의요일)) = 첫 강의날짜
+			cal.setTime(new Date()); 
+			cal.add(Calendar.DATE, minusday);
+			Date lesson1st = cal.getTime();
+			System.out.println("강의 1회차 : "+lesson1st);
+			cal.setTime(lesson1st); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson2nd = cal.getTime();
+			System.out.println("강의 2회차 : "+lesson2nd);
+			cal.setTime(lesson2nd); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson3rd = cal.getTime();
+			System.out.println("강의 3회차 : "+lesson3rd);
+			cal.setTime(lesson3rd); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson4th = cal.getTime();
+			System.out.println("강의 4회차 : "+lesson4th);
+			
+			insertMap.put("lesson1st", lesson1st);
+			insertMap.put("lesson2nd", lesson2nd);
+			insertMap.put("lesson3rd", lesson3rd);
+			insertMap.put("lesson4th", lesson4th);	
+			
+		} else {
+			int minusday = 7 + (classdayint - todayint);
+			
+			//오늘날짜(결제) + (7 + (강의요일)-(결제요일) = 첫 강의날짜
+			cal.setTime(new Date()); 
+			cal.add(Calendar.DATE, minusday);
+			Date lesson1st = cal.getTime();
+			System.out.println("강의 1회차 : "+lesson1st);
+			cal.setTime(lesson1st); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson2nd = cal.getTime();
+			System.out.println("강의 2회차 : "+lesson2nd);
+			cal.setTime(lesson2nd); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson3rd = cal.getTime();
+			System.out.println("강의 3회차 : "+lesson3rd);
+			cal.setTime(lesson3rd); 
+			cal.add(Calendar.DATE, 7);
+			Date lesson4th = cal.getTime();
+			System.out.println("강의 4회차 : "+lesson4th);
+			
+			insertMap.put("lesson1st", lesson1st);
+			insertMap.put("lesson2nd", lesson2nd);
+			insertMap.put("lesson3rd", lesson3rd);
+			insertMap.put("lesson4th", lesson4th);
+		}
+		
 		System.out.println("insertMap : "+insertMap);
 		
 		boolean	everythings_fine = false;

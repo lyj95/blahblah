@@ -32,11 +32,6 @@ public class LessonServiceImpl implements LessonService {
 	@Autowired
 	private LessonDao dao;
 	
-	/**강의를 추가하는 메소드
-	 *@param LessonVo vo
-	 *@return 
-	 * @author YUNA
-	 */
 	@Override
 	public int insert(Model model, LessonVo vo, HttpServletRequest request, MultipartFile file) {
 		// TODO insert 기능
@@ -117,13 +112,13 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public int update(LessonVo vo) {
-		// TODO Auto-generated method stub
+		// TODO 글 수정
 		return dao.update(vo);
 	}
 
 	@Override
 	public int delete(int lessonNo) {
-		// TODO Auto-generated method stub
+		// TODO 글 삭제
 		return dao.delete(lessonNo);
 	}
 
@@ -174,10 +169,34 @@ public class LessonServiceImpl implements LessonService {
 		// TODO 리뷰조회
 		return dao.selectReviewList(lessonNo);
 	}
+
 	@Override
-	public int listCount( ) {
-		// TODO 갯수 조회
+	public int listCount() {
+		// TODO 글 갯수 조회
 		return dao.listCount();
+	}
+	@Override
+	public int listReviewCount() {
+		// TODO 리뷰글 갯수 조회
+		return dao.listReviewCount();
+	}
+
+	@Override
+	public Double getReviewAvg(int lessonNo) {
+		// TODO 리뷰 평점 가져오기
+		return dao.getReviewAvg(lessonNo);
+	}
+
+	@Override
+	public List<LessonVo> orderByRiview(PagingVo page) {
+		// TODO 리뷰 평점순 조회
+		return dao.orderByRiview(page);
+	}
+
+	@Override
+	public int deleteReview(int reviewNo) {
+		// TODO 리뷰 삭제
+		return dao.deleteReview(reviewNo);
 	}
 
 }
