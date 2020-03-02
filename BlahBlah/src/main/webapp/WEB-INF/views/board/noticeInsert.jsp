@@ -59,7 +59,7 @@
 				<div class="form-row">
 					<div class="col-md-4 mb-3">
 						<label for="noticeImportant">중요 공지로 등록하기
-						<input type="radio" name="noticeImportant" style="height:40%;" value="1"></label>
+						<input type="radio" name="noticeImportant" value="1"></label>
 					</div>
 				</div>
 				<div class="form-row">

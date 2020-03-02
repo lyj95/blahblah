@@ -180,58 +180,7 @@
 				</div>
 			</div>
 			</form>
-			
-			<c:if test ="${orderby eq 1}">
-				<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
-					<ul class="pagination">
-						<c:if test="${pageMaker.prev}">
-							<li class="page-item">
-								<a href="notice${pageMaker.makeQuery(pageMaker.startPage -1 )}" class="page-link" aria-label="Previous">
-									<span aria-hidden="true"><i class="ti-angle-left"></i></span></a>
-							</li>
-						</c:if>
-						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-							<c:if test="${idx>0}">
-								<li class="page-item">
-									<a href="notice${pageMaker.makeQuery(idx)}" class="page-link">${idx}</a>
-								</li>
-							</c:if>
-						</c:forEach>
-						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
-							<li class="page-item">
-								<a href="notice${pageMaker.makeQuery(pageMaker.endPage +1 )}" class="page-link" aria-label="Next">
-									<span aria-hidden="true"> <i class="ti-angle-right"></i></span></a>
-							</li>
-						</c:if>
-					</ul>
-				</nav>
-	      	</c:if>
-	      	<c:if test ="${orderby eq 2}">
-				<nav class="blog-pagination justify-content-center d-flex" style="padding: 2.5% 0 ;">
-					<ul class="pagination">
-						<c:if test="${pageMaker.prev}">
-							<li class="page-item">
-								<a href="noticeOrderByNoticeView${pageMaker.makeQuery(pageMaker.startPage -1 )}" class="page-link" aria-label="Previous">
-									<span aria-hidden="true"><i class="ti-angle-left"></i></span></a>
-							</li>
-						</c:if>
-						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-							<c:if test="${idx>0}">
-								<li class="page-item">
-									<a href="noticeOrderByNoticeView${pageMaker.makeQuery(idx)}" class="page-link">${idx}</a>
-								</li>
-							</c:if>
-						</c:forEach>
-						<c:if test="${pageMaker.next && pageMaker.endPage gt 0}">
-							<li class="page-item">
-								<a href="noticeOrderByNoticeView${pageMaker.makeQuery(pageMaker.endPage +1 )}" class="page-link" aria-label="Next">
-									<span aria-hidden="true"> <i class="ti-angle-right"></i></span></a>
-							</li>
-						</c:if>
-					</ul>
-				</nav>
-	      	</c:if>
-	      	
+	      
 			<div class="col-md-12 text-right">
 				<c:if test="${memberType eq 'ADMIN'}">
 				<button class="btn primary-btn" onclick ="location.href='noticeWriteForm'">글쓰기 </button>

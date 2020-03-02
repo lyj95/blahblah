@@ -37,5 +37,4 @@ public interface NoticeService {
 
 	public NoticeVo selectNextPost(int noticeNo);
 
-
 }

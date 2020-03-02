@@ -16,11 +16,18 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private NoticeDao dao;
 	
+	/**
+	 * 공지 목록 최신순 불러오기
+	 * @param PagingVo page
+	 * @return List<NoticeVo> res 
+	 * @author 강현주
+	 */
 	@Override
 	public List<NoticeVo> selectList(PagingVo page) {
 		
 		List<NoticeVo> res =  dao.selectList(page);
 		
+		//공지 목록 작성일 YY-MM-DD 형식으로 변경
 		for (int i = 0; i < res.size(); i++) {
 			String noticeDate = res.get(i).getNoticeDate().substring(0, 10);
 			res.get(i).setNoticeDate(noticeDate);
@@ -29,11 +36,18 @@ public class NoticeServiceImpl implements NoticeService {
 		return res;
 	}
 
+	/**
+	 * 공지 목록 조회순 불러오기
+	 * @param PagingVo page
+	 * @return List<NoticeVo> res 
+	 * @author 강현주
+	 */
 	@Override
 	public List<NoticeVo> selectListOrderByNoticeView(PagingVo page) {
 		
 		List<NoticeVo> res =  dao.selectListOrderByNoticeView(page);
 		
+		//공지 목록 작성일 YY-MM-DD 형식으로 변경
 		for (int i = 0; i < res.size(); i++) {
 			String noticeDate = res.get(i).getNoticeDate().substring(0, 10);
 			res.get(i).setNoticeDate(noticeDate);
@@ -42,19 +56,36 @@ public class NoticeServiceImpl implements NoticeService {
 		return res;
 	}
 	
+	/**
+	 * 공지 목록 페이징 처리
+	 * @return int (dao에서 넘어온 list의 개수)
+	 * @author 강현주
+	 */
 	@Override
 	public int listCount( ) {
 		return dao.listCount();
 	}
 
+	/**
+	 * 공지 작성일이 오늘이면 목록에 new를 표시
+	 * @return String (dao에서 조회한 오늘 날짜값)
+	 * @author 강현주
+	 */
 	@Override
 	public String findSysdate() {
 		return dao.findSysdate();
 	}
 	
+	/**
+	 * 공지 상세 보기
+	 * @param int noticeNo
+	 * @return NoticeVo (dao에서 select해온 noticeVo)
+	 * @author 강현주
+	 */
 	@Override
 	public NoticeVo selectOne(int noticeNo) {
 		
+		//공지 상세 보기하면 조회수 1 올리기
 		int res = updateNoticeView(noticeNo);
 		if (res > 0) {
 			return dao.selectOne(noticeNo);
@@ -63,21 +94,45 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 	}
 
+	/**
+	 * 공지 작성
+	 * @param NoticeVo vo
+	 * @return int (insert 성공 여부)
+	 * @author 강현주
+	 */
 	@Override
 	public int insert(NoticeVo vo) {
 		return dao.insert(vo);
 	}
 
+	/**
+	 * 공지 수정
+	 * @param NoticeVo vo
+	 * @return int (update 성공 여부)
+	 * @author 강현주
+	 */
 	@Override
 	public int update(NoticeVo vo) {
 		return dao.update(vo);
 	}
 
+	/**
+	 * 공지 삭제
+	 * @param int noticeNo
+	 * @return int (delete 성공 여부)
+	 * @author 강현주
+	 */
 	@Override
 	public int delete(int noticeNo) {
 		return dao.delete(noticeNo);
 	}
 
+	/**
+	 * 공지 조회수 +1
+	 * @param int noticeNo
+	 * @return int (update 성공 여부)
+	 * @author 강현주
+	 */
 	@Override
 	public int updateNoticeView(int noticeNo) {
 		
@@ -91,6 +146,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.updateNoticeView(map);
 	}
 	
+	/**
+	 * 공지 현재 조회수
+	 * @param int noticeNo
+	 * @return int (dao에서 조회해온 현재 조회수)
+	 * @author 강현주
+	 */
 	@Override
 	public int selectCurrentNoticeView(int noticeNo) {
 		
@@ -99,11 +160,17 @@ public class NoticeServiceImpl implements NoticeService {
 		return currentNoticeView;
 	}
 
+	/**
+	 * 공지 조회수 -1 (글 수정 시에는 조회수가 올라가지 않음)
+	 * @param int noticeNo
+	 * @return int (update 성공 여부)
+	 * @author 강현주
+	 */
 	@Override
 	public int decreaseNoticeView(int noticeNo) {
 		
 		int currentNoticeView = dao.selectCurrentNoticeView(noticeNo);
-		currentNoticeView = currentNoticeView-2;
+		currentNoticeView--;
 		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("noticeNo", noticeNo);
@@ -112,6 +179,13 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.updateNoticeView(map);
 	}
 
+	/**
+	 * 공지 제목으로 검색
+	 * @param String searchContent
+	 * @param PagingVo page
+	 * @return List<NoticeVo> res 
+	 * @author 강현주
+	 */
 	@Override
 	public List<NoticeVo> searchByTitle(String searchContent, PagingVo page) {
 		
@@ -123,6 +197,13 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.searchByTitle(map);
 	}
 	
+	/**
+	 * 공지 내용으로 검색
+	 * @param String searchContent
+	 * @param PagingVo page
+	 * @return List<NoticeVo> res 
+	 * @author 강현주
+	 */
 	@Override
 	public List<NoticeVo> searchByContent(String searchContent, PagingVo page) {
 		
@@ -134,6 +215,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.searchByContent(map);
 	}
 
+	/**
+	 * 공지 이전글 조회
+	 * @param int noticeNo
+	 * @return NoticeVo res 
+	 * @author 강현주
+	 */
 	@Override
 	public NoticeVo selectPrePost(int noticeNo) {
 		
@@ -145,6 +232,12 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 	}
 
+	/**
+	 * 공지 다음글 조회
+	 * @param int noticeNo
+	 * @return NoticeVo res 
+	 * @author 강현주
+	 */
 	@Override
 	public NoticeVo selectNextPost(int noticeNo) {
 		
