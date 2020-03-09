@@ -104,7 +104,11 @@ CREATE TABLE myclass (
 	myclass_totalcnt	number	NOT NULL,
 	myclass_remaincnt	number	NOT NULL,
 	payment_day	Date	NOT NULL,
-    imp_uid VARCHAR2(200) NOT NULL
+    imp_uid VARCHAR2(200) NOT NULL,
+    myclass_date1 Date,
+    myclass_date2 Date,
+    myclass_date3 Date,
+    myclass_date4 Date
 );
 
 -- 하나의 강의에 하나의 파일?
@@ -127,21 +131,21 @@ CREATE TABLE notice (
     notice_important number
 );
 CREATE TABLE qna (
-	qna_no	number	PRIMARY KEY,
-	member_id	varchar2(100)	NOT NULL,
-	qna_title	varchar2(500)	NOT NULL,
-	qna_content	varchar2(4000)	NOT NULL,
-	qna_date	Date	NOT NULL,
-	qna_rep	varchar2(2)	NOT NULL,
-	qna_pw	varchar2(100)	NOT NULL,
-    CONSTRAINT qna_rep_chk CHECK(qna_rep IN('Y','N'))
-    
+   qna_no   number   PRIMARY KEY,
+   member_id   varchar2(100)   NOT NULL,
+   qna_title   varchar2(500)   NOT NULL,
+   qna_content   varchar2(4000)   NOT NULL,
+   qna_date   Date   NOT NULL,
+   qna_rep   varchar2(2)   NOT NULL,
+   qna_open   varchar2(2)   NOT NULL,
+    CONSTRAINT qna_rep_chk CHECK(qna_rep IN('Y','N')),
+    CONSTRAINT qna_open_chk CHECK(qna_open IN('Y','N'))
 );
+
 CREATE TABLE review (
-	review_seq number PRIMARY KEY,
+    review_seq number PRIMARY KEY,	
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL,
-	review_title	varchar2(500)	NOT NULL,
 	review_content	varchar2(4000)	NOT NULL,
 	review_date	Date	NOT NULL,
 	review_grade	number	
