@@ -14,12 +14,13 @@
 		<typeAlias type="com.blah.vo.MyclassVo" alias="myclassVo" />
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
+
 		
 		<!-- 
 			<typeAlias type="com.blah.vo.FavVo" alias="favVo" />
 			<typeAlias type="com.blah.vo.TutorVo" alias="tutorVo" />
-			<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />
-			<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />	
+			<typeAlias type="com.blah.vo.CalendarVo" alias="calendarVo" />	
+			<typeAlias type="com.blah.vo.LeveltestVo" alias="leveltestVo" />
 		 -->
 	</typeAliases>
 	
@@ -34,12 +35,13 @@
 		<mapper resource="/mybatis/payment-mapper.xml"/>
 		<mapper resource="/mybatis/user-mapper.xml"/>
 		<mapper resource="/mybatis/qna-mapper.xml"/>
-		
+				
 		<!-- 
 			<mapper resource="/mybatis/chatbot-mapper.xml"/>
 			<mapper resource="/mybatis/dictionary-mapper.xml"/>
 			<mapper resource="/mybatis/webcam-mapper.xml"/>
 			<mapper resource="/mybatis/schedule-mapper.xml"/>
+			<mapper resource="/mybatis/leveltest-mapper.xml"/>
 		 -->
 	</mappers> 
 	

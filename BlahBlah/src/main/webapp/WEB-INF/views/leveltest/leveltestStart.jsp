@@ -19,6 +19,14 @@
     <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
+    
+    <script>
+    function printTest(){
+    	alert(leveltestList);
+    }
+    </script>
+    
+    
   </head>
 
   <body>
@@ -66,7 +74,7 @@
                 <p>
 					적절한 난이도의 강의를 수강하면 영어 실력의 향상이 극대화됩니다.
                 </p>
-                <a class="primary-btn" href="leveltest.jsp">
+                <a class="primary-btn" href="leveltest" onclick="printTest()">
                  	 레벨테스트 시작 <i class="ti-arrow-right ml-1"></i>
                 </a>
               </div>
