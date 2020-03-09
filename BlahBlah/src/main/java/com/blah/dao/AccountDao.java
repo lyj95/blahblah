@@ -15,7 +15,7 @@ public interface AccountDao {
 
 	public MemberVo checkApiId(String memberId);
 	public int insertApiMember(MemberVo vo);
-	public Map<String, String> selectEmail(String memberId);
+	public Map<String, String> selectEmail(MemberVo vo);
 	public int updatePwd(MemberVo vo);
 	
 	}

@@ -25,7 +25,7 @@ public class ScheduleController {
 	public ModelAndView showCalendar(HttpServletRequest request, Model model) {
 		logger.info("calendar");
 		
-		//TODO sessoin에서 ID 가져오기
+		
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("MemberId");
 		
