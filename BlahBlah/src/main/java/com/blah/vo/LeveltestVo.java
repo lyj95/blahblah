@@ -1,50 +1,53 @@
 package com.blah.vo;
 
 public class LeveltestVo {
-	private int leveltestNo;
-	private String leveltestAnswer;
-	private String memberID;
+	
+	private String memberId;
+    private int levelScore;
+    private String memeberLevel;
 	
 	public LeveltestVo() {
 		super();
 	}
 
-	public LeveltestVo(int leveltestNo, String leveltestAnswer, String memberID) {
+	public LeveltestVo(String memberId, int levelScore, String memeberLevel) {
 		super();
-		this.leveltestNo = leveltestNo;
-		this.leveltestAnswer = leveltestAnswer;
-		this.memberID = memberID;
+		this.memberId = memberId;
+		this.levelScore = levelScore;
+		this.memeberLevel = memeberLevel;
 	}
 
-	public int getLeveltestNo() {
-		return leveltestNo;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setLeveltestNo(int leveltestNo) {
-		this.leveltestNo = leveltestNo;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
-	public String getLeveltestAnswer() {
-		return leveltestAnswer;
+	public int getLevelScore() {
+		return levelScore;
 	}
 
-	public void setLeveltestAnswer(String leveltestAnswer) {
-		this.leveltestAnswer = leveltestAnswer;
+	public void setLevelScore(int levelScore) {
+		this.levelScore = levelScore;
 	}
 
-	public String getMemberID() {
-		return memberID;
+	public String getMemeberLevel() {
+		return memeberLevel;
 	}
 
-	public void setMemberID(String memberID) {
-		this.memberID = memberID;
+	public void setMemeberLevel(String memeberLevel) {
+		this.memeberLevel = memeberLevel;
 	}
 
 	@Override
 	public String toString() {
-		return "LeveltestVo [leveltestNo=" + leveltestNo + ", leveltestAnswer=" + leveltestAnswer + ", memberID="
-				+ memberID + "]";
+		return "LeveltestVo [memberId=" + memberId + ", levelScore=" + levelScore + ", memeberLevel=" + memeberLevel
+				+ "]";
 	}
+	
+	
 	
 	
 }
