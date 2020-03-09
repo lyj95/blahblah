@@ -32,6 +32,10 @@
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="myclassTotalcnt" column="MYCLASS_TOTALCNT"/>
 		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
+		<result property="lesson1st" column="MYCLASS_DATE1"/>
+		<result property="lesson2nd" column="MYCLASS_DATE2"/>
+		<result property="lesson3rd" column="MYCLASS_DATE3"/>
+		<result property="lesson4th" column="MYCLASS_DATE4"/>
 	</resultMap>
 	
 	<select id="selectMember" parameterType="MemberVo" resultMap="memberMap">
@@ -97,6 +101,28 @@
 		UPDATE MEMBER SET MEMBER_ENABLED = 'N'
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+
+	<select id="getLessonInfo1" parameterType="int" resultMap="lessonMap">
+		SELECT lesson_no, lesson_name, lesson_info, 
+				lesson_level, lesson_type, lesson_time, lesson_price, lesson_total, tutor_id
+		FROM LESSON 
+		WHERE lesson_no = #{lessonNo}
+	</select>
+	<select id="getClassInfo" parameterType="int" resultMap="lessonMap">
+		SELECT member_id, myclass_totalcnt, myclass_remaincnt, 
+				myclass_date1, myclass_date2, myclass_date3, myclass_date4
+		FROM MYCLASS
+		WHERE lesson_no = #{lessonNo}
+	</select>
+	<select id="getLessonInfo" parameterType="int" resultType="HashMap">
+		SELECT LESSON.lesson_no, member_id, tutor_id, myclass_totalcnt, myclass_remaincnt, 
+            lesson_name, lesson_info, lesson_level, lesson_type, lesson_time,
+            myclass_date1, myclass_date2, myclass_date3, myclass_date4
+		FROM MYCLASS
+		JOIN LESSON
+		on MYCLASS.lesson_no = LESSON.lesson_no
+		WHERE LESSON.lesson_no = #{lessonNo}
+	</select>	
 	
 	<select id="selectTutorPhoto" parameterType="MemberVo" resultMap="memberMap">
 		SELECT member_photo, member_id

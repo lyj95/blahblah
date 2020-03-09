@@ -10,7 +10,7 @@
 </script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-	<title>로그인</title>
+	<title>비밀번호 찾기</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -46,10 +46,10 @@
 					비밀번호 찾기
 				</span>
 
-<!-- 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+ 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
 					<input class="input100" type="text" name="memberName" id="memberName" placeholder="이름">
 					<span class="focus-input100"></span>
-				</div> -->
+				</div> 
 				
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
 					<input class="input100" type="text" name="memberId" id="memberId" placeholder="아이디">

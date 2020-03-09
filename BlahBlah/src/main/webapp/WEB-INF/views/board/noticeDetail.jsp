@@ -139,7 +139,7 @@
 				<div class="row"></div>
 				
 				<div class="row">
-					<c:if test="${userID eq 'admin'}">
+					<c:if test="${memberType eq 'ADMIN'}">
 						<div class="col-10"></div>
 						<input type="submit" value="수정" class="genric-btn info circle" style="float: right;">
 						&nbsp;&nbsp;

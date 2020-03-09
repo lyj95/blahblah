@@ -74,13 +74,13 @@
 								<c:when test="${vo.qnaOpen eq 'N'}">
 									<input class="form-check-input" type="checkbox" id="qnaOpen" name="qnaOpen" value="N">
 									<label class="form-check-label" for="gridCheck1">
-										비밀글을 작성하시려면 체크해주세요. 작성자와 아이디가 동일할 경우에만 게시글을 열람할 수 있습니다.
+										비밀글을 작성하시려면 체크해주세요. 작성자만 게시글을 열람할 수 있습니다.
 									</label>
 								</c:when>
 								<c:otherwise>
 									<input class="form-check-input" type="checkbox" id="qnaOpen" name="qnaOpen" value="N">
 									<label class="form-check-label" for="gridCheck1">
-										비밀글을 작성하시려면 체크해주세요. 작성자와 아이디가 동일할 경우에만 게시글을 열람할 수 있습니다.
+										비밀글을 작성하시려면 체크해주세요. 작성자만 게시글을 열람할 수 있습니다.
 									</label>
 								</c:otherwise>
 							</c:choose>

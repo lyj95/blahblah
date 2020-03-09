@@ -148,7 +148,6 @@
 	//캘린더 script
 	document.addEventListener('DOMContentLoaded', function() {
 		    var calendarEl = document.getElementById('calendar');
-		    alert(calendarEl);
 		    var date = new Date();
 			var clist = new Array();
 			

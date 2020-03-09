@@ -1,6 +1,7 @@
 package com.blah.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -109,6 +110,35 @@ public class UserDaoImpl implements UserDao{
 		}
 		return res;
 	}
+	/**
+	 *	@deprecated 폐기 예정
+	 */
+	@Override
+	public LessonVo getLessonInfo1(int lessonNo) {
+		LessonVo lesson = new LessonVo();
+		try {
+			lesson = sqlSession.selectOne(NAMESPACE+"getLessonInfo", lessonNo);
+		} catch (Exception e) {
+			System.out.println("[error] : getLessonInfo");
+			e.printStackTrace();
+		}
+		return lesson;
+	}
+	/**
+	 * @deprecated 폐기 예정
+	 */
+	@Override
+	public MyclassVo getClassInfo(int lessonNo) {
+		MyclassVo myClass = new MyclassVo();
+		myClass = sqlSession.selectOne(NAMESPACE+"getClassInfo", lessonNo);
+		return myClass;
+	}
+	
+	@Override
+	public HashMap<String, Object> getLessonInfo(int lessonNo) {
+		HashMap<String, Object> map = sqlSession.selectOne(NAMESPACE+"getLessonInfo",lessonNo);
+		return map;
+	}
 
 	@Override
 	public List<String> selectTutorPhoto(MemberVo vo) {
@@ -122,6 +152,5 @@ public class UserDaoImpl implements UserDao{
 		}
 		return list;
 	}
-
 
 }

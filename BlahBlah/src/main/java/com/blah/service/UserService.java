@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.validation.BindingResult;
-
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
@@ -21,7 +19,7 @@ public interface UserService {
 	public List<MyclassVo> selectProgress(MemberVo vo);
 	public void uploadProfile(HttpServletRequest request, HttpSession session, FilesVo uploadFile, MemberVo vo);
 	public Map<String, Boolean> changePw(MemberVo vo, HashMap<String, String> hmap);
+	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId);
 	public String deleteMember(MemberVo vo, String nowpw);
 	public List<String> selectTutorPhoto(MemberVo vo);
-
 }

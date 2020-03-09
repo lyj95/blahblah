@@ -119,22 +119,20 @@
 			<div class="single-sidebar-widget newsletter_widget">
 				<div class="comments-area" style="">
 				<h3>답변</h3>
-					<div class="row">
 						<c:choose>
 							<c:when test="${vo.qnaRep eq 'N'}">
 								<c:choose>
-									<c:when test="${userID eq 'admin'}">
+									<c:when test="${memberType eq 'ADMIN'}">
 										<form method="post" action="insertReply" id="form">
 											<input type="hidden" name="qnaNo" value="${vo.qnaNo}">
 											<textarea name="replyContent" id="ir1"
-												placeholder="내용을 입력하세요" required></textarea>
+												placeholder="내용을 입력하세요" style="width:40%; height:30%;" required></textarea>
 											<br>
 											<input type="submit" id="submit" value="답글 등록" class="genric-btn info circle" style="float: right;">
 										</form>
 									</c:when>
 									<c:otherwise>
 										<p>
-											&nbsp; &nbsp;
 											답변이 없습니다
 										</p>
 									</c:otherwise>
@@ -142,11 +140,11 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${userID eq 'admin'}">
+									<c:when test="${memberType eq 'ADMIN'}">
 										<form method="post" action="updateReply" id="form">
 											<input type="hidden" name="qnaNo" value="${vo.qnaNo}">
 											<textarea name="replyContent" id="ir1"
-												placeholder="내용을 입력하세요"
+												placeholder="내용을 입력하세요" style="width:40%; height:30%;"
 												required>${reply.replyContent}</textarea>
 											<br>
 											<input type="button" class="genric-btn info circle" 
@@ -156,14 +154,12 @@
 									</c:when>
 									<c:otherwise>
 										<p>
-											&nbsp; &nbsp;
 											${reply.replyContent}
 										</p>
 									</c:otherwise>
 								</c:choose>
 							</c:otherwise>
 						</c:choose>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -22,6 +22,7 @@ import com.blah.common.validate.FileValidate;
 import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
 import com.blah.vo.FilesVo;
+import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 
 @Controller
@@ -99,10 +100,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/lessonRoom")
-	public String lessonRoom (Model model, int lessonNo) {
+	public String lessonRoom (HttpSession session, int lessonNo, Model model) {
 		logger.info("lessonRoom");
+		String userId = (String)session.getAttribute("userID");
 		
-//		model.addAllAttributes("vo",service.selectOneLesson(lessonNo));
+		HashMap<String, Object> lesson = service.getLessonInfo(lessonNo,userId);
+		model.addAttribute("lesson", lesson);
 
 		return "mypage/mypageLessonRoom";
 	}

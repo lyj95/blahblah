@@ -1,7 +1,7 @@
 package com.blah.service;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.blah.vo.MemberVo;
 
@@ -19,7 +19,7 @@ public interface AccountService {
 	
 	public MemberVo kakaoLogin(HashMap<String, String> userInfo);
 
-	public Map<String, String> selectEmail(String memberId);
+	public Map<String, String> selectEmail(MemberVo vo);
 
 	public String newPwd();
 

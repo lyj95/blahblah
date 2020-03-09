@@ -1,5 +1,6 @@
 package com.blah.service;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,12 +29,10 @@ public class AccountServiceImpl implements AccountService {
 		return dao.login(vo);
 	}
 
-
 	@Override
 	public int signup(MemberVo vo) {
 		return dao.signup(vo);
 	}
-
 	@Override
 	public String idchk(String memberId) throws Exception {
 		
@@ -107,8 +106,8 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public Map<String, String> selectEmail(String memberId) {
-		return dao.selectEmail(memberId);
+	public Map<String, String> selectEmail(MemberVo vo) {
+		return dao.selectEmail(vo);
 	}
 
 

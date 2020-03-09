@@ -13,7 +13,7 @@
 	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
 	var appCtx = pathname.substring(0, pathname.indexOf("/",2));
 	var root = url+appCtx;
-	alert("루트 : "+url);
+	alert("루트 : "+url+"\n${userID} 입장");
 	/* webRtc를 적용하기 위한 기본설정  */
 	
 	//webRtc에 필요한 변수를 지정
@@ -75,7 +75,7 @@
 <!-- 여기까지 webRtc를 적용하기 위한 기본설정 -->
 <script>
 	/* 실제 화상 통신 구현 */
-	var call_token="${userId}";	//사용자를 구분하기 위한 변수
+	var call_token="${userID}";	//사용자를 구분하기 위한 변수
 	var signaling_server;		// 화상채팅시 정보 주고받을 서버 -> websocket 활용
 	var peer_connect;			//실직적인 연결 정보를 저장할 객체
 	
@@ -114,8 +114,8 @@
 			$("#open_call_state").show();
 		}
 		// 메세지를 주고받게 해주는 서버 등록 : websocket
-		// signaling_server = new WebSocket("wss://192.168.0.10:8443/controller/viewChatting");
-		signaling_server = new WebSocket("wss://"+url+"/controller/viewChatting");
+		signaling_server = new WebSocket("wss://172.30.1.36:8443/controller/viewChatting");
+		//signaling_server = new WebSocket("wss://"+url+"/controller/viewChatting");
 		// 시크널링 서버 설정 onmessage 함수 등록
 		signaling_server.onopen = function(){
 			// 메세지 처리 함수
