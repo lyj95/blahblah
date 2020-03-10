@@ -28,14 +28,14 @@
 		var lessonNo = ${vo.lessonNo};
 		var jdata = { "lessonNo" : lessonNo };
 		$.ajax({
-			url: "/controller/chkTable", 
+			url: "/blahblah/chkTable", 
 	        type: "POST",
 	        dataType: "json",
 	        contentType:"application/json",
 	        data: JSON.stringify(jdata),
 			success:function(msg){			//통신 성공시
 				if(msg.res == true){		//결제 진행 가능
-					location.href='/controller/payment?lessonNo=${vo.lessonNo}';
+					location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
 				} else {					//결제 진행 불가
 					alert("이미 수강 중이거나 신청 마감된 강의입니다.");
 				}

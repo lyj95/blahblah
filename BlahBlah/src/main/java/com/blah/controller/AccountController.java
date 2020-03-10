@@ -63,8 +63,8 @@ public class AccountController {
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		String kakaoUrl = kakaoLoginApi.getAuthorizationUrl(session);
 
-		model.addAttribute("kakao_url", kakaoUrl);
 		model.addAttribute("naver_url", naverAuthUrl);
+		model.addAttribute("kakao_url", kakaoUrl);
 
 		return "/account/login";
 	}
@@ -171,10 +171,13 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/sendMail/password")
-	public String sendMailPassword(String memberId, String memberEmail, Model model) {
+	public String sendMailPassword(String memberName, String memberId, String memberEmail, Model model) {
 		
 		Map<String, String> user = new HashMap();
-		user = service.selectEmail(memberId);
+		MemberVo vo = new MemberVo();
+		vo.setMemberId(memberId);
+		vo.setMemberName(memberName);
+		user = service.selectEmail(vo);
 		
 		if (user == null) {
 			model.addAttribute("loc", "/findpwform");
@@ -186,8 +189,6 @@ public class AccountController {
 			
         } else {
         	String newPwd = service.newPwd();
-        	MemberVo vo = new MemberVo();
-        	vo.setMemberId(memberId);
         	vo.setMemberPw(newPwd);
         	int res = service.updatePwd(vo);
         	

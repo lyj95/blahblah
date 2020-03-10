@@ -39,10 +39,10 @@
 </insert>	
 
 
-<select id="selectEmail" resultType="map">
+<select id="selectEmail" parameterType="memberVo" resultType="map">
 	SELECT MEMBER_EMAIL
 	FROM MEMBER 
-	WHERE MEMBER_ID=#{memberId}
+	WHERE MEMBER_ID=#{memberId} AND MEMBER_NAME=#{memberName}
 </select>
 
 	<update id="updatePwd" parameterType="MemberVo">

@@ -70,7 +70,7 @@
                   <a class="nav-link" href="main">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="leveltest">Level Test</a>
+                  <a class="nav-link" href="leveltestStart">Level Test</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="courseList?page=1&perPageNum=6">Course</a>
@@ -129,4 +129,20 @@
         </nav>
       </div>
     </header>
+    
+    <!-- ================================= 챗봇 ======================================= -->
+    <div id="frogue-container" class="position-right-bottom"
+      data-chatbot="2864ec5a-3099-4752-8fa4-45df068b6e4e"></div>
+      
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed'));
+	</script>
+	<!-- ================================= 챗봇 ======================================= -->
+	
     <!--================ End Header Menu Area =================-->
