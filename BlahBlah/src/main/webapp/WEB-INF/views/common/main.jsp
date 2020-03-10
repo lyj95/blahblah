@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,101 +125,29 @@
           <!-- single course -->
           <div class="col-lg-12">
             <div class="owl-carousel active_course">
+          <c:forEach items="${lessonlist}" var="list">
               <div class="single_course">
                 <div class="course_head">
                   <img class="img-fluid" src="resources/img/courses/c1.jpg" alt="" />
                 </div>
                 <div class="course_content">
-                  <span class="price">가격</span>
-                  <span class="tag mb-4 d-inline-block">강의레벨</span>
+                  <span class="price">${list.lessonPrice }</span>
+                  <span class="tag mb-4 d-inline-block">${list.lessonLevel}</span>
                   <h4 class="mb-3">
-                    <a href="course-details.html">강의명</a>
+                    <a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
                   </h4>
                   <p>
-                  	강의설명
+                  	${list.lessonInfo}
                   </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
+                  <div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
                     <div class="authr_meta">
                       <img src="resources/img/courses/author1.png" alt="" />
-                      <span class="d-inline-block ml-2">강사명</span>
+                      <span class="d-inline-block ml-2">${list.tutorId}</span>
                     </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
-                      >
-                    </div>
-                  </div>
                 </div>
               </div>
-
-              <div class="single_course">
-                <div class="course_head">
-                  <img class="img-fluid" src="resources/img/courses/c2.jpg" alt="" />
-                </div>
-                <div class="course_content">
-                  <span class="price">가격</span>
-                  <span class="tag mb-4 d-inline-block">강의레벨</span>
-                  <h4 class="mb-3">
-                    <a href="course-details.html">강의명</a>
-                  </h4>
-                  <p>
-                  	  강의설명
-                  </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
-                    <div class="authr_meta">
-                      <img src="resources/img/courses/author2.png" alt="" />
-                      <span class="d-inline-block ml-2">강사명</span>
-                    </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
-                      >
-                    </div>
-                  </div>
-                </div>
               </div>
-
-              <div class="single_course">
-                <div class="course_head">
-                  <img class="img-fluid" src="resources/img/courses/c3.jpg" alt="" />
-                </div>
-                <div class="course_content">
-                  <span class="price">가격</span>
-                  <span class="tag mb-4 d-inline-block">강의레벨</span>
-                  <h4 class="mb-3">
-                    <a href="course-details.html">강의명</a>
-                  </h4>
-                  <p>
-                  	강의설명
-                  </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
-                    <div class="authr_meta">
-                      <img src="resources/img/courses/author3.png" alt="" />
-                      <span class="d-inline-block ml-2">강사명</span>
-                    </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
+		 </c:forEach>
             </div>
           </div>
         </div>
@@ -233,14 +161,15 @@
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="main_title">
-              <h2 class="mb-3" style="color:white;">Best Tutor</h2>
+              <h2 class="mb-3" style="color:white;">Best Review</h2>
               <p>
-              	블라블라의 인기 강사를 만나보세요
+              	블라블라 회원들의 생생한 수강 후기
               </p>
             </div>
           </div>
         </div>
-        <div class="row justify-content-center d-flex align-items-center">
+        
+<!--   <div class="row justify-content-center d-flex align-items-center">
           <div class="col-lg-3 col-md-6 col-sm-12 single-trainer">
             <div class="thumb d-flex justify-content-sm-center">
               <img class="img-fluid" src="resources/img/trainer/t1.jpg" alt="" />
@@ -258,176 +187,33 @@
               </div>
             </div>
           </div>
-
-          <div class="col-lg-3 col-md-6 col-sm-12 single-trainer">
-            <div class="thumb d-flex justify-content-sm-center">
-              <img class="img-fluid" src="resources/img/trainer/t2.jpg" alt="" />
-            </div>
-            <div class="meta-text text-sm-center">
-              <h4>강사명</h4>
-              <p class="designation">분야</p>
-              <div class="mb-4">
-                <p>
-                	 강사소개
-                </p>
-              </div>
-              <div>
-                <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:12px; color:#002347;">강의 보기</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 col-sm-12 single-trainer">
-            <div class="thumb d-flex justify-content-sm-center">
-              <img class="img-fluid" src="resources/img/trainer/t3.jpg" alt="" />
-            </div>
-            <div class="meta-text text-sm-center">
-              <h4>강사명</h4>
-              <p class="designation">분야</p>
-              <div class="mb-4">
-                <p>
-                 	강사소개
-                </p>
-              </div>
-              <div>
-                <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:12px; color:#002347;">강의 보기</a>
+        </div> -->
+        
+        <div class="row">
+          <div class="testi_slider owl-carousel">
+           <c:forEach items="${reviewlist}" var="list">
+            <div class="testi_item" style="background:white;">
+              <div class="row">
+                <div class="col-lg-4 col-md-6">
+                 <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'"/>
+                </div>
+                <div class="col-lg-8">
+                  <div class="testi_text">
+                    <h4>${list.memberId}</h4>
+                    <p >
+                    <a href="courseDetail?lessonNo=${list.lessonNo }" style="color:gray;"> ${list.reviewContent} </a>                	                   	
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 col-sm-12 single-trainer">
-            <div class="thumb d-flex justify-content-sm-center">
-              <img class="img-fluid" src="resources/img/trainer/t4.jpg" alt="" />
-            </div>
-            <div class="meta-text text-sm-center">
-              <h4>강사명</h4>
-              <p class="designation">분야</p>
-              <div class="mb-4">
-                <p>
-                	강사소개
-                </p>
-              </div>
-              <div>
-                <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:12px; color:#002347;">강의 보기</a>
-              </div>
-            </div>
-          </div>
+        </c:forEach>    
         </div>
       </div>
     </section>
     <!--================ End Trainers Area =================-->
 
-    <!--================ Start Testimonial Area =================-->
-    <div class="testimonial_area section_gap">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-5">
-            <div class="main_title">
-              <h2 class="mb-3">Best Review</h2>
-              <p>
-                	블라블라 회원들의 생생한 수강 후기
-              </p>
-            </div>
-          </div>
-        </div>
 
-		<!-- 메인 구현 하시는 분이 나중에 리스트로 후기 6개 띄워주시면 됩니다~! -->
-        <div class="row">
-          <div class="testi_slider owl-carousel">
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t1.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	매우 유익하고 좋은 시간이었습니다~~
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	강사님이 너무 좋아요
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	재미있다
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	실력이 쑥쑥 늘었습니다
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	강사님 사랑해요
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="resources/img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>ID</h4>
-                    <p>
-                    	강사님을 만나고 입이 트였어요
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     
     <!-- ================================= 챗봇 ======================================= -->
     <div id="frogue-container" class="position-right-bottom"

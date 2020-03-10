@@ -26,7 +26,7 @@
 		ORDER BY LESSON_NO DESC
 	</select>
 	
-	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">
+	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">	
 		SELECT * 
 		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
                 	ROW_NUMBER() OVER (ORDER BY RATE DESC NULLS LAST) AS PAGE
@@ -34,6 +34,18 @@
                 LEFT OUTER JOIN (SELECT LESSON_NO, avg(review_grade) RATE FROM REVIEW GROUP BY LESSON_NO ORDER BY AVG(review_grade) DESC) REVIEW_AVG
                 ON LESSON.LESSON_NO = REVIEW_AVG.LESSON_NO)
 		WHERE PAGE BETWEEN #{rowStart} AND #{rowEnd}
+	</select>
+	
+	<select id="selectPopularLesson" resultMap="LessonMap">
+	<![CDATA[
+		SELECT *
+		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+                ROW_NUMBER() OVER (ORDER BY RATE DESC NULLS LAST) AS PAGE
+                FROM LESSON
+                LEFT OUTER JOIN (SELECT LESSON_NO, avg(review_grade) RATE FROM REVIEW GROUP BY LESSON_NO ORDER BY AVG(review_grade) DESC) REVIEW_AVG
+                ON LESSON.LESSON_NO = REVIEW_AVG.LESSON_NO)
+		WHERE PAGE<3
+	]]>
 	</select>
 	
 	<select id="listCount" resultType="int">
@@ -116,19 +128,43 @@
 		<result property="reviewDate" column="review_date" />
 		<result property="reviewGrade" column="review_grade" />
 	</resultMap>
+		<resultMap type="ReviewVo" id="ReviewMap2">
+		<result property="reviewNo" column="review_seq" />
+		<result property="memberId" column="member_id" />
+		<result property="lessonNo" column="lesson_no" />
+		<result property="reviewTitle" column="review_title" />
+		<result property="reviewContent" column="review_content" />
+		<result property="reviewDate" column="review_date" />
+		<result property="reviewGrade" column="review_grade" />
+		<result property="memberPhoto" column="member_photo" />
+	</resultMap>
 
 	<insert id="addReview" parameterType="ReviewVo">
 		INSERT INTO REVIEW
 		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade})
 	</insert>
 	
-	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
-		SELECT *
-		FROM REVIEW
+	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap2">
+		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, B.MEMBER_PHOTO 
+		FROM REVIEW A
+		JOIN MEMBER B
+		ON A.MEMBER_ID = B.MEMBER_ID
 		WHERE LESSON_NO=#{lessonNo}
 		ORDER BY review_date DESC
 	</select>
-	
+	<select id="selectLatestReview" resultMap="ReviewMap2">
+	<![CDATA[
+		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT,A.REVIEW_DATE, A.REVIEW_GRADE,B.MEMBER_PHOTO
+		FROM (
+			SELECT REVIEW_SEQ, MEMBER_ID, LESSON_NO, REVIEW_CONTENT, REVIEW_DATE, REVIEW_GRADE 
+			FROM REVIEW
+			ORDER BY REVIEW_DATE DESC
+		) A
+		JOIN MEMBER B
+		ON A.MEMBER_ID = B.MEMBER_ID
+		WHERE rownum<=5
+	]]>
+	</select>	
 	<select id="getReviewGrade" parameterType="int" resultType="int" >
 		SELECT REVIEW_GRADE
 		FROM REVIEW
@@ -137,5 +173,6 @@
 	
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM REVIEW WHERE REVIEW_SEQ = #{reviewNo}
-	</delete>	
+	</delete>
+
 </mapper>
