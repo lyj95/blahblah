@@ -16,6 +16,7 @@ public interface LessonDao {
 	int getLastLessonSeq();
 	public int update(LessonVo vo);
 	public int delete(int lessonNo);
+	List<LessonVo> selectPopularLesson();
 	List<LessonVo> searchKeyword(String keyword);
 	List<LessonVo> searchLICENSE();
 	List<LessonVo> searchSPEAKING();
@@ -24,11 +25,13 @@ public interface LessonDao {
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
 	List<ReviewVo> selectReviewList(int lessonNo);
+	List<ReviewVo> selectLatestReview();
 	int listCount();
 	Double getReviewAvg(int lessonNo);
 	List<LessonVo> orderByRiview(PagingVo page);
 	int listReviewCount();
 	int deleteReview(int reviewNo);
+	
 
 	
 

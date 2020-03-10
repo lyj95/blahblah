@@ -199,4 +199,16 @@ public class LessonServiceImpl implements LessonService {
 		return dao.deleteReview(reviewNo);
 	}
 
+	@Override
+	public List<ReviewVo> selectLatestReview() {
+		// TODO 최신 리뷰 조회
+		return dao.selectLatestReview();
+	}
+
+	@Override
+	public List<LessonVo> selectPopularLesson() {
+		// TODO 인기 강의 조회
+		return dao.selectPopularLesson();
+	}
+
 }

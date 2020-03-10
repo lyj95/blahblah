@@ -175,7 +175,7 @@ public class LessonDaoImpl implements LessonDao {
 
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
-			list = sqlSession.selectList(namespace+"selectReviewList",lessonNo);	
+			list = sqlSession.selectList(namespace+"selectReviewList",lessonNo);
 			
 		}catch(Exception e) {
 			System.out.println("[error] : selectReviewList ");
@@ -273,5 +273,32 @@ public class LessonDaoImpl implements LessonDao {
 		
 		return res;
 	}
-	
+
+	@Override
+	public List<ReviewVo> selectLatestReview() {
+		List<ReviewVo> list = new ArrayList<ReviewVo>();
+		try {
+			list = sqlSession.selectList(namespace+"selectLatestReview");	
+			for(ReviewVo i:list) {
+				System.out.println(list);
+			}
+			
+		}catch(Exception e) {
+			System.out.println("[error] : selectLatestReview ");
+			e.printStackTrace();
+		}	
+		return list;
+	}
+
+	@Override
+	public List<LessonVo> selectPopularLesson(){
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		try {
+			list = sqlSession.selectList(namespace + "selectPopularLesson");
+		} catch (Exception e) {
+			System.out.println("[error] :selectPopularLesson");
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

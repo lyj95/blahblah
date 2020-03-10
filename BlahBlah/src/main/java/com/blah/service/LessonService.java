@@ -30,6 +30,9 @@ public interface LessonService {
 	List<LessonVo> orderByRiview(PagingVo page);
 	int listReviewCount();
 	int deleteReview(int reviewNo);
+	List<ReviewVo> selectLatestReview();
+	List<LessonVo> selectPopularLesson();
+
 	
 
 	

@@ -41,7 +41,8 @@
     </script>
 
    <!--================ Start Header Menu Area =================-->
-   <jsp:include page="../common/menu-header.jsp" />
+   <c:import url="../common/menu-header.jsp"></c:import>
+   <!-- style="background: #002347;" -->
   <!--================ End Header Menu Area =================-->
 
     <!--================ Start Course Details Area =================-->
@@ -52,7 +53,7 @@
                 <div class="col-lg-8 course_details_left">
 	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
 	                <c:choose>
-		                <c:when test="${lesson['classDay'] eq true}">
+		                <c:when test="${lesson['classDay'] eq true && lesson['flag'] eq true}">
 		                	<iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
 			                <%-- <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
 		                </c:when>
@@ -70,7 +71,10 @@
                         <h4 class="title">강의 피드백</h4>
                         <div class="content">
                             <ul class="course_list">
-                                <li class="justify-content-between d-flex">
+                            	<c:if test="${empty test}">
+                            		등록된 피드백이 없습니다
+                            	</c:if>
+                                <!-- <li class="justify-content-between d-flex">
                                     <p>First Lesson</p>
                                     <a class="primary-btn text-uppercase" href="#">View Details</a>
                                 </li>
@@ -89,7 +93,7 @@
                                 <li class="justify-content-between d-flex">
                                     <p>Basics of CSS</p>
                                     <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -175,9 +179,8 @@
         		 return "이 페이지를 나가면 종료합니다.";
     	      }
           	  $(document).ready(function(){
-          		 var test = ${lesson["flag"]};
-          		 console.log(test);
-          		 if(!${lesson["flag"]}){
+          		 var flag = ${lesson["flag"]};
+          		 if(!flag){
           			 alert("강의 대상자가 아닙니다! 레슨룸을 나갑니다.");
           			 location.href="mypage";
           		 }
