@@ -163,6 +163,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<LessonVo> selectFav(String memberId) {
+		return dao.selectFav(memberId);
+	}
+	
+	@Override
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
 		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	// lesson & myClass join 한 정보 출력
 //		for(Object key : map.keySet()) {
@@ -189,4 +194,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return map;
 	}
+
 }
