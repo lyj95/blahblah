@@ -25,24 +25,6 @@
   </head>
   
   <script>
-  	/* function checkTest(){
-  	  var radio = document.all["q1"];
-
-  		var bCheck = false;
-  		for ( var i = 0; i < radio.length; i++ ) {
-	  		if( radio[i].checked == true ) {
-	  		alert(radio[i].value);
-	  		bCheck = true;
-	  		}
-  		}
-
-  		if( bCheck == false ){
-  		alert("선택된 값이 없습니다!!!");
-  		radio[0].focus();
-  		
-  		return false;
-  		}	
-  	} */
   	 function checkTest(){
   		
 	  		var radio1 = document.all["q1"];
@@ -50,18 +32,49 @@
 	  		var radio3 = document.all["q3"];
 	  		var radio4 = document.all["q4"];
 	  		var radio5 = document.all["q5"];
-			
-	  		alert(radio1[0].value);
-			console.log(radio1);
-	  		if( radio1 != null  && radio2 != null && radio3 != null && radio4 != null && radio5 != null ){	
-	  			alert("if");
-	  			return true;
-	  		}else {
-	  			alert("선택된 값이 없습니다!!!");
-	  			return false;
-	  		}
-  		
-  		
+
+
+    		var bCheck1 = false;
+    		var bCheck2 = false;
+    		var bCheck3 = false;
+    		var bCheck4 = false;
+    		var bCheck5 = false;
+    		
+    		for ( var i = 0; i < radio1.length; i++ ) {
+	  	  		if( radio1[i].checked == true ) {
+	  	  		bCheck1 = true;
+	  	  		}
+    		}
+    		
+    		for ( var i = 0; i < radio2.length; i++ ) {
+	  	  		if( radio2[i].checked == true ) {
+	  	  		bCheck2 = true;
+	  	  		}
+    		}
+    		
+    		for ( var i = 0; i < radio3.length; i++ ) {
+	  	  		if( radio3[i].checked == true ) {
+	  	  		bCheck3 = true;
+	  	  		}
+    		}
+    		
+    		for ( var i = 0; i < radio4.length; i++ ) {
+	  	  		if( radio4[i].checked == true ) {
+	  	  		bCheck4 = true;
+	  	  		}
+    		}
+    		
+    		for ( var i = 0; i < radio1.length; i++ ) {
+	  	  		if( radio1[i].checked == true ) {
+	  	  		bCheck5 = true;
+	  	  		}
+    		}
+
+    		if( bCheck1 == false || bCheck2 == false || bCheck3 == false || bCheck4 == false || bCheck5 == false){
+    		alert("문제를 다 풀어주세요.");
+    		
+    		return false;
+    		} else return true;
   		
   	  }
   		
@@ -100,7 +113,7 @@
       <div class="container">
 		 <div class="row">
             <div class="col-lg-12">
-            	<form action="POST" action="leveltestResult"  onsubmit="return checkTest()" >
+            	<form action="leveltestResult" method="post"  onsubmit="return checkTest()" >
 	              <div class="banner_content text-center">
 
 	              <div>
@@ -111,12 +124,12 @@
 		                  You ______ good-skin.	
 		                </h2>
 	
-							<input type="radio" id="q1" name="q1" value=20>
+							<input type="radio" id="correct" name="q1" value=20>
 							<label for="primary-radio">are</label>
 	
 							<br>						
 							
-							<input type="radio" id="q1" name="q1" value=0>
+							<input type="radio" id="incorrect" name="q1" value=0>
 							<label for="confirm-radio">have</label>
 							<br>
 							
@@ -131,12 +144,12 @@
 		                  	너 살 빠졌다~	
 		                </h2>
 	
-							<input type="radio" id="q2" name="q2" value=0>
+							<input type="radio" id="incorrect" name="q2" value=0>
 							<label for="primary-radio">You lose weight.</label>
 	
 							<br>						
 							
-							<input type="radio" id="q2" name="q2" value=20>
+							<input type="radio" id="correct" name="q2" value=20>
 							<label for="confirm-radio">You lost weight.</label>
 							<br>
 							
@@ -151,12 +164,12 @@
 		                  I don't know why, but my cell phone ___________.
 		                </h2>
 	
-							<input type="radio" id="q3" name="q3" value=0>
+							<input type="radio" id="incorrect" name="q3" value=0>
 							<label for="primary-radio">doesn't working</label>
 	
 							<br>						
 							
-							<input type="radio" id="q3" name="q3" value=20>
+							<input type="radio" id="correct" name="q3" value=20>
 							<label for="confirm-radio">doesn't work</label>
 							<br>
 							
@@ -171,12 +184,12 @@
 		               		   네가 여기에 있다면 내가 저녁 해줬을텐데.
 		                </h2>
 	
-							<input type="radio" id="q4" name="q4" value=20>
+							<input type="radio" id="correct" name="q4" value=20>
 							<label for="primary-radio">If you were here, I'd cook you dinner.</label>
 	
 							<br>						
 							
-							<input type="radio" id="q4" name="q4" value=0>
+							<input type="radio" id="incorrect" name="q4" value=0>
 							<label for="confirm-radio">If you are here, I'll cook you dinner.</label>
 							<br>
 							
@@ -191,12 +204,12 @@
 		                  They bought a bag of potato chips and a can of beer.
 		                </h2>
 	
-							<input type="radio" id="q5" name="q5" value=20>
+							<input type="radio" id="correct" name="q5" value=20>
 							<label for="primary-radio">그들은 감자칩 한 봉지와 맥주 한 캔을 샀어.</label>
 	
 							<br>						
 							
-							<input type="radio" id="q5" name="q5" value=0>
+							<input type="radio" id="incorrect" name="q5" value=0>
 							<label for="confirm-radio">그들은 감자칩 한 봉지와 맥주 한 캔을 가져왔어.</label>
 							<br>
 							
@@ -208,12 +221,7 @@
 					<div>
 					<input type="submit" class="genric-btn primary e-large col-lg-5" value="점수 확인하기" />
 					</div>
-					
-					<div>
-					<a href="leveltestResult" class="genric-btn primary e-large col-lg-5" >result ui</a>
-					</div>
-					
-					
+				
 	              </div>              
               </form>
             </div>

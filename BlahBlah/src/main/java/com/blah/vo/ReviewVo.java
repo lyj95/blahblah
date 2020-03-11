@@ -8,13 +8,15 @@ public class ReviewVo {
 	private String reviewContent;
 	private String reviewDate;
 	private int reviewGrade; // 강의 별점
+	private String memberPhoto;	//리뷰작성자 프로필
+
 
 	public ReviewVo() {
 		super();
 	}
 
 	public ReviewVo(int reviewNo, String memberId, int lessonNo, String reviewTitle, String reviewContent,
-			String reviewDate, int reviewGrade) {
+			String reviewDate, int reviewGrade, String memberPhoto) {
 		super();
 		this.reviewNo = reviewNo;
 		this.memberId = memberId;
@@ -23,6 +25,8 @@ public class ReviewVo {
 		this.reviewContent = reviewContent;
 		this.reviewDate = reviewDate;
 		this.reviewGrade = reviewGrade;
+		this.memberPhoto = memberPhoto;
+		
 	}	
 
 	public int getReviewNo() {
@@ -79,6 +83,14 @@ public class ReviewVo {
 
 	public void setReviewGrade(int reviewGrade) {
 		this.reviewGrade = reviewGrade;
+	}
+	
+	public String getMemberPhoto() {
+		return memberPhoto;
+	}
+
+	public void setMemberPhoto(String memberPhoto) {
+		this.memberPhoto = memberPhoto;
 	}
 
 	@Override

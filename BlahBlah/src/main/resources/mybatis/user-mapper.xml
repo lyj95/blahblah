@@ -139,4 +139,11 @@
                 </when>
 		</choose>
 	</select>
+	
+	<select id="selectFav" resultMap="lessonMap" >
+		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, lesson_price, lesson_total, tutor_id
+		FROM lesson
+		JOIN fav USING(lesson_no)
+		WHERE member_id = #{memberId}
+	</select>
 </mapper>

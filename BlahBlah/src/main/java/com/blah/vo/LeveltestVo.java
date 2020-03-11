@@ -4,17 +4,17 @@ public class LeveltestVo {
 	
 	private String memberId;
     private int levelScore;
-    private String memeberLevel;
+    private String memberLevel;
 	
 	public LeveltestVo() {
 		super();
 	}
 
-	public LeveltestVo(String memberId, int levelScore, String memeberLevel) {
+	public LeveltestVo(String memberId, int levelScore, String memberLevel) {
 		super();
 		this.memberId = memberId;
 		this.levelScore = levelScore;
-		this.memeberLevel = memeberLevel;
+		this.memberLevel = memberLevel;
 	}
 
 	public String getMemberId() {
@@ -33,21 +33,19 @@ public class LeveltestVo {
 		this.levelScore = levelScore;
 	}
 
-	public String getMemeberLevel() {
-		return memeberLevel;
+	public String getMemberLevel() {
+		return memberLevel;
 	}
 
-	public void setMemeberLevel(String memeberLevel) {
-		this.memeberLevel = memeberLevel;
+	public void setMemberLevel(String memberLevel) {
+		this.memberLevel = memberLevel;
 	}
 
 	@Override
 	public String toString() {
-		return "LeveltestVo [memberId=" + memberId + ", levelScore=" + levelScore + ", memeberLevel=" + memeberLevel
+		return "LeveltestVo [memberId=" + memberId + ", levelScore=" + levelScore + ", memberLevel=" + memberLevel
 				+ "]";
 	}
-	
-	
-	
-	
+
+		
 }

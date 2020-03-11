@@ -22,4 +22,5 @@ public interface UserService {
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId);
 	public String deleteMember(MemberVo vo, String nowpw);
 	public List<String> selectTutorPhoto(MemberVo vo);
+	public List<LessonVo> selectFav(String memberId);
 }
