@@ -106,8 +106,8 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public Map<String, String> selectEmail(String memberId) {
-		return dao.selectEmail(memberId);
+	public Map<String, String> selectEmail(MemberVo vo) {
+		return dao.selectEmail(vo);
 	}
 
 

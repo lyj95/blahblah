@@ -194,13 +194,15 @@
 					</ul>
 				</nav>
 			</c:if>
-
+			
 			<div class="row" style="padding: 2%"></div>
-			<div class="col-md-12 text-right">
-				<button type="button" value="write"
-					onclick="location.href='insertCourseForm'" class="btn primary-btn">글쓰기
-				</button>
-			</div>
+			<c:if test="${memberType eq 'TUTOR'}">
+				<div class="col-md-12 text-right">
+					<button type="button" value="write"
+						onclick="location.href='insertCourseForm'" class="btn primary-btn">글쓰기
+					</button>
+				</div>
+			</c:if>
 		</div>
 	</div>
 	<!--================ End Popular Courses Area =================-->

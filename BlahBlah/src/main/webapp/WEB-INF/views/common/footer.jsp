@@ -23,7 +23,7 @@
     <footer class="footer-area section_gap">
       <div class="container">
         <div class="row">
-          <div class="col-lg-2 col-md-6 single-footer-widget">
+          <div class="col-lg-3 col-md-6 single-footer-widget">
             <h4>Menu</h4>
             <ul>
               <li><a href="leveltest">Level Test</a></li>
@@ -32,12 +32,12 @@
               <li><a href="qna">QnA</a></li>
             </ul>
           </div>
-          <div class="col-lg-2 col-md-6 single-footer-widget">
+          <div class="col-lg-9 col-md-6 single-footer-widget">
             <h4>회사정보</h4>
             <ul>
-              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">회사명 : </p></li>
-              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">연락처 : </p></li>
-              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">이메일 : </p></li>
+              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">회사명 : 블라블라</p></li>
+              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">연락처 : 010-1234-5678</p></li>
+              <li><p class="col-lg-8 col-sm-12 footer-text m-0 text-white">이메일 : blahblah.teamproject@gmail.com</p></li>
             </ul>
           </div>
         </div>

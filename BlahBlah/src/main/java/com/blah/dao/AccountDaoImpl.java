@@ -77,10 +77,10 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public Map<String, String> selectEmail(String memberId) {
+	public Map<String, String> selectEmail(MemberVo vo) {
 		Map<String, String> res = null;
 		try {
-			res = sqlSession.selectOne(NAMESPACE+"selectEmail",memberId);
+			res = sqlSession.selectOne(NAMESPACE+"selectEmail",vo);
 		}catch (Exception e) {
 			System.out.println("[error] : selectEmail");
 			e.printStackTrace();

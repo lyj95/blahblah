@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
+import com.blah.service.UserService;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 import com.blah.vo.PageMakerVo;
@@ -37,8 +38,11 @@ public class LessonController {
 	@Autowired
 	private LessonService service;
 	
+	@Autowired
+	private UserService UService;
+	
 	@RequestMapping(value = "/courseList")
-	public ModelAndView list(PagingVo page) { 
+	public ModelAndView list(PagingVo page, HttpServletRequest request) { 
 		logger.info("[course]Select List"); 
 		ModelAndView mav = new ModelAndView("lesson/course");
 		
@@ -53,89 +57,21 @@ public class LessonController {
 		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("orderby", 1);
 		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
 		return mav; //강의 전체목록 조회
-	}
-
-	@RequestMapping(value = "/courseOrderByReview")
-	public ModelAndView orderByRiview(PagingVo page) {
-		logger.info("[course] orderByRiview"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-
-		page.setPerPageNum(6);
-		
-		PageMakerVo pageMaker = new PageMakerVo();
-		pageMaker.setPageVo(page);
-		pageMaker.setDisplayPageNum(6);
-		pageMaker.setTotalCount(service.listCount());
-
-		mav.addObject("list", service.orderByRiview(page));		
-		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("orderby", 2);
-
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/SearchKeywordCourse")
-	public ModelAndView searchKeyword(@RequestParam(defaultValue="") String keyword) {  
-		logger.info("[course]Search List"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchKeyword(keyword));
-		
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/courseTypeLICENSE")
-	public ModelAndView searchLICENSE() {  
-		logger.info("[course]Search courseType LICENSE"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchLICENSE());
-		
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/courseTypeSPEAKING")
-	public ModelAndView searchSPEAKING() {  
-		logger.info("[course]Search courseType SPEAKING"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchSPEAKING());
-		
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/searchHighLevel")
-	public ModelAndView searchHighLevel() {  
-		logger.info("[course]Search courseType SPEAKING"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchHighLevel());
-		
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/searchMidLevel")
-	public ModelAndView searchMidLevel() { 
-		logger.info("[course]Search courseType SPEAKING"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchMidLevel());
-		
-		return mav; 
-	}
-	
-	@RequestMapping(value = "/searchLowLevel")
-	public ModelAndView searchLowLevel() { 
-		logger.info("[course]Search courseType SPEAKING"); 
-		ModelAndView mav = new ModelAndView("lesson/course");
-		mav.addObject("list", service.searchLowLevel());
-		
-		return mav; 
 	}
 	
 	@RequestMapping(value = "/courseDetail")
-	public ModelAndView detail(Model model, int lessonNo) {
+	public ModelAndView detail(Model model, int lessonNo, HttpServletRequest request) {
 		logger.info("[course]Select One"); 
 		ModelAndView mav = new ModelAndView("lesson/courseDetail");
-	
+		
 		mav.addObject("vo", service.selectOne(lessonNo));
 		mav.addObject("reviewAvg",service.getReviewAvg(lessonNo));	
+		String memberPhoto = (String) request.getSession().getAttribute("memberPhoto");
+		model.addAttribute("memberPhoto", memberPhoto);
 		
 		return mav; 
 	}
@@ -199,6 +135,98 @@ public class LessonController {
 		}
 	}
 
+	@RequestMapping(value = "/courseOrderByReview")
+	public ModelAndView orderByRiview(PagingVo page, HttpServletRequest request) {
+		logger.info("[course] orderByRiview"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+
+		page.setPerPageNum(6);
+		
+		PageMakerVo pageMaker = new PageMakerVo();
+		pageMaker.setPageVo(page);
+		pageMaker.setDisplayPageNum(6);
+		pageMaker.setTotalCount(service.listCount());
+
+		mav.addObject("list", service.orderByRiview(page));		
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("orderby", 2);
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/SearchKeywordCourse")
+	public ModelAndView searchKeyword(@RequestParam(defaultValue="") String keyword, HttpServletRequest request) {  
+		logger.info("[course]Search List"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchKeyword(keyword));
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/courseTypeLICENSE")
+	public ModelAndView searchLICENSE(HttpServletRequest request) {  
+		logger.info("[course]Search courseType LICENSE"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchLICENSE());
+		
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/courseTypeSPEAKING")
+	public ModelAndView searchSPEAKING(HttpServletRequest request) {  
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchSPEAKING());
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/searchHighLevel")
+	public ModelAndView searchHighLevel(HttpServletRequest request) {  
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchHighLevel());
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/searchMidLevel")
+	public ModelAndView searchMidLevel(HttpServletRequest request) { 
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchMidLevel());
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value = "/searchLowLevel")
+	public ModelAndView searchLowLevel(HttpServletRequest request) { 
+		logger.info("[course]Search courseType SPEAKING"); 
+		ModelAndView mav = new ModelAndView("lesson/course");
+		mav.addObject("list", service.searchLowLevel());
+		String memberType = (String) request.getSession().getAttribute("memberType");
+		mav.addObject("memberType", memberType);
+		
+		return mav; 
+	}
+	
+
+
 	@RequestMapping(value="addReview")  
 	@ResponseBody
 	public Map<String,Boolean> addReview(ReviewVo vo) throws Exception {
@@ -246,6 +274,7 @@ public class LessonController {
 		 return map;	
 		 
 	 }
+	 
 	@RequestMapping(value="deleteReview")
 	public String deleteReview(int reviewNo, int lessonNo) {
 		logger.info("[course]deleteReview");	

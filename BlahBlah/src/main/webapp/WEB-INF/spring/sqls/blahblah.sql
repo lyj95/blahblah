@@ -33,18 +33,13 @@ DROP TABLE payment;
 DROP TABLE calendar;
 DROP TABLE leveltest;
 DROP TABLE fav;
+DROP TABLE feedbacks;
 DROP SEQUENCE lesson_seq;
 DROP SEQUENCE notice_seq;
 DROP SEQUENCE qna_seq;
 DROP SEQUENCE member_seq;
-DROP SEQUENCE review_seq
+DROP SEQUENCE review_seq;
 -- 시퀀스 생성
-CREATE SEQUENCE member_seq
-  START WITH 1
-  INCREMENT BY 1
-  MAXVALUE 10000
-  MINVALUE 1
-  NOCYCLE;
 
 CREATE SEQUENCE lesson_seq
   START WITH 1
@@ -99,12 +94,16 @@ CREATE TABLE lesson (
     CONSTRAINT lesson_type_chk CHECK(lesson_type IN('SPEAKING','LICENSE'))
 );
 CREATE TABLE myclass (
-	lesson_no	number	PRIMARY KEY,
+	lesson_no	number	NOT NULL,
 	member_id	varchar2(100)	NOT NULL,
 	myclass_totalcnt	number	NOT NULL,
 	myclass_remaincnt	number	NOT NULL,
 	payment_day	Date	NOT NULL,
-    imp_uid VARCHAR2(200) NOT NULL
+    imp_uid VARCHAR2(200) NOT NULL,
+    myclass_date1 Date,
+    myclass_date2 Date,
+    myclass_date3 Date,
+    myclass_date4 Date
 );
 
 -- 하나의 강의에 하나의 파일?
@@ -127,21 +126,21 @@ CREATE TABLE notice (
     notice_important number
 );
 CREATE TABLE qna (
-	qna_no	number	PRIMARY KEY,
-	member_id	varchar2(100)	NOT NULL,
-	qna_title	varchar2(500)	NOT NULL,
-	qna_content	varchar2(4000)	NOT NULL,
-	qna_date	Date	NOT NULL,
-	qna_rep	varchar2(2)	NOT NULL,
-	qna_pw	varchar2(100)	NOT NULL,
-    CONSTRAINT qna_rep_chk CHECK(qna_rep IN('Y','N'))
-    
+   qna_no   number   PRIMARY KEY,
+   member_id   varchar2(100)   NOT NULL,
+   qna_title   varchar2(500)   NOT NULL,
+   qna_content   varchar2(4000)   NOT NULL,
+   qna_date   Date   NOT NULL,
+   qna_rep   varchar2(2)   NOT NULL,
+   qna_open   varchar2(2)   NOT NULL,
+    CONSTRAINT qna_rep_chk CHECK(qna_rep IN('Y','N')),
+    CONSTRAINT qna_open_chk CHECK(qna_open IN('Y','N'))
 );
+
 CREATE TABLE review (
-	review_seq number PRIMARY KEY,
+    review_seq number PRIMARY KEY,	
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL,
-	review_title	varchar2(500)	NOT NULL,
 	review_content	varchar2(4000)	NOT NULL,
 	review_date	Date	NOT NULL,
 	review_grade	number	
@@ -171,7 +170,29 @@ CREATE TABLE fav (
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL
 );
+
+CREATE TABLE feedbacks (
+    lesson_no number,
+    member_id varchar2(100),
+    class_date Date,
+    feedback_txt varchar2(1000)
+);
+
+
 -- 복합 기본키 제약조건
+
+-- myclass
+ALTER TABLE myclass ADD CONSTRAINT PK_MYCLASS PRIMARY KEY (
+    lesson_no,
+	member_id
+);
+
+ALTER TABLE feedbacks ADD CONSTRAINT PK_FEEDBACKS PRIMARY KEY (
+	member_id,
+	lesson_no,
+    class_date
+);
+
 ALTER TABLE payment ADD CONSTRAINT PK_PAYMENT PRIMARY KEY (
 	member_id,
 	lesson_no
@@ -194,7 +215,19 @@ ALTER TABLE fav ADD CONSTRAINT PK_FAV PRIMARY KEY (
 	member_id,
 	lesson_no
 );
+
+
 -- 외래키 제약조건
+ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks FOREIGN KEY (
+	lesson_no,
+    member_id
+)
+REFERENCES myclass (
+	lesson_no,
+    member_id
+);
+
+
 ALTER TABLE myclass ADD CONSTRAINT FK_les_mclass FOREIGN KEY (
 	lesson_no
 )
