@@ -37,6 +37,12 @@
 		<result property="lesson3rd" column="MYCLASS_DATE3"/>
 		<result property="lesson4th" column="MYCLASS_DATE4"/>
 	</resultMap>
+	<resultMap type="FeedbackVo" id="feedbackMap">
+		<result property="lessonNo" column="LESSON_NO"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="classDate" column="CLASS_DATE"/>
+		<result property="feedbackTxt" column="FEEDBACK_TXT"/>
+	</resultMap>
 	
 	<select id="selectMember" parameterType="MemberVo" resultMap="memberMap">
 		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
@@ -138,5 +144,21 @@
                 	WHERE tutor_id = #{memberId}
                 </when>
 		</choose>
+	</select>
+	<insert id="insertFeedback" parameterType="FeedbackVo">
+		INSERT INTO feedbacks 
+		VALUES(#{lessonNo},#{memberId},#{classDate},#{feedbackTxt})
+	</insert>
+	<update id="updateFeedback">
+		UPDATE feedbacks SET feedback_txt = #{feedbackTxt} WHERE lesson_no = #{lessonNo} AND member_id = ${memberId} AND class_date= TO_DATE(#{classDate})
+	</update>
+	<select id="getTutorName" parameterType="int" resultType="String">
+		SELECT tutor_id FROM MYCLASS 
+		JOIN LESSON
+		on MYCLASS.lesson_no = LESSON.lesson_no
+		where MYCLASS.lesson_no = #{lessonNo}
+	</select>
+	<select id="selectFeedback" parameterType="hashmap" resultMap="feedbackMap">
+		SELECT * FROM FEEDBACKS WHERE lesson_no = #{lessonNo} AND member_id = #{studentId}
 	</select>
 </mapper>

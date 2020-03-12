@@ -14,6 +14,7 @@
 		<typeAlias type="com.blah.vo.MyclassVo" alias="myclassVo" />
 		<typeAlias type="com.blah.vo.MemberVo" alias="memberVo" />
 		<typeAlias type="com.blah.vo.FilesVo" alias="filesVo" />
+		<typeAlias type="com.blah.vo.FeedbackVo" alias="FeedbackVo" />
 
 		
 		<!-- 

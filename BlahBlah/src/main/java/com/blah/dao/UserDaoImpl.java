@@ -3,11 +3,13 @@ package com.blah.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 import com.blah.vo.MyclassVo;
@@ -152,5 +154,27 @@ public class UserDaoImpl implements UserDao{
 		}
 		return list;
 	}
-
+	
+	@Override
+	public int insertFeedback(FeedbackVo vo) {
+		int res = sqlSession.insert(NAMESPACE+"insertFeedback",vo);
+		return res;
+	}
+	@Override
+	public int updateFeedback(FeedbackVo vo) {
+		int res = sqlSession.update(NAMESPACE+"updateFeedback", vo);
+		return res;
+	}
+	@Override
+	public String getTutorName(int lessonNo) {
+		String res = sqlSession.selectOne(NAMESPACE+"getTutorName", lessonNo);
+		return res;
+	}
+	@Override
+	public List<FeedbackVo> selectFeedback(Map<String, Object> pk) {
+		List<FeedbackVo> feedback=null;
+		feedback = sqlSession.selectList(NAMESPACE+"selectFeedback", pk);
+		return feedback;
+	}
+	
 }
