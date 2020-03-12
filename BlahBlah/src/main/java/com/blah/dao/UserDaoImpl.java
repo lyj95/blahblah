@@ -177,4 +177,18 @@ public class UserDaoImpl implements UserDao{
 		return feedback;
 	}
 	
+
+	@Override
+	public List<LessonVo> selectFav(String memberId) {
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "selectFav", memberId);
+		} catch(Exception e) {
+			System.out.println("[error] : selectFav");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

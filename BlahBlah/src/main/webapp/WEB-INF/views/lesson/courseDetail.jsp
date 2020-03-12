@@ -28,14 +28,14 @@
 		var lessonNo = ${vo.lessonNo};
 		var jdata = { "lessonNo" : lessonNo };
 		$.ajax({
-			url: "/controller/chkTable", 
+			url: "/blahblah/chkTable", 
 	        type: "POST",
 	        dataType: "json",
 	        contentType:"application/json",
 	        data: JSON.stringify(jdata),
 			success:function(msg){			//통신 성공시
 				if(msg.res == true){		//결제 진행 가능
-					location.href='/controller/payment?lessonNo=${vo.lessonNo}';
+					location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
 				} else {					//결제 진행 불가
 					alert("이미 수강 중이거나 신청 마감된 강의입니다.");
 				}
@@ -237,12 +237,14 @@ function reviewsubmit(){
 	 var reviewContent = $("#reviewContent").val(); //댓글의 내용
      var lessonNo = "${vo.lessonNo}"; //강의번호
      var memberId = "${userID}";
+     var memberPhoto = "${memberPhoto}";
      var reviewGrade = $("#reviewGrade option:selected").val();
      var params = {
     		 "reviewContent" : reviewContent, 
     		 "lessonNo" : lessonNo, 
     		 "memberId" : memberId, 
-    		 "reviewGrade" : reviewGrade
+    		 "reviewGrade" : reviewGrade,
+    		 "memberPhoto" : memberPhoto
     		 };    
      
      $.ajax({
@@ -285,7 +287,7 @@ function getCommentList(){
 	                    html += "<div class='comment-list'>";
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
-	                    html += "<img src='resources/img/blog/c1.jpg' alt=''></div><div class='desc'>";  //1.프로필사진 링크 넣기
+	                    html += "<img name ='profileImg' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image();' style='width: 5vw; height: auto;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //2.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
@@ -349,6 +351,13 @@ function getCommentAvg(){
         
     });       
 }  
+
+
+function no_image() {
+
+$("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
+
+} 
 
 
 </script>

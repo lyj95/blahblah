@@ -33,18 +33,13 @@ DROP TABLE payment;
 DROP TABLE calendar;
 DROP TABLE leveltest;
 DROP TABLE fav;
+DROP TABLE feedbacks;
 DROP SEQUENCE lesson_seq;
 DROP SEQUENCE notice_seq;
 DROP SEQUENCE qna_seq;
 DROP SEQUENCE member_seq;
-DROP SEQUENCE review_seq
+DROP SEQUENCE review_seq;
 -- 시퀀스 생성
-CREATE SEQUENCE member_seq
-  START WITH 1
-  INCREMENT BY 1
-  MAXVALUE 10000
-  MINVALUE 1
-  NOCYCLE;
 
 CREATE SEQUENCE lesson_seq
   START WITH 1
@@ -99,7 +94,7 @@ CREATE TABLE lesson (
     CONSTRAINT lesson_type_chk CHECK(lesson_type IN('SPEAKING','LICENSE'))
 );
 CREATE TABLE myclass (
-	lesson_no	number	PRIMARY KEY,
+	lesson_no	number	NOT NULL,
 	member_id	varchar2(100)	NOT NULL,
 	myclass_totalcnt	number	NOT NULL,
 	myclass_remaincnt	number	NOT NULL,
@@ -175,6 +170,7 @@ CREATE TABLE fav (
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL
 );
+
 CREATE TABLE feedbacks (
     lesson_no number,
     member_id varchar2(100),
@@ -183,6 +179,19 @@ CREATE TABLE feedbacks (
 );
 
 -- 복합 기본키 제약조건
+
+-- myclass
+ALTER TABLE myclass ADD CONSTRAINT PK_MYCLASS PRIMARY KEY (
+    lesson_no,
+	member_id
+);
+
+ALTER TABLE feedbacks ADD CONSTRAINT PK_FEEDBACKS PRIMARY KEY (
+	member_id,
+	lesson_no,
+    class_date
+);
+
 ALTER TABLE payment ADD CONSTRAINT PK_PAYMENT PRIMARY KEY (
 	member_id,
 	lesson_no
@@ -205,7 +214,19 @@ ALTER TABLE fav ADD CONSTRAINT PK_FAV PRIMARY KEY (
 	member_id,
 	lesson_no
 );
+
+
 -- 외래키 제약조건
+ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks FOREIGN KEY (
+	lesson_no,
+    member_id
+)
+REFERENCES myclass (
+	lesson_no,
+    member_id
+);
+
+
 ALTER TABLE myclass ADD CONSTRAINT FK_les_mclass FOREIGN KEY (
 	lesson_no
 )

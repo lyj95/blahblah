@@ -5,7 +5,23 @@
   
 <mapper namespace="leveltest">
 
-
+	<resultMap type="LeveltestVo" id="leveltestMap">
+		<result property="memberId" column="member_id" />
+		<result property="levelScore" column="level_score" />
+		<result property="memberLevel" column="member_level" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="LeveltestVo">
+		INSERT INTO MEMBER_LEVEL
+		Values(#{memberId},#{levelScore},#{memberLevel})
+	</insert>
+	
+	<select id="selectLevel" parameterType="String" resultMap="leveltestMap">
+		SELECT * FROM MEMBER_LEVEL
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	
 
 
 </mapper>

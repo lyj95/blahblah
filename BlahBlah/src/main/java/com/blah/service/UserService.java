@@ -27,4 +27,5 @@ public interface UserService {
 	public boolean isClassTutor(int lessonNo, String memberId);
 	public List<FeedbackVo> selectFeedback(int lessonNo, String studentId);
 	public int updateFeedback(FeedbackVo vo, String userId);
+	public List<LessonVo> selectFav(String memberId);
 }

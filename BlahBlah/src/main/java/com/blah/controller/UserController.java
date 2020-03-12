@@ -52,6 +52,7 @@ public class UserController {
 		mav.addObject("progressList", service.selectProgress(vo));
 		mav.addObject("clist", sservice.selectCalendar(memberId));
 		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
+		mav.addObject("favList", service.selectFav(memberId));
 		
 		return mav;
 	}
@@ -81,15 +82,6 @@ public class UserController {
 		return map;
 	}
 	
-//	@RequestMapping(value = "/deleteMember")
-//	public String deleteUser(HttpSession session, Model model, MemberVo memVo) {
-//		logger.info("deleteMember");
-//		MemberVo vo = (MemberVo)session.getAttribute("login");
-//		System.out.println(memVo.getMemberPw());
-//		
-//		Map<String, Boolean> map = service.deleteMember(vo, memVo.getMemberPw()); 
-//		return "common/main";
-//	}
 	@RequestMapping(value = "/deleteMember",produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String deleteUser(HttpSession session, @RequestBody Map<String, String> deleteval) {

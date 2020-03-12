@@ -3787,9 +3787,11 @@ Docs & License: https://fullcalendar.io/
             }
             applyStyle(this.el, { overflowX: overflowX, overflowY: overflowY });
         };
+        
         ScrollComponent.prototype.setHeight = function (height) {
-            applyStyleProp(this.el, 'height', height);
+            //applyStyleProp(this.el, 'height', height);	변경
         };
+        
         ScrollComponent.prototype.getScrollbarWidths = function () {
             var edges = computeEdges(this.el);
             return {
@@ -6331,7 +6333,7 @@ Docs & License: https://fullcalendar.io/
         // -----------------------------------------------------------------------------------------------------------------
         CalendarComponent.prototype.freezeHeight = function () {
             applyStyle(this.el, {
-                height: this.el.getBoundingClientRect().height,
+                //height: this.el.getBoundingClientRect().height, 변경
                 overflow: 'hidden'
             });
         };

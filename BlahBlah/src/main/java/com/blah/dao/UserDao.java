@@ -26,4 +26,5 @@ public interface UserDao {
 	public String getTutorName(int lessonNo);
 	public List<FeedbackVo> selectFeedback(Map<String, Object> pk);
 	public int updateFeedback(FeedbackVo vo);
+	public List<LessonVo> selectFav(String memberId);
 }

@@ -176,6 +176,11 @@ public class UserServiceImpl implements UserService {
 	 * @return 유저와 날짜에 맞춘 정보
 	 */
 	@Override
+	public List<LessonVo> selectFav(String memberId) {
+		return dao.selectFav(memberId);
+	}
+	
+	@Override
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
 		// lesson & myClass join 한 정보 출력
 		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	

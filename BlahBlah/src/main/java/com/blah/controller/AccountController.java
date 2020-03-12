@@ -181,7 +181,7 @@ public class AccountController {
 		
 		if (user == null) {
 			model.addAttribute("loc", "/findpwform");
-			model.addAttribute("msg", "입력하신 아이디는 존재하지 않습니다.");
+			model.addAttribute("msg", "입력하신 아이디 또는 이름이 존재하지 않습니다.");
 		
 		} else if(!user.get("MEMBER_EMAIL").equals(memberEmail)) {
 			model.addAttribute("loc", "/findpwform");
@@ -203,7 +203,7 @@ public class AccountController {
         	}
         	
         	model.addAttribute("loc", "/login");
-        	model.addAttribute("msg", "귀하의 이메일로 새로운 임시 비밀번호를 발송 하였습니다.");
+        	model.addAttribute("msg", "회원님의 이메일로 새로운 임시 비밀번호를 발송 하였습니다.");
         }
         return "common/msg";
 
