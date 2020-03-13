@@ -397,12 +397,9 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								
                                      <div class="container">
                                      	<div id="calendar"></div>
                                      </div>
-                                     
-                               
 							</div>
 
 							<!-- 수강중인 강의 시작-->

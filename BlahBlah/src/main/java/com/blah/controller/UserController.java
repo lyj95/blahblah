@@ -1,6 +1,7 @@
 package com.blah.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.blah.common.validate.FileValidate;
 import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
@@ -97,10 +99,43 @@ public class UserController {
 		String userId = (String)session.getAttribute("userID");
 		
 		HashMap<String, Object> lesson = service.getLessonInfo(lessonNo,userId);
+		
+		try {
+			String studentId = (String)lesson.get("MEMBER_ID");
+			List<FeedbackVo> feedback = service.selectFeedback(lessonNo,studentId);
+			model.addAttribute("feedback", feedback);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("lesson", lesson);
 
 		return "mypage/mypageLessonRoom";
 	}
-
-
+	
+	@RequestMapping(value="/insertFeedback")
+	public String insertFeedback(HttpSession session, FeedbackVo feedbackVo) {
+		System.out.println(feedbackVo.toString());
+		String userId = (String)session.getAttribute("userID");
+		String msg = "피드백 작성을 실패했습니다."; 
+		int success = service.insertFeedback(feedbackVo, userId);
+		if(success>0) {
+			msg = "피드백 작성을 성공했습니다.";
+		}
+		System.out.println(msg+" : feedback");
+		return msg;
+	}
+	
+	@RequestMapping(value="/updateFeedback")
+	public String updateFeedback(HttpSession session, FeedbackVo feedbackVo) {
+		System.out.println("업데이트 용 : "+feedbackVo.toString());
+		String userId = (String)session.getAttribute("userID");
+		String msg = "피드백 수정을 실패했습니다."; 
+		int success = service.updateFeedback(feedbackVo, userId);
+		if(success>0) {
+			msg = "피드백 수정을 성공했습니다.";
+		}
+		System.out.println(msg+" : feedback");
+		return msg;
+	}
 }

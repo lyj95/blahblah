@@ -20,12 +20,7 @@
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
     
-    <script>
-    function printTest(){
-    	alert(leveltestList);
-    }
-    </script>
-    
+
     
   </head>
 
@@ -63,7 +58,7 @@
 
 	              <div class="text-center">
 	             	<div>
-		                <h2 class="mt-4 mb-5"> ㅇㅇㅇ 님의 점수는 0 점 입니다. </h2>							
+		                <h2 class="mt-4 mb-5"> ${vo.memberId} 님의 점수는 ${vo.levelScore}점 입니다. </h2>							
 					</div>
 	                <br><br><br><br><br>	              	             
 	              </div>              
@@ -89,7 +84,7 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
+							<p>강의 소개</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">
@@ -129,7 +124,7 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
+							<p>강의 소개</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">
@@ -169,7 +164,7 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
+							<p>강의 소개</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">
@@ -209,7 +204,7 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
+							<p>강의 소개</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">

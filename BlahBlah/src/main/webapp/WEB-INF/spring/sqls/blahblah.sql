@@ -180,7 +180,6 @@ CREATE TABLE feedbacks (
     feedback_txt varchar2(1000)
 );
 
-
 -- 복합 기본키 제약조건
 
 -- myclass
@@ -301,5 +300,22 @@ ALTER TABLE fav ADD CONSTRAINT FK_lesson_fav FOREIGN KEY (
 )
 REFERENCES lesson (
 	lesson_no
+);
+ALTER TABLE feedbacks ADD CONSTRAINT PK_feedbacks PRIMARY KEY (
+	member_id,
+	lesson_no,
+    class_date
+);
+ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks FOREIGN KEY (
+	lesson_no
+)
+REFERENCES myclass (
+	lesson_no
+);
+ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks_id FOREIGN KEY (
+	member_id
+)
+REFERENCES member (
+	member_id
 );
 commit;

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
 import com.blah.dao.UserDao;
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
@@ -162,6 +164,17 @@ public class UserServiceImpl implements UserService {
 		return dao.selectTutorPhoto(vo);
 	}
 	
+	/**
+	 * 클래스 정보를 들고오는 기능
+	 * DB에 저장된 날짜와 오늘 날짜를 비교해 수강 날짜가 맞는지
+	 * 입장한 유저 정보가 학생인지 강사인지를 파악한 후 
+	 * 알맞은 정보를 가져온다
+	 * 
+	 * @author yaans
+	 * @param lessonNo 수강 강의번호
+	 * @param userId 유저아이디
+	 * @return 유저와 날짜에 맞춘 정보
+	 */
 	@Override
 	public List<LessonVo> selectFav(String memberId) {
 		return dao.selectFav(memberId);
@@ -169,13 +182,11 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
-		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	// lesson & myClass join 한 정보 출력
-//		for(Object key : map.keySet()) {
-//			System.out.println(key+" : "+map.get(key));
-//		}
-		// 기본값 false로 세팅
-		map.put("flag", false);
-		map.put("classDay",false);
+		// lesson & myClass join 한 정보 출력
+		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	
+		for(Object key : map.keySet()) { System.out.println(key+" : "+map.get(key)); }  // 확인용 sysout
+		
+		map.put("flag", false);		// 참가 자격 : 기본값 false로 세팅
 		
 		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
 			map.put("flag", true);		// session 정보와 비교
@@ -184,15 +195,74 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
 		String today = format.format(new Date());							// 오늘 날짜 String Type
 		
-		int classCnt = 4;						// 수업 횟수  FIXME 리터럴로 적는게 아닌 DB에서 받아올 수 있는 값 생각해보기
+		int classCnt = ((BigDecimal)map.get("MYCLASS_TOTALCNT")).intValue();
 		for(int i=1; i<=classCnt; i++) {
 			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
 			if(today.compareTo(format.format(compareDay)) == 0) {
-				map.put("classDay",true);		// DB 날짜와 오늘 날짜가 같으면 수업날짜를 true로 출력
+				map.put("classDay",today);		// DB 날짜와 오늘 날짜가 같으면 수업날짜 map에 저장
 				break;
 			}
 		}
 		return map;
 	}
-
+	
+	/**
+	 * 강의 피드백 입력
+	 * @author yaans
+	 * @param vo 강사 피드백 내용
+	 * @return 피드백 입력 성공여부
+	 */
+	@Override
+	public int insertFeedback(FeedbackVo vo, String userId) {
+		boolean authorization = isClassTutor(vo.getLessonNo(), userId);
+		int res = 0;
+		if(authorization) {		// 피드백을 작성한 권한이 있다면
+			res = dao.insertFeedback(vo);
+		}
+		return res;
+	}
+	@Override
+	public int updateFeedback(FeedbackVo vo, String userId) {
+		boolean authorization = isClassTutor(vo.getLessonNo(), userId);
+		int res = 0;
+		if(authorization) {		// 피드백을 작성한 권한이 있다면
+			res = dao.updateFeedback(vo);
+		}
+		return res;
+	}
+	
+	/**
+	 * DB에 저장된 튜터아이디와 사용자의 아이디를 비교하는 과정. 사용자가 튜터로서 강의실에 입장했는지 여부
+	 * @param lessonNo 강의 번호
+	 * @param userId 사용자 아이디
+	 * @return 사용자가 튜터가 맞는지
+	 */
+	@Override
+	public boolean isClassTutor(int lessonNo, String userId) {
+		boolean authorization = false;
+		String tutorId = dao.getTutorName(lessonNo);
+		if(userId.equals(tutorId)) {
+			authorization = true;
+		}
+		return authorization;
+	}
+	@Override
+	public List<FeedbackVo> selectFeedback(int lessonNo, String studentId) {
+		Map<String, Object> pk = new HashMap<String, Object>();
+		pk.put("lessonNo", lessonNo);
+		pk.put("studentId", studentId);
+		List<FeedbackVo> feedback = dao.selectFeedback(pk);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식
+		for(FeedbackVo i : feedback) {
+			Date dateType;
+			try {
+				dateType = format.parse(i.getClassDate());
+				i.setClassDate(format.format(dateType));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			System.out.println(i.toString());
+		}
+		return feedback;
+	}
 }
