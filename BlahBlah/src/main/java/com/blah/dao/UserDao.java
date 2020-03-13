@@ -27,4 +27,5 @@ public interface UserDao {
 	public List<FeedbackVo> selectFeedback(Map<String, Object> pk);
 	public int updateFeedback(FeedbackVo vo);
 	public List<LessonVo> selectFav(String memberId);
+	public int setRemainClass(Map<String, Object> pk);
 }

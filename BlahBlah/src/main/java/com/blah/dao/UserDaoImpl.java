@@ -190,5 +190,9 @@ public class UserDaoImpl implements UserDao{
 		}
 		return list;
 	}
-
+	@Override
+	public int setRemainClass(Map<String, Object> pk) {
+		int res = sqlSession.update(NAMESPACE+"setRemainClass", pk);
+		return res;
+	}
 }

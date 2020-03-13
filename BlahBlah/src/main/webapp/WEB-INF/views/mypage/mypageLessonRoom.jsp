@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -54,13 +53,17 @@
 			                <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
 		                </c:when>
 		                <c:otherwise>
-		                	수업 날짜가 아닙니다.
+		                	<p style="font-weight: bold; text-align: center; padding-top: 20%; font-size: larger;">
+		                		수업 날짜가 아닙니다. <br><br>수업에서 만나요 :)
+		                	</p>
 		                </c:otherwise>
 	                </c:choose>
 	                </div>
                     <div class="content_wrapper">
 						<h4 class="title">강의 피드백 
-                        	<span class="genric-btn primary small" style="float:right;" data-toggle="modal" data-target="#feedbackModal" data-backdrop="static">write feedback(수업날짜만 열리기)</span>
+                        	<c:if test="${!empty lesson['classDay'] && userID eq lesson['TUTOR_ID']}">
+	                        	<span class="genric-btn primary small" style="float:right;" data-toggle="modal" data-target="#feedbackModal" data-backdrop="static">feedback 작성</span>
+                        	</c:if>	
                        	</h4>
                         <div class="content">
                             <ul class="course_list">
@@ -71,7 +74,9 @@
 	                            	<li class="justify-content-between d-flex">
 	                                    <p>
 	                                    	${feedback.classDate} 수업의 피드백
-	                                    	<span class="genric-btn primary small" style="float:right; margin: 0 15px; padding: 0 10px;" data-toggle="modal" href="javascript:void(0);" onclick="showFeedbackUpdate('${feedback.feedbackTxt}','${feedback.classDate}');" data-backdrop="static">수정</span>
+	                                    	<c:if test="${userID eq lesson['TUTOR_ID']}">
+		                                    	<span class="genric-btn primary small" style="float:right; margin: 0 15px; padding: 0 10px;" data-toggle="modal" href="javascript:void(0);" data-backdrop="static" onclick='showFeedbackUpdate("${feedback.feedbackTxt}","${feedback.classDate}")'>수정</span>
+          									</c:if>
 	                                    </p>
 	                                    <a class="primary-btn text-uppercase" data-toggle="modal" data-backdrop="static" href="javascript:void(0);" onclick="showFeedback('${feedback.feedbackTxt}');">View Details</a>
 	                                </li>
@@ -112,7 +117,7 @@
 					<h4 class="title">사전</h4>
 					<a class="justify-content-between d-flex" onclick="dicFunction();">
                            <p>단어 찾기</p>
-                           <span class="genric-btn primary small">dictionary</span>
+                           <p class="genric-btn primary small">dictionary</p>
                     </a>
 
                      <h4 class="title">진도율</h4>
@@ -150,13 +155,13 @@
 				<form action="insertFeedback">
 				<div class="modal-body">
 					<div class="form-group">
-			            <label for="feedback-txt" class="col-form-label">feedback context</label>
-			            <textarea class="form-control" id="feedback-txt" name="feedback-txt" required></textarea>
+			            <label for="insert-fb-txt" class="col-form-label">feedback context</label>
+			            <textarea class="form-control" id="insert-fb-txt" name="insert-fb-txt" required></textarea>
 			        </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-warning" id="feedbackBtn">피드백 저장</button>
+					<button type="button" class="btn btn-warning" id="feedbackBtn" onclick="ajaxFeedback('insert');">피드백 저장</button>
 				</div>
 				</form>
 			</div>
@@ -202,13 +207,13 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<input type="hidden" id="fd-date">
-			            <label for="feedback-txt" class="col-form-label">수정할 내용</label>
-			            <textarea class="form-control" id="update-fd-txt" name="update-fd-txt" required></textarea>
+			            <label for="insert-fb-txt" class="col-form-label">수정할 내용</label>
+			            <textarea class="form-control" id="update-fb-txt" name="update-fb-txt" required></textarea>
 			        </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-warning" id="updateFbBtn">피드백 수정</button>
+					<button type="button" class="btn btn-warning" id="updateFbBtn" onclick="ajaxFeedback('update');">피드백 수정</button>
 				</div>
 				</form>
 			</div>
@@ -234,82 +239,76 @@
           <script src="resources/js/gmaps.min.js"></script>
           <script src="resources/js/theme.js"></script>
           <script type="text/javascript">
-          	  window.onbeforeunload = function() {
+          	  /* window.onbeforeunload = function() {
         		 return "이 페이지를 나가면 종료합니다.";
-    	      }
+    	      } */
           	  $(document).ready(function(){
           		 var flag = ${lesson["flag"]};
           		 if(!flag){
           			 alert("강의 대상자가 아닙니다! 레슨룸을 나갑니다.");
           			 location.href="mypage";
           		 }
-         		
           	  });
-          	  // feedback 작성
-          	  $('#feedbackBtn').click(function(){
-          		  if($('#feedback-txt').val() == "" || $('#feedback-txt').val().length<10){
-          			  alert("피드백을 10자 이상 입력해주세요");
-          			  return false;
-          		  } 
-	          	  $.ajax({
-	          		  url:"insertFeedback",
-	          		  data: {	lessonNo : '${lesson["LESSON_NO"]}',
-	          			  		feedbackTxt : $("#feedback-txt").val(),
-	          			  		memberId : '${lesson["MEMBER_ID"]}',
-	          			  		classDate : '${lesson["classDay"]}'
-	          			  	},
-	          		  async: false,
-	          		  type:"POST",
-	          		  dataType:"json",
-	          		  success:function(data){
-	          			  alert(data);
-	          			  console.log(data);
-	          			  location.reload();
-	          		  },
-	          		  error: function(error){
-	          			  alert(error);
-	          			  console.log(error);
-	          		  }
-	          	  });
-          	  });
-          	  // feedback 수정
-          	  $('#updateFbBtn').click(function(){
-        		  if($('#update-fd-txt').val() == "" || $('#update-fd-txt').val().length<10){
-        			  alert("피드백을 10자 이상 입력해주세요");
-        			  return false;
-        		  } 
-	          	  $.ajax({
-	          		  url:"updateFeedback",
-	          		  data: {	lessonNo : '${lesson["LESSON_NO"]}',
-	          			  		feedbackTxt : $("#update-fd-txt").val(),
-	          			  		memberId : '${lesson["MEMBER_ID"]}',
-	          			  		classDate : $("#fd-date").val()
-	          			  	},
-	          		  async: false,
-	          		  type:"POST",
-	          		  dataType:"json",
-	          		  success:function(data){
-	          			  alert(data);
-	          			  console.log(data);
-	          			  location.reload();
-	          		  },
-	          		  error: function(error){
-	          			  alert(error);
-	          			  console.log(error);
-	          		  }
-	          	  });
-        	  });
-          	  // feedback 확인
-          	  function showFeedback(txt){
-          		  $("#feedbackContext").text(txt);
-          		  $('#feedbackDetail').modal('show');
-          	  }
-          	  function showFeedbackUpdate(txt,date){
-        		  $("#update-fd-txt").text(txt);
-        		  $("#fd-date").val(date);
-        		  $('#feedbackUpdate').modal('show');
-        	  }
-          	  
+	          	function ajaxFeedback(status){
+	        		var feedbackTxt;
+	        		var classDate;
+	        		var url;
+	        		if(status == "insert"){
+	        			url = "insertFeedback";
+		          		feedbackTxt = $("#insert-fb-txt").val();
+		          		classDate = '${lesson["classDay"]}';
+		          		if($('#insert-fb-txt').val() == "" || $('#insert-fb-txt').val().length<10){
+	         			  alert("피드백을 10자 이상 입력해주세요");
+	         			  return false;
+	         		  	}
+	        		} 
+	        		if(status == "update"){
+	        			url = "updateFeedback";
+	        			feedbackTxt = $("#update-fb-txt").val();
+	        			classDate = $("#fd-date").val();
+		          		if($('#update-fb-txt').val() == "" || $('#update-fb-txt').val().length<10){
+	         			  alert("피드백을 10자 이상 입력해주세요");
+	         			  return false;
+	         		  	}
+	        		}
+		          	  $.ajax({
+		          		  url:url,
+		          		  data: {	lessonNo : '${lesson["LESSON_NO"]}',
+		          			  		memberId : '${lesson["MEMBER_ID"]}',	// 공통값
+		          			  		feedbackTxt : feedbackTxt,
+		          			  		classDate : classDate
+		          			  	},
+		          		  async: false,
+		          		  type:"POST",
+		          		  dataType:"text",
+		          		  success:function(data){
+		          			  alert(data);
+		          			  console.log(data);
+		          			  location.reload()
+		          		  },
+		          		  error:function(request,status,error){
+		          		   	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		          		  }
+		          	  });
+	        	};
+				// feedback 확인
+				function showFeedback(txt){
+					$("#feedbackContext").text(txt);
+					$('#feedbackDetail').modal('show');
+				}
+				function showFeedbackUpdate(txt,date){
+					$("#update-fb-txt").text(txt);
+					$("#fd-date").val(date);
+					$('#feedbackUpdate').modal('show');
+				};
+          	
+          	 
+          	  /* function limitLength(id){
+          		if($(id).val() == "" || $(id).val().length<10){
+       			  alert("피드백을 10자 이상 입력해주세요");
+       			  return false;
+       		  	}
+          	  } */
           </script>
         </body>
 </html>

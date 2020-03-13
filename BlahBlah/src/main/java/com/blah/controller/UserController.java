@@ -1,5 +1,7 @@
 package com.blah.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import com.blah.vo.MemberVo;
 
 @Controller
 public class UserController {
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserService service;
@@ -113,7 +115,8 @@ public class UserController {
 		return "mypage/mypageLessonRoom";
 	}
 	
-	@RequestMapping(value="/insertFeedback")
+	@RequestMapping(value="/insertFeedback", produces = "application/text; charset=UTF-8")
+	@ResponseBody
 	public String insertFeedback(HttpSession session, FeedbackVo feedbackVo) {
 		System.out.println(feedbackVo.toString());
 		String userId = (String)session.getAttribute("userID");
@@ -126,12 +129,13 @@ public class UserController {
 		return msg;
 	}
 	
-	@RequestMapping(value="/updateFeedback")
-	public String updateFeedback(HttpSession session, FeedbackVo feedbackVo) {
-		System.out.println("업데이트 용 : "+feedbackVo.toString());
+	@RequestMapping(value="/updateFeedback", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateFeedback(HttpSession session, FeedbackVo vo){
+		System.out.println("업데이트 용 : "+vo.toString());
 		String userId = (String)session.getAttribute("userID");
 		String msg = "피드백 수정을 실패했습니다."; 
-		int success = service.updateFeedback(feedbackVo, userId);
+		int success = service.updateFeedback(vo, userId);
 		if(success>0) {
 			msg = "피드백 수정을 성공했습니다.";
 		}

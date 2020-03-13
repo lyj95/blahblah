@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
@@ -207,20 +208,35 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
-	 * 강의 피드백 입력
+	 * 강의 피드백 입력, myclass 남은 강의 카운트
 	 * @author yaans
 	 * @param vo 강사 피드백 내용
 	 * @return 피드백 입력 성공여부
 	 */
 	@Override
+	@Transactional
 	public int insertFeedback(FeedbackVo vo, String userId) {
-		boolean authorization = isClassTutor(vo.getLessonNo(), userId);
-		int res = 0;
-		if(authorization) {		// 피드백을 작성한 권한이 있다면
-			res = dao.insertFeedback(vo);
+		boolean authorization = isClassTutor(vo.getLessonNo(), userId);		// 피드백 입력 권한 확인
+		int res = setRemainClass(vo.getLessonNo(),vo.getMemberId());	// 남은 강의 수 차감
+		if(authorization && res>0) {		// 피드백을 작성한 권한이 있다면 & 강의 수 차감을 성공했다면 
+			res += dao.insertFeedback(vo);		// 강의 피드백 입력
 		}
 		return res;
 	}
+	
+	/**
+	 * @param lessonNo 해당 강의 고유번호
+	 * @param memberId 해당 강의 수강 학생
+	 * @return 잔여 수업 수 차감 성공 여부
+	 */
+	public int setRemainClass(int lessonNo, String memberId) {
+		Map<String, Object> pk = new HashMap<String, Object>();
+		pk.put("lessonNo", lessonNo);
+		pk.put("memberId", memberId);
+		int res = dao.setRemainClass(pk);
+		return res;
+	}
+
 	@Override
 	public int updateFeedback(FeedbackVo vo, String userId) {
 		boolean authorization = isClassTutor(vo.getLessonNo(), userId);
