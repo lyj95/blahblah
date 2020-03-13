@@ -25,12 +25,12 @@
       <div class="main_menu">
         <div class="search_input" id="search_input_box">
           <div class="container">
-            <form class="d-flex justify-content-between" method="" action="">
+            <form class="d-flex justify-content-between" id="searchform" action="SearchKeywordCourse">
               <input
                 type="text"
                 class="form-control"
-                id="search_input"
-                placeholder="Search Here"
+                id="keyword" name="keyword"
+                placeholder="검색어를 입력하세요"
               />
               <button type="submit" class="btn"></button>
               <span
@@ -103,7 +103,7 @@
             					<a class="nav-link" href="signupform">SignUp</a>
            				</li>
            				<li class="nav-item">
-           					<a class="nav-link" href="login">Sign-In</a>
+           					<a class="nav-link" href="login">Login</a>
            				</li>
                      <%
                         // 로그인 했을 경우
@@ -144,5 +144,14 @@
 	}(document, 'script', 'frogue-embed'));
 	</script>
 	<!-- ================================= 챗봇 ======================================= -->
-	
+	<script>
+	$("#searchform").submit(function() {
+/* 		System.out.println("searchCheck() 함수 실행"); */
+		if ($("#keyword").val() == "" || $("#keyword").val() == null) {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+		return true;
+	});
+	</script>
     <!--================ End Header Menu Area =================-->

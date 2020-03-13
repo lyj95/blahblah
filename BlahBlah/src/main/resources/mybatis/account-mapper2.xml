@@ -14,8 +14,6 @@
 	SELECT MEMBER_ID from MEMBER WHERE MEMBER_NAME=#{memberName} and MEMBER_EMAIL=#{memberEmail} 
 </select> 
 
-	
-
 </mapper>
 
 

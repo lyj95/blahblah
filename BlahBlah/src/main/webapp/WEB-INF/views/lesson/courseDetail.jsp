@@ -135,7 +135,23 @@
                             </a>
                         </li>
                     </ul>
-                    <input type="button" onclick="chkTable()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" value="수강 신청"/>
+                    <div class="row">
+                    	<div class="col-6">
+                   			<input type="button" onclick="chkTable()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" value="수강 신청"/>
+                    	</div>
+                    	  
+						<!-- 찜 버튼 -->    
+                    	<div class="col-6">
+                    		<c:choose>
+                    			<c:when test="${fav eq 'fav' }">
+                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" ><i id="heart" class="ti-heart mr-2" style="color:#fdc632;"></i><span>찜</span></button>
+                    			</c:when>
+                    			<c:otherwise>
+                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" ><i id="heart" class="ti-heart mr-2"></i><span>찜</span></button>
+                    			</c:otherwise>
+                    		</c:choose>
+                    	</div>		
+                    </div>
 
                     <h4 class="title">후기 작성</h4>
                     <div class="content">
@@ -361,6 +377,34 @@ $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw
 
 
 </script>
+<!-- 찜 관련 자바스크립트 -->
+<script type="text/javascript">
+function addFav(){
+	if(${userID} == null){
+		if(confirm("'찜'은 로그인 후 사용 가능합니다. \n지금 로그인 하시겠습니까?")){
+			location.href="/login";
+		}
+	}else{
+		$.ajax({
+	       type:'POST',
+	       url : "addFav?lessonNo=${vo.lessonNo}&memberId=${userID}", 
+	       dataType : "json",
+	       success : function(result){
+			if(result == "0" ){
+	       		$("#heart").css("color","white"); 
+			}else{
+	       		$("#heart").css("color","#fdc632"); 
+			}               
+	       },
+	   		error:function(request,status,error){
+	   			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	  		}
+		});       
+	}
 
-        </body>
+}
+</script>
+
+
+</body>
 </html>

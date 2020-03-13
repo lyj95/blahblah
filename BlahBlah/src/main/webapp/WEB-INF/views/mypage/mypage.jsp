@@ -98,7 +98,7 @@
 				success:function(msg){
 					if(msg.check == true){
 						$('#pwchk').val('');
-						alert("비밀번호가 성공적으로 변경되었습니다. \n다시 로그인 해주세요.");
+						alert("비밀번호가 성공적으로 변경되었습니다. \n변경된 비밀번호로 다시 로그인 해주세요.");
 						location.href="logout";
 					} else{
 						$('#pwchk').val('');
@@ -450,7 +450,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
@@ -531,7 +531,7 @@
 													<tr>
 														<td>${fav.lessonType }</td>
 														<td>${fav.tutorId }</td>
-														<td>${fav.lessonName } <small> (${fav.lessonTime })</small></td>
+														<td><a href="courseDetail?lessonNo=${fav.lessonNo }">${fav.lessonName } <small> (${fav.lessonTime })</small></a></td>
 														<td>${fav.lessonLevel }</td>
 														<td>${fav.lessonPrice }</td>
 													</tr>

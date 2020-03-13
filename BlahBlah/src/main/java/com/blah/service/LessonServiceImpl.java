@@ -6,23 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.WebUtils;
 
 import com.blah.controller.HomeController;
 import com.blah.dao.LessonDao;
 import com.blah.vo.LessonVo;
-import com.blah.vo.NoticeVo;
 import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
@@ -209,6 +206,30 @@ public class LessonServiceImpl implements LessonService {
 	public List<LessonVo> selectPopularLesson() {
 		// TODO 인기 강의 조회
 		return dao.selectPopularLesson();
+	}
+	
+	//찜 목록
+	@Override
+	public String chkFav(Map<String, String> fav) {
+		// TODO 찜 여부
+		return dao.chkFav(fav);
+	}
+
+	@Override
+	public int deleteFav(Map<String, String> fav) {
+		// TODO 찜 삭제
+		return dao.deleteFav(fav);
+	}
+
+	@Override
+	public int insertFav(Map<String, String> fav) {
+		// TODO 찜 추가
+		return dao.insertFav(fav);
+	}
+
+	@Override
+	public List<Map<String, String>> selectFavCount() {
+		return dao.selectFavCount();
 	}
 
 }

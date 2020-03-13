@@ -140,7 +140,7 @@ public class AccountController {
 		return "/account/findID";
 	}
 
-	@RequestMapping("account/memberSearchIdEnd.do")
+	@RequestMapping("account/memberSearchId")
 	public ModelAndView idSearchEnd(String memberName, String memberEmail) {
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> map = new HashMap();

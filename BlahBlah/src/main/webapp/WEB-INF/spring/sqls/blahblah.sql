@@ -91,6 +91,7 @@ CREATE TABLE lesson (
 	tutor_id	varchar2(100)	NOT NULL,
     lesson_sample varchar2(4000) ,
     LESSON_START VARCHAR2(50),
+    member_photo VARCHAR2(4000),
     CONSTRAINT lesson_type_chk CHECK(lesson_type IN('SPEAKING','LICENSE'))
 );
 CREATE TABLE myclass (
@@ -143,7 +144,8 @@ CREATE TABLE review (
 	lesson_no	number	NOT NULL,
 	review_content	varchar2(4000)	NOT NULL,
 	review_date	Date	NOT NULL,
-	review_grade	number	
+	review_grade	number	,
+	member_photo VARCHAR2(4000)
 );
 CREATE TABLE reply (
 	qna_no	number	PRIMARY KEY,
