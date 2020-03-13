@@ -124,9 +124,13 @@
 								</div>
 
 								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
+								<c:forEach items="${favCountList }" var="favCount">
+									<c:if test="${favCount.LESSON_NO eq list.lessonNo }">
+										<div class="mt-lg-0 mt-3">
+											<span class="meta_info"><i class="ti-heart mr-2" id="heart${list.lessonNo }"></i>${favCount.CNT }</span>
+										</div>
+									</c:if>
+								</c:forEach>
 
 							</div>
 						</div>
@@ -218,7 +222,7 @@
 	<script>
 
 	
-	$("searchform").submit(function() {
+	$("#searchform").submit(function() {
 		System.out.println("searchCheck() 함수 실행");
 		if ($(this).children("input[name=keyword]").val().length < 1) {
 			alert("검색어를 입력해주세요.");

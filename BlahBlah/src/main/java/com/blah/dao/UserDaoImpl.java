@@ -148,6 +148,7 @@ public class UserDaoImpl implements UserDao{
 		
 		try {
 			list = sqlSession.selectList(NAMESPACE + "selectTutorPhoto", vo);
+			System.out.println(list);
 		} catch(Exception e) {
 			System.out.println("[error] : selectTutorPhoto");
 			e.printStackTrace();

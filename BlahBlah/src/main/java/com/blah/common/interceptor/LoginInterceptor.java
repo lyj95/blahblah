@@ -26,6 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			|| request.getRequestURI().contains("/main")
 			|| request.getRequestURI().contains("/signup")
 			|| request.getRequestURI().contains("/courseList")
+			|| request.getRequestURI().contains("/SearchKeywordCourse")
 			|| request.getRequestURI().contains("/idchk")
 			|| request.getRequestURI().contains("/signupform")
 			|| request.getRequestURI().contains("/findpwform")
@@ -50,7 +51,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}
 
 		if (request.getSession().getAttribute("login") == null) {
-			response.sendRedirect("login");
+			PrintWriter script = response.getWriter();
+			
+			response.setCharacterEncoding("UTF-8"); 
+			response.setContentType("text/html; charset=UTF-8");
+
+	 		script.println("<script>");
+	 		script.println("if(confirm(\"로그인 후 사용 가능합니다. \\n지금 로그인 하시겠습니까?\")){location.href=\"login\";}");
+	 		script.println("else{history.back();}");
+	 		script.println("</script>");
+	 		script.close();	
+			
 			return false;
 		}
 

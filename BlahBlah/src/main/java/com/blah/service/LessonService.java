@@ -1,6 +1,7 @@
 package com.blah.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,7 +34,10 @@ public interface LessonService {
 	List<ReviewVo> selectLatestReview();
 	List<LessonVo> selectPopularLesson();
 
-	
+	String chkFav(Map<String, String> fav);
+	int deleteFav(Map<String, String> fav);
+	int insertFav(Map<String, String> fav);
+	List<Map<String, String>> selectFavCount();
 
 	
 
