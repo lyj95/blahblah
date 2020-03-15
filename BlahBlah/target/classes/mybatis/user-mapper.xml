@@ -26,6 +26,7 @@
 		<result property="lessonTotal" column="LESSON_TOTAL" />
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
+		<result property="memberPhoto" column="MEMBER_PHOTO" />
 	</resultMap>
 	<resultMap type="MyclassVo" id="myclassMap">
 		<result property="lessonNo" column="LESSON_NO"/>

@@ -53,7 +53,7 @@ public class UserController {
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
 		mav.addObject("clist", sservice.selectCalendar(memberId));
-		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
+//		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		
 		return mav;

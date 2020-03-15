@@ -429,19 +429,17 @@
 																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
-																<c:forEach items="${tutorPhotoList }" var="tutor">
+															<%-- 	<c:forEach items="${tutorPhotoList }" var="tutor">
 																<c:if test="${myclass.tutorId eq tutor.memberId }">
+																</c:if>
+																</c:forEach> --%>
 																<div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
+																		<img src="resources/profile/${myclass.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
 																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
 																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
 																	</div>
 																</div>
-																</c:if>
-																
-																
-																</c:forEach>
 																<br>			
 																<div class="percentage">
 																<h5 class="title">진도율</h5>
