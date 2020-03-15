@@ -1,15 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="icon" href="resources/img/favicon.png" type="image/png" />
     <title>내 강의실</title>
     <!-- Bootstrap CSS -->
@@ -36,12 +32,11 @@
     <script type="text/javascript">
     function dicFunction(){
 		window.open('dictionary', '사전', 'top=150, left=1000, width=320px, height=250px, status=no, menubar=no, toolbar=no, resizable=no');
-
-   }
+    }
     </script>
 
    <!--================ Start Header Menu Area =================-->
-   <c:import url="../common/menu-header.jsp"></c:import>
+   <c:import url="../common/header.jsp"></c:import>
    <!-- style="background: #002347;" -->
   <!--================ End Header Menu Area =================-->
 
@@ -53,47 +48,39 @@
                 <div class="col-lg-8 course_details_left">
 	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
 	                <c:choose>
-		                <c:when test="${lesson['classDay'] eq true && lesson['flag'] eq true}">
-		                	<iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
-			                <%-- <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
+		                <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}">
+		                	<%-- <iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
+			                <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
 		                </c:when>
 		                <c:otherwise>
-		                	수업 날짜가 아닙니다.
+		                	<p style="font-weight: bold; text-align: center; padding-top: 20%; font-size: larger;">
+		                		수업 날짜가 아닙니다. <br><br>수업에서 만나요 :)
+		                	</p>
 		                </c:otherwise>
 	                </c:choose>
 	                </div>
                     <div class="content_wrapper">
-                        <!-- <h4 class="title">자료실</h4>
-                        <div class="content">
-                            <a href="#" class="genric-btn primary radius">download</a>
-                        </div> -->
-
-                        <h4 class="title">강의 피드백</h4>
+						<h4 class="title">강의 피드백 
+                        	<c:if test="${!empty lesson['classDay'] && userID eq lesson['TUTOR_ID']}">
+	                        	<span class="genric-btn primary small" style="float:right;" data-toggle="modal" data-target="#feedbackModal" data-backdrop="static">feedback 작성</span>
+                        	</c:if>	
+                       	</h4>
                         <div class="content">
                             <ul class="course_list">
-                            	<c:if test="${empty test}">
+                            	<c:if test="${empty feedback}">
                             		등록된 피드백이 없습니다
                             	</c:if>
-                                <!-- <li class="justify-content-between d-flex">
-                                    <p>First Lesson</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Second Lesson</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Getting Know about HTML</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Tags and Attributes</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Basics of CSS</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li> -->
+                                <c:forEach items="${feedback}" var="feedback">
+	                            	<li class="justify-content-between d-flex">
+	                                    <p>
+	                                    	${feedback.classDate} 수업의 피드백
+	                                    	<c:if test="${userID eq lesson['TUTOR_ID']}">
+		                                    	<span class="genric-btn primary small" style="float:right; margin: 0 15px; padding: 0 10px;" data-toggle="modal" href="javascript:void(0);" data-backdrop="static" onclick='showFeedbackUpdate("${feedback.feedbackTxt}","${feedback.classDate}")'>수정</span>
+          									</c:if>
+	                                    </p>
+	                                    <a class="primary-btn text-uppercase" data-toggle="modal" data-backdrop="static" href="javascript:void(0);" onclick="showFeedback('${feedback.feedbackTxt}');">View Details</a>
+	                                </li>
+                            	</c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -130,7 +117,7 @@
 					<h4 class="title">사전</h4>
 					<a class="justify-content-between d-flex" onclick="dicFunction();">
                            <p>단어 찾기</p>
-                           <span class="genric-btn primary small">dictionary</span>
+                           <p class="genric-btn primary small">dictionary</p>
                     </a>
 
                      <h4 class="title">진도율</h4>
@@ -155,7 +142,84 @@
         </div>
     </section>
     <!--================ End Course Details Area =================-->
-
+   	<!-- 피드백 작성 모달 -->
+	<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="feedbackModalLabel">${lesson['classDay']} ${lesson["MEMBER_ID"]} 수강생  수업 피드백 작성</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="insertFeedback">
+				<div class="modal-body">
+					<div class="form-group">
+			            <label for="insert-fb-txt" class="col-form-label">feedback context</label>
+			            <textarea class="form-control" id="insert-fb-txt" name="insert-fb-txt" required></textarea>
+			        </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-warning" id="feedbackBtn" onclick="ajaxFeedback('insert');">피드백 저장</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 피드백 작성 모달 end-->
+	<!-- 피드백 확인 모달 -->
+	<div class="modal fade" id="feedbackDetail" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="feedbackModalLabel">${lesson['classDay']} ${lesson["MEMBER_ID"]} 수강생  수업 피드백 내용</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="insertFeedback">
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-form-label" >피드백 내용</label>
+			            <p id="feedbackContext"></p>
+			        </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 피드백 확인 모달 end-->
+	<!-- 피드백 수정 모달 -->
+	<div class="modal fade" id="feedbackUpdate" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="feedbackModalLabel">${lesson['classDay']} ${lesson["MEMBER_ID"]} 수강생  수업 피드백 내용 수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="insertFeedback">
+				<div class="modal-body">
+					<div class="form-group">
+						<input type="hidden" id="fd-date">
+			            <label for="insert-fb-txt" class="col-form-label">수정할 내용</label>
+			            <textarea class="form-control" id="update-fb-txt" name="update-fb-txt" required></textarea>
+			        </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-warning" id="updateFbBtn" onclick="ajaxFeedback('update');">피드백 수정</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 피드백 수정 모달 end-->
     <!--================ Start footer Area  =================-->
     <jsp:include page="../common/footer.jsp" />
           <!--================ End footer Area  =================-->
@@ -175,9 +239,9 @@
           <script src="resources/js/gmaps.min.js"></script>
           <script src="resources/js/theme.js"></script>
           <script type="text/javascript">
-          	  window.onbeforeunload = function() {
+          	  /* window.onbeforeunload = function() {
         		 return "이 페이지를 나가면 종료합니다.";
-    	      }
+    	      } */
           	  $(document).ready(function(){
           		 var flag = ${lesson["flag"]};
           		 if(!flag){
@@ -185,6 +249,66 @@
           			 location.href="mypage";
           		 }
           	  });
+	          	function ajaxFeedback(status){
+	        		var feedbackTxt;
+	        		var classDate;
+	        		var url;
+	        		if(status == "insert"){
+	        			url = "insertFeedback";
+		          		feedbackTxt = $("#insert-fb-txt").val();
+		          		classDate = '${lesson["classDay"]}';
+		          		if($('#insert-fb-txt').val() == "" || $('#insert-fb-txt').val().length<10){
+	         			  alert("피드백을 10자 이상 입력해주세요");
+	         			  return false;
+	         		  	}
+	        		} 
+	        		if(status == "update"){
+	        			url = "updateFeedback";
+	        			feedbackTxt = $("#update-fb-txt").val();
+	        			classDate = $("#fd-date").val();
+		          		if($('#update-fb-txt').val() == "" || $('#update-fb-txt').val().length<10){
+	         			  alert("피드백을 10자 이상 입력해주세요");
+	         			  return false;
+	         		  	}
+	        		}
+		          	  $.ajax({
+		          		  url:url,
+		          		  data: {	lessonNo : '${lesson["LESSON_NO"]}',
+		          			  		memberId : '${lesson["MEMBER_ID"]}',	// 공통값
+		          			  		feedbackTxt : feedbackTxt,
+		          			  		classDate : classDate
+		          			  	},
+		          		  async: false,
+		          		  type:"POST",
+		          		  dataType:"text",
+		          		  success:function(data){
+		          			  alert(data);
+		          			  console.log(data);
+		          			  location.reload()
+		          		  },
+		          		  error:function(request,status,error){
+		          		   	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		          		  }
+		          	  });
+	        	};
+				// feedback 확인
+				function showFeedback(txt){
+					$("#feedbackContext").text(txt);
+					$('#feedbackDetail').modal('show');
+				}
+				function showFeedbackUpdate(txt,date){
+					$("#update-fb-txt").text(txt);
+					$("#fd-date").val(date);
+					$('#feedbackUpdate').modal('show');
+				};
+          	
+          	 
+          	  /* function limitLength(id){
+          		if($(id).val() == "" || $(id).val().length<10){
+       			  alert("피드백을 10자 이상 입력해주세요");
+       			  return false;
+       		  	}
+          	  } */
           </script>
         </body>
 </html>

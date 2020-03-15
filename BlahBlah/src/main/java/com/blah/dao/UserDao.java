@@ -2,7 +2,9 @@ package com.blah.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 import com.blah.vo.MyclassVo;
@@ -20,5 +22,10 @@ public interface UserDao {
 	public MyclassVo getClassInfo(int lessonNo);
 	public HashMap<String, Object> getLessonInfo(int lessonNo);
 	public List<String> selectTutorPhoto(MemberVo vo);
+	public int insertFeedback(FeedbackVo vo);
+	public String getTutorName(int lessonNo);
+	public List<FeedbackVo> selectFeedback(Map<String, Object> pk);
+	public int updateFeedback(FeedbackVo vo);
 	public List<LessonVo> selectFav(String memberId);
+	public int setRemainClass(Map<String, Object> pk);
 }

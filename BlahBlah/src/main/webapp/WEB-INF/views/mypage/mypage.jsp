@@ -98,7 +98,7 @@
 				success:function(msg){
 					if(msg.check == true){
 						$('#pwchk').val('');
-						alert("비밀번호가 성공적으로 변경되었습니다. \n다시 로그인 해주세요.");
+						alert("비밀번호가 성공적으로 변경되었습니다. \n변경된 비밀번호로 다시 로그인 해주세요.");
 						location.href="logout";
 					} else{
 						$('#pwchk').val('');
@@ -397,11 +397,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								
+		
                                 <div class="container">
                                 	<div id="calendar"></div>
                                 </div>
-                           
+
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -431,25 +431,23 @@
 																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
-																<c:forEach items="${tutorPhotoList }" var="tutor">
+															<%-- 	<c:forEach items="${tutorPhotoList }" var="tutor">
 																<c:if test="${myclass.tutorId eq tutor.memberId }">
+																</c:if>
+																</c:forEach> --%>
 																<div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
+																		<img src="resources/profile/${myclass.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
 																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
 																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
 																	</div>
 																</div>
-																</c:if>
-																
-																
-																</c:forEach>
 																<br>			
 																<div class="percentage">
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
@@ -532,7 +530,7 @@
 													<tr>
 														<td>${fav.lessonType }</td>
 														<td>${fav.tutorId }</td>
-														<td>${fav.lessonName } <small> (${fav.lessonTime })</small></td>
+														<td><a href="courseDetail?lessonNo=${fav.lessonNo }">${fav.lessonName } <small> (${fav.lessonTime })</small></a></td>
 														<td>${fav.lessonLevel }</td>
 														<td>${fav.lessonPrice }</td>
 													</tr>

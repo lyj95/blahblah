@@ -82,9 +82,11 @@ public class AccountController {
 			if (passwordEncoder.matches(vo.getMemberPw(), res.getMemberPw())) { // 암호화된 비번이랑 원래 비번이랑 같은지 비교
 				String userID = res.getMemberId();
 				String memberType = res.getMemberType();
+				String memberPhoto = res.getMemberPhoto();
 				session.setAttribute("login", res);
 				session.setAttribute("userID", userID);
 				session.setAttribute("memberType", memberType);
+				session.setAttribute("memberPhoto", memberPhoto);
 				check = true;
 			}
 		}
@@ -140,7 +142,7 @@ public class AccountController {
 		return "/account/findID";
 	}
 
-	@RequestMapping("account/memberSearchIdEnd.do")
+	@RequestMapping("account/memberSearchId")
 	public ModelAndView idSearchEnd(String memberName, String memberEmail) {
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> map = new HashMap();

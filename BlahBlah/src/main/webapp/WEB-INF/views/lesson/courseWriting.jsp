@@ -59,6 +59,7 @@
 					<div class="col-sm-6 lg-6">
 						<input type="text" class="form-control" id="lessonName" name="lessonName" placeholder="강의명을 입력하세요" required>
 						<input type="hidden" name="tutorId" value="${userID}">
+						<input type="hidden" name="memberPhoto" value="${memberPhoto}">
 					</div>
 				</div>
 				<div class="form-group row">

@@ -2,6 +2,7 @@ package com.blah.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,9 +280,6 @@ public class LessonDaoImpl implements LessonDao {
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
 			list = sqlSession.selectList(namespace+"selectLatestReview");	
-			for(ReviewVo i:list) {
-				System.out.println(list);
-			}
 			
 		}catch(Exception e) {
 			System.out.println("[error] : selectLatestReview ");
@@ -297,6 +295,61 @@ public class LessonDaoImpl implements LessonDao {
 			list = sqlSession.selectList(namespace + "selectPopularLesson");
 		} catch (Exception e) {
 			System.out.println("[error] :selectPopularLesson");
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
+	public String chkFav(Map<String, String> fav) {
+		int res = 0;
+		String chk = "unfav";
+		try {
+			res = sqlSession.selectOne(namespace+ "chkFav", fav);
+			if( res > 0) {
+				chk="fav";
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[error] : Check Fav");
+			e.printStackTrace();
+		}
+		return chk;
+	}
+
+	@Override
+	public int deleteFav(Map<String, String> fav) {
+		int res = 0;
+		
+		try {
+			res = sqlSession.delete(namespace+"deleteFav", fav);
+		} catch (Exception e) {
+			System.out.println("[error] : Delete Fav");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int insertFav(Map<String, String> fav) {
+		int res = 0;
+		
+		try {
+			res = sqlSession.insert(namespace+"insertFav", fav);
+		} catch (Exception e) {
+			System.out.println("[error] : insert Fav");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public List<Map<String, String>> selectFavCount() {
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		try {
+			list = sqlSession.selectList(namespace+"selectFavCount");
+		} catch (Exception e) {
+			System.out.println("[error] : selectfavCount");
 			e.printStackTrace();
 		}
 		return list;

@@ -1,8 +1,7 @@
 package com.blah.dao;
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import com.blah.vo.LessonVo;
 import com.blah.vo.PagingVo;
@@ -32,7 +31,10 @@ public interface LessonDao {
 	int listReviewCount();
 	int deleteReview(int reviewNo);
 	
-
+	String chkFav(Map<String, String> fav);
+	int deleteFav(Map<String, String> fav);
+	int insertFav(Map<String, String> fav);
+	List<Map<String, String>> selectFavCount();
 	
 
 }

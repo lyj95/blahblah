@@ -93,13 +93,13 @@
 				<!-- ------------- 강의목록 반복되는 부분 ------------ -->
 
 				<c:forEach items="${list}" var="list">
-					<div class="single_course col-lg-4 col-sm-12">
+					<div class="single_course col-lg-4 col-sm-12" style="height:35vw">
 						<div class="course_head">
 							<!-- 강의 사진 -->
 							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
 								style="width: 100%" />
 						</div>
-						<div class="course_content">
+						<div class="course_content"style="height:16vw">
 							<!-- 강의 카테고리 -->
 
 							<span class="tag mb-4 d-inline-block">${list.lessonType}</span>
@@ -116,7 +116,8 @@
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">
 									<!-- 강사 프로필 사진 -->
-									<img src="resources/img/courses/author1.png" alt="" />
+									<img src="resources/profile/${list.memberPhoto }" onerror="this.src='resources/img/courses/author1.png'" 
+									style="width: 3.5vw; height: 3.5vw; border-radius: 70%;" alt="" />
 
 									<!-- 강사명 -->
 									<span class="d-inline-block ml-2"><c:out
@@ -124,9 +125,13 @@
 								</div>
 
 								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
+								<c:forEach items="${favCountList }" var="favCount">
+									<c:if test="${favCount.LESSON_NO eq list.lessonNo }">
+										<div class="mt-lg-0 mt-3">
+											<span class="meta_info"><i class="ti-heart mr-2" id="heart${list.lessonNo }"></i>${favCount.CNT }</span>
+										</div>
+									</c:if>
+								</c:forEach>
 
 							</div>
 						</div>
@@ -217,9 +222,8 @@
 	<script src="resources/js/jquery-3.2.1.min.js"></script>
 	<script>
 
-	
-	$("searchform").submit(function() {
-		System.out.println("searchCheck() 함수 실행");
+	$("#searchform").submit(function() {
+
 		if ($(this).children("input[name=keyword]").val().length < 1) {
 			alert("검색어를 입력해주세요.");
 			return false;

@@ -1,6 +1,9 @@
 package com.blah.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +25,14 @@ import com.blah.common.validate.FileValidate;
 import com.blah.service.LeveltestService;
 import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
 
 @Controller
 public class UserController {
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserService service;
@@ -52,7 +56,7 @@ public class UserController {
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
 		mav.addObject("clist", sservice.selectCalendar(memberId));
-		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
+//		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
 		
@@ -101,10 +105,45 @@ public class UserController {
 		String userId = (String)session.getAttribute("userID");
 		
 		HashMap<String, Object> lesson = service.getLessonInfo(lessonNo,userId);
+		
+		try {
+			String studentId = (String)lesson.get("MEMBER_ID");
+			List<FeedbackVo> feedback = service.selectFeedback(lessonNo,studentId);
+			model.addAttribute("feedback", feedback);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("lesson", lesson);
 
 		return "mypage/mypageLessonRoom";
 	}
-
-
+	
+	@RequestMapping(value="/insertFeedback", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String insertFeedback(HttpSession session, FeedbackVo feedbackVo) {
+		System.out.println(feedbackVo.toString());
+		String userId = (String)session.getAttribute("userID");
+		String msg = "피드백 작성을 실패했습니다."; 
+		int success = service.insertFeedback(feedbackVo, userId);
+		if(success>0) {
+			msg = "피드백 작성을 성공했습니다.";
+		}
+		System.out.println(msg+" : feedback");
+		return msg;
+	}
+	
+	@RequestMapping(value="/updateFeedback", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateFeedback(HttpSession session, FeedbackVo vo){
+		System.out.println("업데이트 용 : "+vo.toString());
+		String userId = (String)session.getAttribute("userID");
+		String msg = "피드백 수정을 실패했습니다."; 
+		int success = service.updateFeedback(vo, userId);
+		if(success>0) {
+			msg = "피드백 수정을 성공했습니다.";
+		}
+		System.out.println(msg+" : feedback");
+		return msg;
+	}
 }
