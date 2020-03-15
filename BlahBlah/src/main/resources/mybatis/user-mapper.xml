@@ -51,7 +51,7 @@
 	</select>
 
 	<select id="selectMyClass" parameterType="MemberVo" resultMap="lessonMap">
-		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample
+		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, tutor_id, lesson_sample, member_photo
 		FROM lesson
 		JOIN myclass USING(lesson_no)
 		<choose>
@@ -160,7 +160,7 @@
 	</select>
 	<select id="selectFeedback" parameterType="hashmap" resultMap="feedbackMap">
 		SELECT * FROM FEEDBACKS WHERE lesson_no = #{lessonNo} AND member_id = #{studentId}
-	
+	</select>
 	<select id="selectFav" resultMap="lessonMap" >
 		SELECT lesson_no, lesson_name, lesson_info, lesson_level, lesson_type, lesson_time, lesson_price, lesson_total, tutor_id
 		FROM lesson
