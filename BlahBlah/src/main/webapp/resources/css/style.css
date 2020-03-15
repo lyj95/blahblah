@@ -631,7 +631,7 @@ button:focus {
       .single_course .course_content .course_meta .meta_info a {
         color: #002347; }
   .single_course .authr_meta img {
-    width: auto !important;
+    width: auto ;
     display: inline-block !important; }
   .single_course .authr_meta span {
     color: #002347;

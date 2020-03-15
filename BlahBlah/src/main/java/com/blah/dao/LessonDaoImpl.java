@@ -279,9 +279,6 @@ public class LessonDaoImpl implements LessonDao {
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
 			list = sqlSession.selectList(namespace+"selectLatestReview");	
-			for(ReviewVo i:list) {
-				System.out.println(list);
-			}
 			
 		}catch(Exception e) {
 			System.out.println("[error] : selectLatestReview ");

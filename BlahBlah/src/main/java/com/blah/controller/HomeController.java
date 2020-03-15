@@ -51,9 +51,6 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("common/main");
 		mav.addObject("reviewlist", service.selectLatestReview());
 		mav.addObject("lessonlist", service.selectPopularLesson());
-		System.out.println(service.selectLatestReview());
-		
-
 
 		return mav;
 

@@ -40,7 +40,7 @@
                   1:1 영어 회화 화상 과외
                 </p>
                 <h2 class="text-uppercase mt-4 mb-5">
-                  	블라블라
+                  	BLAH BLAH
                 </h2>
                 <div>
                   <a href="courseList?page=1&perPageNum=6" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
@@ -60,45 +60,42 @@
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="main_title">
-              <h2 class="mb-3 text-white">사이트 장점</h2>
-              <p>
-                	사이트 장점
-              </p>
+              <h2 class="mb-3 text-white">블라블라의 장점</h2>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
+            <div class="single_feature" style="height:30vh;">
               <div class="icon"><span class="flaticon-student"></span></div>
               <div class="desc">
-                <h4 class="mt-3 mb-2">장점1</h4>
+                <h4 class="mt-3 mb-2">1:1 개인별 맞춤 강의</h4>
                 <p>
-                  	장점1 설명
+                  	1:1 개인별 강의를 통해 맞춤으로 진도 및 난이도 조절이 가능합니다.
                 </p>
               </div>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
+            <div class="single_feature" style="height:30vh;">
               <div class="icon"><span class="flaticon-book"></span></div>
               <div class="desc">
-                <h4 class="mt-3 mb-2">장점2</h4>
+                <h4 class="mt-3 mb-2">레벨테스트를 통한 강의 추천</h4>
                 <p>
-                	장점2 설명
+                	레벨테스트 결과를 바탕으로 수준별 강의를  추천받을 수 있습니다.
                 </p>
               </div>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
+            <div class="single_feature" style="height:30vh;">
               <div class="icon"><span class="flaticon-earth"></span></div>
               <div class="desc">
-                <h4 class="mt-3 mb-2">장점3</h4>
+                <h4 class="mt-3 mb-2">장소제약 없는 온라인 진행</h4>
                 <p>
-                	장점3 설명
+                	온라인을 통해 블라블라의 모든 강의를 원하는 장소에서 수강가능합니다.
                 </p>
               </div>
             </div>
@@ -128,7 +125,7 @@
           <c:forEach items="${lessonlist}" var="list">
               <div class="single_course">
                 <div class="course_head">
-                  <img class="img-fluid" src="resources/img/courses/c1.jpg" alt="" />
+                 <img class="img-fluid" src= "resources/img/courses/c1.jpg" alt="" />
                 </div>
                 <div class="course_content">
                   <span class="price">${list.lessonPrice }</span>
@@ -140,9 +137,11 @@
                   	${list.lessonInfo}
                   </p>
                   <div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-                    <div class="authr_meta">
-                      <img src="resources/img/courses/author1.png" alt="" />
-                      <span class="d-inline-block ml-2">${list.tutorId}</span>
+                    <div class="row" >
+                    	<div class="authr_meta" >
+                      <img src="resources/profile/${list.memberPhoto }" style="width: 3.5vw; height: auto;border-radius: 70%;"" onerror="this.src='resources/img/courses/author1.png'" alt="" />
+                      <span class="authr_meta d-inline-block ml-2" >${list.tutorId}</span>
+                   	 </div>
                     </div>
                 </div>
               </div>
@@ -167,32 +166,12 @@
               </p>
             </div>
           </div>
-        </div>
-        
-<!--   <div class="row justify-content-center d-flex align-items-center">
-          <div class="col-lg-3 col-md-6 col-sm-12 single-trainer">
-            <div class="thumb d-flex justify-content-sm-center">
-              <img class="img-fluid" src="resources/img/trainer/t1.jpg" alt="" />
-            </div>
-            <div class="meta-text text-sm-center">
-              <h4>강사명</h4>
-              <p class="designation">분야</p>
-              <div class="mb-4">
-                <p>
-                	강사 소개
-                </p>
-              </div>
-              <div>
-                <a href="#" class="primary-btn ml-sm-3 ml-0" style="font-size:12px; color:#002347;">강의 보기</a>
-              </div>
-            </div>
-          </div>
-        </div> -->
+        </div>      
         
         <div class="row">
           <div class="testi_slider owl-carousel">
            <c:forEach items="${reviewlist}" var="list">
-            <div class="testi_item" style="background:white;">
+            <div class="testi_item" style="background:white; height:14vw">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
                  <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'"/>
@@ -213,7 +192,6 @@
     </section>
     <!--================ End Trainers Area =================-->
 
-
     
     <!-- ================================= 챗봇 ======================================= -->
     <div id="frogue-container" class="position-right-bottom"
@@ -228,6 +206,7 @@
 	    fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'frogue-embed'));
 	</script>
+	
 	<!-- ================================= 챗봇 ======================================= -->
 	
     <!--================ End Testimonial Area =================-->

@@ -15,10 +15,11 @@
 		<result property="lessonTotal" column="LESSON_TOTAL" />
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
+		<result property="memberPhoto" column="MEMBER_PHOTO" />
 	</resultMap>
 	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap" >
-		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE
-		FROM (SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO
+		FROM (SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,
 				ROW_NUMBER() OVER(ORDER BY LESSON_NO DESC) AS RNUM
 			FROM LESSON
 			) MP
@@ -28,7 +29,7 @@
 	
 	<select id="orderByRiview" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap">	
 		SELECT * 
-		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,
                 	ROW_NUMBER() OVER (ORDER BY RATE DESC NULLS LAST) AS PAGE
                 FROM LESSON
                 LEFT OUTER JOIN (SELECT LESSON_NO, avg(review_grade) RATE FROM REVIEW GROUP BY LESSON_NO ORDER BY AVG(review_grade) DESC) REVIEW_AVG
@@ -39,12 +40,12 @@
 	<select id="selectPopularLesson" resultMap="LessonMap">
 	<![CDATA[
 		SELECT *
-		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,
+		FROM (SELECT lesson.lesson_no,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,
                 ROW_NUMBER() OVER (ORDER BY RATE DESC NULLS LAST) AS PAGE
                 FROM LESSON
                 LEFT OUTER JOIN (SELECT LESSON_NO, avg(review_grade) RATE FROM REVIEW GROUP BY LESSON_NO ORDER BY AVG(review_grade) DESC) REVIEW_AVG
                 ON LESSON.LESSON_NO = REVIEW_AVG.LESSON_NO)
-		WHERE PAGE<3
+		WHERE PAGE<4
 	]]>
 	</select>
 	
@@ -70,7 +71,7 @@
 	
 	<insert id="insert" parameterType="LessonVo">
 		INSERT INTO LESSON
-		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,#{tutorId},'')
+		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,#{tutorId},'',#{memberPhoto},'')
 	</insert>	
 	
 	<select id="getLastLessonSeq" resultType="int">
@@ -119,16 +120,7 @@
 		WHERE LESSON_LEVEL ='하'
 	</select>
 
-	<resultMap type="ReviewVo" id="ReviewMap">
-		<result property="reviewNo" column="review_seq" />
-		<result property="memberId" column="member_id" />
-		<result property="lessonNo" column="lesson_no" />
-		<result property="reviewTitle" column="review_title" />
-		<result property="reviewContent" column="review_content" />
-		<result property="reviewDate" column="review_date" />
-		<result property="reviewGrade" column="review_grade" />
-	</resultMap>
-		<resultMap type="ReviewVo" id="ReviewMap2">
+		<resultMap type="ReviewVo" id="ReviewMap">
 		<result property="reviewNo" column="review_seq" />
 		<result property="memberId" column="member_id" />
 		<result property="lessonNo" column="lesson_no" />
@@ -141,10 +133,10 @@
 
 	<insert id="addReview" parameterType="ReviewVo">
 		INSERT INTO REVIEW
-		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade})
+		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade},#{memberPhoto})
 	</insert>
 	
-	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap2">
+	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
 		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, B.MEMBER_PHOTO 
 		FROM REVIEW A
 		JOIN MEMBER B
@@ -152,16 +144,14 @@
 		WHERE LESSON_NO=#{lessonNo}
 		ORDER BY review_date DESC
 	</select>
-	<select id="selectLatestReview" resultMap="ReviewMap2">
+	<select id="selectLatestReview" resultMap="ReviewMap">
 	<![CDATA[
-		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT,A.REVIEW_DATE, A.REVIEW_GRADE,B.MEMBER_PHOTO
+		SELECT REVIEW_SEQ, MEMBER_ID, LESSON_NO, REVIEW_CONTENT,REVIEW_DATE, REVIEW_GRADE,MEMBER_PHOTO
 		FROM (
-			SELECT REVIEW_SEQ, MEMBER_ID, LESSON_NO, REVIEW_CONTENT, REVIEW_DATE, REVIEW_GRADE 
+			SELECT REVIEW_SEQ, MEMBER_ID, LESSON_NO, REVIEW_CONTENT, REVIEW_DATE, REVIEW_GRADE,MEMBER_PHOTO
 			FROM REVIEW
 			ORDER BY REVIEW_DATE DESC
-		) A
-		JOIN MEMBER B
-		ON A.MEMBER_ID = B.MEMBER_ID
+		) 
 		WHERE rownum<=5
 	]]>
 	</select>	
