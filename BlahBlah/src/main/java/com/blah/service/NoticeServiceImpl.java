@@ -86,12 +86,10 @@ public class NoticeServiceImpl implements NoticeService {
 	public NoticeVo selectOne(int noticeNo) {
 		
 		//공지 상세 보기하면 조회수 1 올리기
+		System.out.println("pre");
 		int res = updateNoticeView(noticeNo);
-		if (res > 0) {
-			return dao.selectOne(noticeNo);
-		} else {
-			return dao.selectOne(noticeNo);
-		}
+		System.out.println("post");
+		return dao.selectOne(noticeNo);
 	}
 
 	/**
@@ -135,14 +133,14 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	@Override
 	public int updateNoticeView(int noticeNo) {
-		
+		//현재 조회수
 		int currentNoticeView = selectCurrentNoticeView(noticeNo);
 		currentNoticeView++;
-		
+		System.out.println("조회수 업데이트 메서드 입장");
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("noticeNo", noticeNo);
 		map.put("currentNoticeView", currentNoticeView);
-		
+		System.out.println(map.get("currentNoticeView")+" 조회수를 가진 "+map.get("noticeNo"));
 		return dao.updateNoticeView(map);
 	}
 	
@@ -223,13 +221,7 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	@Override
 	public NoticeVo selectPrePost(int noticeNo) {
-		
-		int res = updateNoticeView(noticeNo);
-		if (res > 0) {
-			return dao.selectPrePost(noticeNo);
-		} else {
-			return dao.selectPrePost(noticeNo);
-		}
+		return dao.selectPrePost(noticeNo);
 	}
 
 	/**
@@ -240,13 +232,7 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	@Override
 	public NoticeVo selectNextPost(int noticeNo) {
-		
-		int res = updateNoticeView(noticeNo);
-		if (res > 0) {
-			return dao.selectNextPost(noticeNo);
-		} else {
-			return dao.selectNextPost(noticeNo);
-		}
+		return dao.selectNextPost(noticeNo);
 	}
 
 }

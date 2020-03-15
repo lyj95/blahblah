@@ -139,7 +139,7 @@
                   <div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
                     <div class="row" >
                     	<div class="authr_meta" >
-                      <img src="resources/profile/${list.memberPhoto }" style="width: 3.5vw; height: auto;border-radius: 70%;"" onerror="this.src='resources/img/courses/author1.png'" alt="" />
+                      <img src="resources/profile/${list.memberPhoto }" style="width: 3.5vw; height: 3.5vw;object-fit: cover;  object-position: top; border-radius: 50%;" onerror="this.src='resources/img/courses/author1.png'" alt="" />
                       <span class="authr_meta d-inline-block ml-2" >${list.tutorId}</span>
                    	 </div>
                     </div>
@@ -171,7 +171,7 @@
         <div class="row">
           <div class="testi_slider owl-carousel">
            <c:forEach items="${reviewlist}" var="list">
-            <div class="testi_item" style="background:white; height:14vw">
+            <div class="testi_item" style="background:white; height:14vw;">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
                  <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'"/>

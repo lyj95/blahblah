@@ -164,5 +164,26 @@
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM REVIEW WHERE REVIEW_SEQ = #{reviewNo}
 	</delete>
+	
+	<!-- 찜 -->
+	<select id="chkFav" parameterType="map" resultType="int">
+		SELECT count(*) 
+		FROM fav
+		WHERE lesson_no = #{lessonNo} AND member_id = #{memberId}
+	</select>
+	<delete id="deleteFav" parameterType="map">
+		DELETE FROM fav 
+		WHERE member_id = #{memberId} AND lesson_no = #{lessonNo}
+	</delete>
+	<insert id="insertFav" parameterType="map">
+		INSERT INTO fav VALUES(#{memberId},#{lessonNo})
+	</insert>
+	
+	<select id="selectFavCount" resultType="map">
+		SELECT lesson_no, count(fav.member_id) cnt
+		FROM lesson
+		LEFT OUTER JOIN fav USING(lesson_no)
+		GROUP BY lesson_no
+	</select>
 
 </mapper>

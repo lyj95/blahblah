@@ -117,7 +117,7 @@
 								<div class="authr_meta">
 									<!-- 강사 프로필 사진 -->
 									<img src="resources/profile/${list.memberPhoto }" onerror="this.src='resources/img/courses/author1.png'" 
-									style="width: 3.5vw; height: auto;border-radius: 70%;" alt="" />
+									style="width: 3.5vw; height: 3.5vw; border-radius: 70%;" alt="" />
 
 									<!-- 강사명 -->
 									<span class="d-inline-block ml-2"><c:out
@@ -125,9 +125,13 @@
 								</div>
 
 								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
+								<c:forEach items="${favCountList }" var="favCount">
+									<c:if test="${favCount.LESSON_NO eq list.lessonNo }">
+										<div class="mt-lg-0 mt-3">
+											<span class="meta_info"><i class="ti-heart mr-2" id="heart${list.lessonNo }"></i>${favCount.CNT }</span>
+										</div>
+									</c:if>
+								</c:forEach>
 
 							</div>
 						</div>
@@ -218,8 +222,8 @@
 	<script src="resources/js/jquery-3.2.1.min.js"></script>
 	<script>
 
-	
-	$("searchform").submit(function() {
+	$("#searchform").submit(function() {
+
 		if ($(this).children("input[name=keyword]").val().length < 1) {
 			alert("검색어를 입력해주세요.");
 			return false;

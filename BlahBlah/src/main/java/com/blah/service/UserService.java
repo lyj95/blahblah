@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
@@ -22,4 +23,9 @@ public interface UserService {
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId);
 	public String deleteMember(MemberVo vo, String nowpw);
 	public List<String> selectTutorPhoto(MemberVo vo);
+	public int insertFeedback(FeedbackVo vo, String userId);
+	public boolean isClassTutor(int lessonNo, String memberId);
+	public List<FeedbackVo> selectFeedback(int lessonNo, String studentId);
+	public int updateFeedback(FeedbackVo vo, String userId);
+	public List<LessonVo> selectFav(String memberId);
 }

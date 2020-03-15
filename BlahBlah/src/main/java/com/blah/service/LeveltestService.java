@@ -1,6 +1,10 @@
 package com.blah.service;
 
-public interface LeveltestService {
+import com.blah.vo.LeveltestVo;
 
+
+public interface LeveltestService {
+	public int insert(LeveltestVo vo);
+	public LeveltestVo selectLevel(String memberId);
 
 }

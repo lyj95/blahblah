@@ -98,7 +98,7 @@
 				success:function(msg){
 					if(msg.check == true){
 						$('#pwchk').val('');
-						alert("비밀번호가 성공적으로 변경되었습니다. \n다시 로그인 해주세요.");
+						alert("비밀번호가 성공적으로 변경되었습니다. \n변경된 비밀번호로 다시 로그인 해주세요.");
 						location.href="logout";
 					} else{
 						$('#pwchk').val('');
@@ -146,6 +146,7 @@
 		}
 	
 	//캘린더 script
+	
 	document.addEventListener('DOMContentLoaded', function() {
 		    var calendarEl = document.getElementById('calendar');
 		    var date = new Date();
@@ -267,6 +268,10 @@
 								<li><a data-toggle="tab" href="#my-schedule"
 									class="d-flex justify-content-between">
 										<h4>스케줄</h4>
+								</a></li>
+								<li><a data-toggle="tab" href="#my-fav"
+									class="d-flex justify-content-between">
+										<h4>찜</h4>
 								</a></li>
 								<li><a data-toggle="tab" href="#my-level"
 									class="d-flex justify-content-between">
@@ -392,12 +397,9 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-								
                                      <div class="container">
                                      	<div id="calendar"></div>
                                      </div>
-                                     
-                               
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -429,8 +431,7 @@
 																<%-- <p>${myclass.lessonInfo }</p> --%>
 																<c:forEach items="${tutorPhotoList }" var="tutor">
 																<c:if test="${myclass.tutorId eq tutor.memberId }">
-																<div
-																	class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
+																<div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
 																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
 																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
@@ -446,7 +447,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
@@ -501,6 +502,43 @@
 
 							</div>
 							<!-- 수강만료된 강의 끝-->
+							<!-- 찜 목록 시작 -->
+							<div id="my-fav" class="tab-pane fade">
+								<h2>찜한 강의</h2>
+								<hr>
+								<table class="table" style="text-align: center;">
+									<thead>
+										<tr>
+											<th scope="col-md-1">분류</th>
+											<th scope="col-md-1">강사</th>
+											<th scope="col-md-5">강의</th>
+											<th scope="col-md-1">레벨</th>
+											<th scope="col-md-1">가격</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:choose>
+											<c:when test="${empty favList}">
+												<tr>
+													<td colspan="4">------- 찜한 강의가 없습니다. -------</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+												<c:forEach items="${favList}" var="fav">
+													<tr>
+														<td>${fav.lessonType }</td>
+														<td>${fav.tutorId }</td>
+														<td><a href="courseDetail?lessonNo=${fav.lessonNo }">${fav.lessonName } <small> (${fav.lessonTime })</small></a></td>
+														<td>${fav.lessonLevel }</td>
+														<td>${fav.lessonPrice }</td>
+													</tr>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
+							</div>
+							<!-- 찜 목록 끝-->
 							<!-- 내강의실 부분 끝 -->
 						</div>
 					</div>
