@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
  <head>
@@ -66,7 +67,8 @@
             </div>
             
             <!-- 강의목록 시작 -->
-            <div class="single_course col-lg-4 col-sm-12">
+           	<c:forEach items="${list}" var="list">
+					<div class="single_course col-lg-4 col-sm-12">
 						<div class="course_head">
 							<!-- 강의 사진 -->
 							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
@@ -75,16 +77,16 @@
 						<div class="course_content">
 							<!-- 강의 카테고리 -->
 
-							<span class="tag mb-4 d-inline-block">죵류</span>
-							<span class="tag mb-2 d-inline-block">레벨</span>
+							<span class="tag mb-4 d-inline-block">${list.lessonType}</span>
+							<span class="tag mb-2 d-inline-block">${list.lessonLevel}</span>
 
 							<!-- 강의명 -->
 							<h4 class="mb-3">
-								<a href="1">강의명</a>
+								<a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>강의 소개</p>
+							<p>${list.lessonInfo}</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">
@@ -92,7 +94,8 @@
 									<img src="resources/img/courses/author1.png" alt="" />
 
 									<!-- 강사명 -->
-									<span class="d-inline-block ml-2">tutor</span>
+									<span class="d-inline-block ml-2"><c:out
+											value="${list.tutorId}" /></span>
 								</div>
 
 								<!-- ===강의 찜 개수 표시=== -->
@@ -103,131 +106,9 @@
 							</div>
 						</div>
 					</div>
+				</c:forEach>
             <!-- 강의 목록 끝 -->
-            
-                        <!-- 강의목록 시작 -->
-            <div class="single_course col-lg-4 col-sm-12">
-						<div class="course_head">
-							<!-- 강의 사진 -->
-							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
-								style="width: 100%" />
-						</div>
-						<div class="course_content">
-							<!-- 강의 카테고리 -->
-
-							<span class="tag mb-4 d-inline-block">죵류</span>
-							<span class="tag mb-2 d-inline-block">레벨</span>
-
-							<!-- 강의명 -->
-							<h4 class="mb-3">
-								<a href="1">강의명</a>
-							</h4>
-
-							<!-- 강의소개 -->
-							<p>강의 소개</p>
-							<div
-								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-								<div class="authr_meta">
-									<!-- 강사 프로필 사진 -->
-									<img src="resources/img/courses/author1.png" alt="" />
-
-									<!-- 강사명 -->
-									<span class="d-inline-block ml-2">tutor</span>
-								</div>
-
-								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
-
-							</div>
-						</div>
-					</div>
-            <!-- 강의 목록 끝 -->
-            
-                        <!-- 강의목록 시작 -->
-            <div class="single_course col-lg-4 col-sm-12">
-						<div class="course_head">
-							<!-- 강의 사진 -->
-							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
-								style="width: 100%" />
-						</div>
-						<div class="course_content">
-							<!-- 강의 카테고리 -->
-
-							<span class="tag mb-4 d-inline-block">죵류</span>
-							<span class="tag mb-2 d-inline-block">레벨</span>
-
-							<!-- 강의명 -->
-							<h4 class="mb-3">
-								<a href="1">강의명</a>
-							</h4>
-
-							<!-- 강의소개 -->
-							<p>강의 소개</p>
-							<div
-								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-								<div class="authr_meta">
-									<!-- 강사 프로필 사진 -->
-									<img src="resources/img/courses/author1.png" alt="" />
-
-									<!-- 강사명 -->
-									<span class="d-inline-block ml-2">tutor</span>
-								</div>
-
-								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
-
-							</div>
-						</div>
-					</div>
-            <!-- 강의 목록 끝 -->
-            
-                        <!-- 강의목록 시작 -->
-            <div class="single_course col-lg-4 col-sm-12">
-						<div class="course_head">
-							<!-- 강의 사진 -->
-							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
-								style="width: 100%" />
-						</div>
-						<div class="course_content">
-							<!-- 강의 카테고리 -->
-
-							<span class="tag mb-4 d-inline-block">죵류</span>
-							<span class="tag mb-2 d-inline-block">레벨</span>
-
-							<!-- 강의명 -->
-							<h4 class="mb-3">
-								<a href="1">강의명</a>
-							</h4>
-
-							<!-- 강의소개 -->
-							<p>강의 소개</p>
-							<div
-								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-								<div class="authr_meta">
-									<!-- 강사 프로필 사진 -->
-									<img src="resources/img/courses/author1.png" alt="" />
-
-									<!-- 강사명 -->
-									<span class="d-inline-block ml-2">tutor</span>
-								</div>
-
-								<!-- ===강의 찜 개수 표시=== -->
-								<div class="mt-lg-0 mt-3">
-									<span class="meta_info"><i class="ti-heart mr-2"></i>35</span>
-								</div>
-
-							</div>
-						</div>
-					</div>
-            <!-- 강의 목록 끝 -->
-            
-            
-            
-          </div>
+            </div>
       </div>
     </section>
     <!--================ End Level Test Result Area =================-->

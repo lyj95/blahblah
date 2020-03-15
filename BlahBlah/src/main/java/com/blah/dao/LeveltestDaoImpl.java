@@ -1,9 +1,13 @@
 package com.blah.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.blah.vo.LessonVo;
 import com.blah.vo.LeveltestVo;
 
 @Repository
@@ -17,6 +21,7 @@ public class LeveltestDaoImpl implements LeveltestDao{
 		int res=0;
 		try {
 			res= sqlSession.insert(NAMESPACE + "insert", vo);
+			System.out.println("into dao ..." + vo);
 		}catch(Exception e) {
 			System.out.println("[error] : insert ");
 			e.printStackTrace();
@@ -28,8 +33,6 @@ public class LeveltestDaoImpl implements LeveltestDao{
 	public LeveltestVo selectLevel(String memberId) {
 		LeveltestVo res = new LeveltestVo();
 		
-		System.out.println("into dao : " + res);
-		
 		try {
 			res= sqlSession.selectOne(NAMESPACE + "selectLevel", memberId);
 		}catch(Exception e) {
@@ -39,7 +42,21 @@ public class LeveltestDaoImpl implements LeveltestDao{
 		
 		return res;
 	}
-	
+
+	@Override
+	public List<LessonVo> selectList(String memberLevel) {
+		
+		List<LessonVo> list = new ArrayList<LessonVo>();
+		try {			
+			list = sqlSession.selectList(NAMESPACE+"selectList", memberLevel);		
+		}catch(Exception e) {
+			System.out.println("[error] : Leveltest selectList ");
+			e.printStackTrace();
+		}	
+		return list;
+	}
+
+
 
 
 }
