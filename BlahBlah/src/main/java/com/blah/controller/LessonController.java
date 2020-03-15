@@ -35,9 +35,6 @@ public class LessonController {
 	@Autowired
 	private LessonService service;
 
-	@Autowired
-	private UserService UService;
-
 	@RequestMapping(value = "/courseList")
 	public ModelAndView list(PagingVo page, HttpServletRequest request) {
 		logger.info("[course]Select List");
@@ -82,9 +79,13 @@ public class LessonController {
 	}
 
 	@RequestMapping(value = "/insertCourseForm")
-	public String insertForm() {
-		logger.info("[course]insertFrom");
-		return "lesson/courseWriting";
+	public ModelAndView insertForm(HttpServletRequest request) {
+		logger.info("[course]insertFrom"); 
+		ModelAndView mav = new ModelAndView("lesson/courseWriting");
+		
+		String memberPhoto = (String) request.getSession().getAttribute("memberPhoto");
+		mav.addObject("memberPhoto", memberPhoto);
+		return mav; 
 	}
 
 	@RequestMapping(value = "/insertCourseRes", method = RequestMethod.POST)
