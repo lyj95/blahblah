@@ -36,6 +36,7 @@ public class LeveltestController {
 		System.out.println("memberId : "+memberId);
 		
 		lvo = service.selectLevel(memberId);
+		System.out.println("lvo : "+lvo);
 		
 		if(lvo == null) {
 			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			

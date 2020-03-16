@@ -60,6 +60,8 @@ public class UserController {
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
 		
+		System.out.println("memberLevel : " + lservice.selectLevel(memberId));
+		
 		return mav;
 	}
 	
