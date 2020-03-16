@@ -165,6 +165,11 @@ public class UserServiceImpl implements UserService {
 		return dao.selectTutorPhoto(vo);
 	}
 	
+	@Override
+	public List<LessonVo> selectFav(String memberId) {
+		return dao.selectFav(memberId);
+	}
+	
 	/**
 	 * 클래스 정보를 들고오는 기능
 	 * DB에 저장된 날짜와 오늘 날짜를 비교해 수강 날짜가 맞는지
@@ -177,21 +182,12 @@ public class UserServiceImpl implements UserService {
 	 * @return 유저와 날짜에 맞춘 정보
 	 */
 	@Override
-	public List<LessonVo> selectFav(String memberId) {
-		return dao.selectFav(memberId);
-	}
-	
-	@Override
 	public HashMap<String, Object> getLessonInfo(int lessonNo, String userId) {
-		// lesson & myClass join 한 정보 출력
+		boolean isClassDay = false;
+		
+		// lesson & myClass join 한 DB 정보
 		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	
 		for(Object key : map.keySet()) { System.out.println(key+" : "+map.get(key)); }  // 확인용 sysout
-		
-		map.put("flag", false);		// 참가 자격 : 기본값 false로 세팅
-		
-		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
-			map.put("flag", true);		// session 정보와 비교
-		}
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
 		String today = format.format(new Date());							// 오늘 날짜 String Type
@@ -200,10 +196,44 @@ public class UserServiceImpl implements UserService {
 		for(int i=1; i<=classCnt; i++) {
 			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
 			if(today.compareTo(format.format(compareDay)) == 0) {
-				map.put("classDay",today);		// DB 날짜와 오늘 날짜가 같으면 수업날짜 map에 저장
+				isClassDay = true;				// 오늘이 수업 날짜임을 확인
+				map.put("classDay",today);		// 오늘 날짜를  map에 저장
 				break;
 			}
 		}
+		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
+			if(isClassDay) map.put("attendChat", true); 	// 화상채팅 참가 자격
+		}
+		
+		if(userId.equals(map.get("TUTOR_ID")) && isClassDay) {
+			Map<String, Object> pk = new HashMap<String, Object>();
+			pk.put("lessonNo", lessonNo);
+			pk.put("memberId", (String)map.get("MEMBER_ID"));
+			pk.put("classDay", today);
+			int res = dao.wroteFeedback(pk);
+			if(res == 0) {
+				map.put("write",true);		// 피드백 작성이 아직 되지 않았음
+			}
+		}
+		
+//		map.put("flag", false);		// 참가 자격 : 기본값 false로 세팅
+//		
+//		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
+//			map.put("flag", true);		// session 정보와 비교
+//		}
+//		
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
+//		String today = format.format(new Date());							// 오늘 날짜 String Type
+//		
+//		int classCnt = ((BigDecimal)map.get("MYCLASS_TOTALCNT")).intValue();
+//		for(int i=1; i<=classCnt; i++) {
+//			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
+//			if(today.compareTo(format.format(compareDay)) == 0) {
+//				map.put("classDay",today);		// DB 날짜와 오늘 날짜가 같으면 수업날짜 map에 저장
+//				break;
+//			}
+//		}
+		
 		return map;
 	}
 	

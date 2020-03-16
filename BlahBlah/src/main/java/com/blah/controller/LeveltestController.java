@@ -1,6 +1,7 @@
 package com.blah.controller;
 
 
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,9 +26,30 @@ public class LeveltestController {
 	private LeveltestService service = new LeveltestServiceImpl();
 
 	@RequestMapping(value = "/leveltestStart")
-	public String startLeveltest() {
+	public ModelAndView startLeveltest(HttpSession session) {
 		logger.info("Start leveltest?");
-		return "leveltest/leveltestStart";
+		
+		MemberVo mvo = (MemberVo)session.getAttribute("login");
+		String memberId = mvo.getMemberId();
+		
+		System.out.println("memberId : "+memberId);
+		
+		LeveltestVo lvo = service.selectLevel(memberId);
+		System.out.println("lvo : "+lvo);
+		
+		if(lvo == null) {
+			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			
+			return mav;
+		}else {
+			System.out.println("lvo" + lvo);
+			
+			ModelAndView mav = new ModelAndView("leveltest/leveltestResult");
+			mav.addObject("lvo", service.selectLevel(memberId));
+			mav.addObject("list", service.selectList(lvo.getMemberLevel()));
+			
+			return mav;
+		}
+		
 	}
 
 	@RequestMapping(value = "/leveltest")
@@ -67,8 +89,11 @@ public class LeveltestController {
 		}
 		
 		ModelAndView mav = new ModelAndView("leveltest/leveltestResult");
-		mav.addObject("vo", service.selectLevel(memberId));
-		  				  
+
+		
+		mav.addObject("lvo", service.selectLevel(memberId));
+		mav.addObject("list", service.selectList(vo.getMemberLevel()));
+
 		return mav; 
 	}
 

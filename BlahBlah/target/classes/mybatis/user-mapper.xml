@@ -132,7 +132,7 @@
 	</select>	
 	
 	<select id="selectTutorPhoto" parameterType="MemberVo" resultMap="memberMap">
-		SELECT member_photo, member_id
+		SELECT member.member_photo, member_id
 		FROM MEMBER
 		JOIN lesson ON(member_id = tutor_id)
 		<choose>
@@ -166,6 +166,11 @@
 		UPDATE MYCLASS SET myclass_remaincnt = myclass_remaincnt-1 
 		WHERE lesson_no = #{lessonNo} AND member_id = #{memberId}
 	</update>
+	<select id="wroteFeedback" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) FROM feedbacks 
+		WHERE lesson_no = #{lessonNo} AND MEMBER_ID = #{memberId} 
+		AND CLASS_DATE = TO_DATE(#{classDay}, 'YYYY-MM-DD')
+	</select>
 	<select id="selectFeedback" parameterType="hashmap" resultMap="feedbackMap">
 		SELECT * FROM FEEDBACKS WHERE lesson_no = #{lessonNo} AND member_id = #{studentId}
 	</select>

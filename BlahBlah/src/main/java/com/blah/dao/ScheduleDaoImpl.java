@@ -26,7 +26,6 @@ public class ScheduleDaoImpl implements ScheduleDao{
 			System.out.println("[error] : schedule selectCalendar");
 			e.printStackTrace();
 		}
-				
 		return res;
 	}
 

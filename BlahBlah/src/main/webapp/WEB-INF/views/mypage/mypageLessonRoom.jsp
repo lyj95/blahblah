@@ -48,7 +48,8 @@
                 <div class="col-lg-8 course_details_left">
 	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
 	                <c:choose>
-		                <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}">
+		                <%-- <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}"> --%>
+		                <c:when test="${!empty lesson['attendChat']}">
 		                	<%-- <iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
 			                <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
 		                </c:when>
@@ -61,7 +62,7 @@
 	                </div>
                     <div class="content_wrapper">
 						<h4 class="title">강의 피드백 
-                        	<c:if test="${!empty lesson['classDay'] && userID eq lesson['TUTOR_ID']}">
+                        	<c:if test="${!empty lesson['write']}">
 	                        	<span class="genric-btn primary small" style="float:right;" data-toggle="modal" data-target="#feedbackModal" data-backdrop="static">feedback 작성</span>
                         	</c:if>	
                        	</h4>
@@ -75,7 +76,7 @@
 	                                    <p>
 	                                    	${feedback.classDate} 수업의 피드백
 	                                    	<c:if test="${userID eq lesson['TUTOR_ID']}">
-		                                    	<span class="genric-btn primary small" style="float:right; margin: 0 15px; padding: 0 10px;" data-toggle="modal" href="javascript:void(0);" data-backdrop="static" onclick='showFeedbackUpdate("${feedback.feedbackTxt}","${feedback.classDate}")'>수정</span>
+		                                    	<span class="genric-btn primary small" style="float:right; margin: 0 15px; padding: 0 10px;" data-toggle="modal" data-backdrop="static" onclick='showFeedbackUpdate("${feedback.feedbackTxt}","${feedback.classDate}");'>수정</span>
           									</c:if>
 	                                    </p>
 	                                    <a class="primary-btn text-uppercase" data-toggle="modal" data-backdrop="static" href="javascript:void(0);" onclick="showFeedback('${feedback.feedbackTxt}');">View Details</a>
@@ -242,13 +243,6 @@
           	  /* window.onbeforeunload = function() {
         		 return "이 페이지를 나가면 종료합니다.";
     	      } */
-          	  $(document).ready(function(){
-          		 var flag = ${lesson["flag"]};
-          		 if(!flag){
-          			 alert("강의 대상자가 아닙니다! 레슨룸을 나갑니다.");
-          			 location.href="mypage";
-          		 }
-          	  });
 	          	function ajaxFeedback(status){
 	        		var feedbackTxt;
 	        		var classDate;
@@ -290,7 +284,7 @@
 		          		   	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		          		  }
 		          	  });
-	        	};
+	        	}
 				// feedback 확인
 				function showFeedback(txt){
 					$("#feedbackContext").text(txt);
@@ -300,15 +294,8 @@
 					$("#update-fb-txt").text(txt);
 					$("#fd-date").val(date);
 					$('#feedbackUpdate').modal('show');
-				};
-          	
-          	 
-          	  /* function limitLength(id){
-          		if($(id).val() == "" || $(id).val().length<10){
-       			  alert("피드백을 10자 이상 입력해주세요");
-       			  return false;
-       		  	}
-          	  } */
+				}
+				
           </script>
         </body>
 </html>
