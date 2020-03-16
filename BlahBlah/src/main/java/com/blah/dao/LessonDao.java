@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.blah.vo.LessonVo;
+import com.blah.vo.MemberVo;
 import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
@@ -35,6 +36,7 @@ public interface LessonDao {
 	int deleteFav(Map<String, String> fav);
 	int insertFav(Map<String, String> fav);
 	List<Map<String, String>> selectFavCount();
+	int updateProfile(MemberVo fileobj);
 	
 
 }

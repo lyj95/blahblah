@@ -50,7 +50,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			|| request.getRequestURI().contains("/openLockedQnaDetail")
 			|| request.getRequestURI().contains("/searchByQnaTitle")
 			|| request.getRequestURI().contains("/searchByQnaContent")
-			|| request.getRequestURI().contains("/kakaoLogin")){
+			|| request.getRequestURI().contains("/kakaoLogin")
+			|| request.getRequestURI().contains("/lessonRoom")){
 
 			return true;
 
