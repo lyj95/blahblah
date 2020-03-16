@@ -273,10 +273,18 @@
 									class="d-flex justify-content-between">
 										<h4>찜</h4>
 								</a></li>
+								
+								<%               
+					               String memberType = (String)request.getSession().getAttribute("memberType");
+						              if(memberType.equals("USER")) { 
+					            %>
 								<li><a data-toggle="tab" href="#my-level"
 									class="d-flex justify-content-between">
 										<h4>레벨 테스트</h4>
 								</a></li>
+								<%
+						              }
+								%>
 							</ul>
 						</aside>
 

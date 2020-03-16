@@ -69,9 +69,25 @@
                 <li class="nav-item ">
                   <a class="nav-link" href="main">Home</a>
                 </li>
+                 <%
+                
+                String memberType = (String)request.getSession().getAttribute("memberType");
+                	if(request.getSession().getAttribute("login") != null) { 
+	                  	if(memberType.equals("USER")) { 
+            	%>
                 <li class="nav-item">
                   <a class="nav-link" href="leveltestStart">Level Test</a>
                 </li>
+                <%
+	                  	}
+                	}else{  //로그인 안했을 경우
+                %>
+                <li class="nav-item">
+                  <a class="nav-link" href="leveltestStart">Level Test</a>
+                </li>
+                <%
+                	}
+                %>
                 <li class="nav-item">
                   <a class="nav-link" href="courseList?page=1&perPageNum=6">Course</a>
                 </li>

@@ -26,7 +26,7 @@ public class LeveltestController {
 	private LeveltestService service = new LeveltestServiceImpl();
 
 	@RequestMapping(value = "/leveltestStart")
-	public ModelAndView startLeveltest(HttpSession session) {
+	public ModelAndView startLeveltest(LeveltestVo lvo, HttpSession session) {
 		logger.info("Start leveltest?");
 		
 		MemberVo mvo = (MemberVo)session.getAttribute("login");
@@ -35,8 +35,7 @@ public class LeveltestController {
 		
 		System.out.println("memberId : "+memberId);
 		
-		LeveltestVo lvo = service.selectLevel(memberId);
-		System.out.println("lvo : "+lvo);
+		lvo = service.selectLevel(memberId);
 		
 		if(lvo == null) {
 			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			
