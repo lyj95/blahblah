@@ -11,17 +11,34 @@
 		<result property="memberLevel" column="member_level" />
 	</resultMap>
 	
+	<resultMap type="LessonVo" id="LessonMap">
+		<result property="lessonNo" column="LESSON_NO" />
+		<result property="lessonName" column="LESSON_NAME" />
+		<result property="lessonInfo" column="LESSON_INFO" />
+		<result property="lessonLevel" column="LESSON_LEVEL" />
+		<result property="lessonType" column="LESSON_TYPE" />
+		<result property="lessonTime" column="LESSON_TIME" />
+		<result property="lessonPrice" column="LESSON_PRICE" />
+		<result property="lessonTotal" column="LESSON_TOTAL" />
+		<result property="tutorId" column="TUTOR_ID" />
+		<result property="lessonSample" column="LESSON_SAMPLE" />
+	</resultMap>
+	
 	<insert id="insert" parameterType="LeveltestVo">
 		INSERT INTO MEMBER_LEVEL
-		Values(#{memberId},#{levelScore},#{memberLevel})
+ 		VALUES(#{memberId},#{levelScore},#{memberLevel})
 	</insert>
 	
 	<select id="selectLevel" parameterType="String" resultMap="leveltestMap">
 		SELECT * FROM MEMBER_LEVEL
 		WHERE MEMBER_ID = #{memberId}
 	</select>
-	
-	
+
+	<select id="selectList" parameterType="com.blah.vo.LeveltestVo" resultMap="LessonMap" >
+		SELECT * FROM LESSON
+		WHERE LESSON_LEVEL = #{memberLevel}
+	</select>
+
 
 
 </mapper>

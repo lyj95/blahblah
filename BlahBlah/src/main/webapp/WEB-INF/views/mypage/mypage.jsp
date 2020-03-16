@@ -397,9 +397,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-                                     <div class="container">
-                                     	<div id="calendar"></div>
-                                     </div>
+		
+                                <div class="container">
+                                	<div id="calendar"></div>
+                                </div>
+
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -500,6 +502,8 @@
 
 							</div>
 							<!-- 수강만료된 강의 끝-->
+							<!-- 내강의실 부분 끝 -->
+							
 							<!-- 찜 목록 시작 -->
 							<div id="my-fav" class="tab-pane fade">
 								<h2>찜한 강의</h2>
@@ -537,7 +541,39 @@
 								</table>
 							</div>
 							<!-- 찜 목록 끝-->
-							<!-- 내강의실 부분 끝 -->
+							
+							<!-- 레벨테스트 시작 -->
+							<div id="my-level" class="tab-pane fade">
+								<h2>${member.memberId }님의 레벨테스트</h2>
+								<hr>
+								
+								<c:choose>
+                                     <c:when test="${empty memberLevel}">
+                                     <h4>------- 레벨테스트 응시 후 확인하세요. -------</h4>
+                                     <a class="primary-btn" href="leveltestStart">
+											레벨테스트 응시하기<i class="ti-arrow-right ml-1"></i>
+										</a>
+                                     
+                                     </c:when>
+                                     <c:otherwise>
+                                     	<div class="col-lg-8">
+											<small class="input-sm-label">점수</small> 
+											<input type="text" class="single-input-primary" 
+												value="${memberLevel.levelScore }점" disabled> 
+											<small class="input-sm-label">레벨</small> 
+											<input type="text" class="single-input-primary"
+												value="${memberLevel.memberLevel }급" disabled> <br>
+											<a class="primary-btn" href="leveltestResult">
+												추천강의 보기<i class="ti-arrow-right ml-1"></i>
+											</a>
+										</div>
+                                     </c:otherwise>
+                                </c:choose>     
+						
+							</div>
+							<!-- 레벨테스트 끝 -->
+							
+							
 						</div>
 					</div>
 				</div>

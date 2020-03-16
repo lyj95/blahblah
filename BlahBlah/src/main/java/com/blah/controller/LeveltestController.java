@@ -67,8 +67,11 @@ public class LeveltestController {
 		}
 		
 		ModelAndView mav = new ModelAndView("leveltest/leveltestResult");
+
+		
 		mav.addObject("vo", service.selectLevel(memberId));
-		  				  
+		mav.addObject("list", service.selectList(vo.getMemberLevel()));
+
 		return mav; 
 	}
 
