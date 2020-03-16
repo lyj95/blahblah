@@ -186,4 +186,13 @@
 		GROUP BY lesson_no
 	</select>
 
+	<update id="updateLessonProfile" parameterType="MemberVo">
+		UPDATE lesson SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE tutor_id = #{memberId}
+	</update>
+	<update id="updateReviewProfile" parameterType="MemberVo">
+		UPDATE review SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
 </mapper>

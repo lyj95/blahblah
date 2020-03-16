@@ -174,7 +174,7 @@
             <div class="testi_item" style="background:white; height:14vw;">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
-                 <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'"/>
+                 <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'" style="width:121px;height:94px;"/>
                 </div>
                 <div class="col-lg-8">
                   <div class="testi_text">

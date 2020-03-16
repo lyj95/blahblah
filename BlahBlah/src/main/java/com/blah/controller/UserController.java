@@ -103,6 +103,7 @@ public class UserController {
 	public String lessonRoom (HttpSession session, int lessonNo, Model model) {
 		logger.info("lessonRoom");
 		String userId = (String)session.getAttribute("userID");
+		MemberVo user = (MemberVo)session.getAttribute("login");
 		
 		HashMap<String, Object> lesson = service.getLessonInfo(lessonNo,userId);
 		
@@ -113,9 +114,9 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		model.addAttribute("progress", service.getProgress(lessonNo,user));
 		model.addAttribute("lesson", lesson);
-
+		
 		return "mypage/mypageLessonRoom";
 	}
 	

@@ -51,7 +51,7 @@
 		                <%-- <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}"> --%>
 		                <c:when test="${!empty lesson['attendChat']}">
 		                	<%-- <iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
-			                <iframe src="https://localhost:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
+			                <iframe src="https://192.168.130.10:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
 		                </c:when>
 		                <c:otherwise>
 		                	<p style="font-weight: bold; text-align: center; padding-top: 20%; font-size: larger;">
@@ -125,7 +125,7 @@
 
                     <div class="percentage">
                         <div class="progress">
-                            <div class="progress-bar color-2" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+                            <div class="progress-bar color-2" role="progressbar" style="width: calc(${progress.MYCLASS_REMAINCNT}/${progress.MYCLASS_TOTALCNT }*100%)" aria-valuenow="80" aria-valuemin="0"
                              aria-valuemax="100"></div>
                         </div>
                     </div>
