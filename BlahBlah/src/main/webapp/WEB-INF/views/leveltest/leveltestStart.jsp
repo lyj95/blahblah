@@ -67,7 +67,7 @@
           <div class="col-lg-6">
             <div class="h_blog_text">
               <div class="h_blog_text_inner left right">
-                <h4>Welcome to Bla Bla</h4>
+                <h4>Welcome to Blah Blah</h4>
                 <p>
 					수강신청을 하기 전에 레벨 테스트에 응시하여 수준에 맞는 강의를 추천받으세요.
                 </p>
