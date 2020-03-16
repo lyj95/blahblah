@@ -41,6 +41,9 @@ public class LessonServiceImpl implements LessonService {
 
 		String filename =  file.getOriginalFilename(); //업로드할 파일의 실제이름
 		
+		String lessonTime = vo.getLessonDay() + " " + vo.getLessonTime();
+		vo.setLessonTime(lessonTime);
+		
 		int res = dao.insert(vo);
 		
 		vo.setLessonSample(filename);
