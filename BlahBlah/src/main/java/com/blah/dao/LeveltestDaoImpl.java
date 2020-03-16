@@ -35,6 +35,7 @@ public class LeveltestDaoImpl implements LeveltestDao{
 		
 		try {
 			res= sqlSession.selectOne(NAMESPACE + "selectLevel", memberId);
+			System.out.println(res);
 		}catch(Exception e) {
 			System.out.println("[error] : selectLevel ");
 			e.printStackTrace();

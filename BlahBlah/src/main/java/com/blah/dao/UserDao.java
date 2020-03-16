@@ -28,4 +28,5 @@ public interface UserDao {
 	public int updateFeedback(FeedbackVo vo);
 	public List<LessonVo> selectFav(String memberId);
 	public int setRemainClass(Map<String, Object> pk);
+	public int wroteFeedback(Map<String, Object> pk);
 }
