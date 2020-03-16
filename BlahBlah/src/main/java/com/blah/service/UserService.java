@@ -28,4 +28,5 @@ public interface UserService {
 	public List<FeedbackVo> selectFeedback(int lessonNo, String studentId);
 	public int updateFeedback(FeedbackVo vo, String userId);
 	public List<LessonVo> selectFav(String memberId);
+	public HashMap<String,Integer> getProgress(int lessonNo, MemberVo user);
 }

@@ -201,4 +201,10 @@ public class UserDaoImpl implements UserDao{
 		int res = sqlSession.update(NAMESPACE+"setRemainClass", pk);
 		return res;
 	}
+
+	@Override
+	public HashMap<String, Integer> getProgress(Map<String, String> map) {
+		HashMap<String, Integer> res = sqlSession.selectOne(NAMESPACE + "getProgress", map);
+		return res;
+	}
 }

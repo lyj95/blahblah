@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
+import com.blah.dao.LessonDao;
 import com.blah.dao.UserDao;
 import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
@@ -35,6 +35,8 @@ import com.blah.vo.MyclassVo;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao dao;
+	@Autowired
+	private LessonDao lessonDao;
 	
 	/**
 	 * 
@@ -113,6 +115,7 @@ public class UserServiceImpl implements UserService {
 				}
 			}
 			dao.updateProfile(fileobj);
+			lessonDao.updateProfile(fileobj);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -310,5 +313,15 @@ public class UserServiceImpl implements UserService {
 			System.out.println(i.toString());
 		}
 		return feedback;
+	}
+
+	@Override
+	public HashMap<String, Integer> getProgress(int lessonNo, MemberVo user) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("lessonNo", lessonNo+"");
+		map.put("memberId", user.getMemberId());
+		map.put("memberType", user.getMemberType());
+		
+		return dao.getProgress(map);
 	}
 }

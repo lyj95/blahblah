@@ -377,7 +377,8 @@ $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw
 <!-- 찜 관련 자바스크립트 -->
 <script type="text/javascript">
 function addFav(){
-	if(${userID} == null){
+	var userId = "${userID}";
+	if(userId == null){
 		if(confirm("'찜'은 로그인 후 사용 가능합니다. \n지금 로그인 하시겠습니까?")){
 			location.href="/login";
 		}

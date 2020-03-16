@@ -81,15 +81,15 @@
 	</select>
 	
 	<select id="selectProgress" parameterType="MemberVo" resultMap="myclassMap">
-		SELECT LESSON_NO, MYCLASS_TOTALCNT, MYCLASS_REMAINCNT
+		SELECT LESSON_NO, MYCLASS_TOTALCNT, (MYCLASS_TOTALCNT-MYCLASS_REMAINCNT) MYCLASS_REMAINCNT
 		FROM myclass
 		JOIN lesson USING(lesson_no)
 		<choose>
                 <when test='memberType.equals("USER")'>
-					WHERE member_id=#{memberId}
+					WHERE member_id=#{memberId} AND myclass.myclass_remaincnt > 0
                 </when>
                 <when test='memberType.equals("TUTOR")'>
-                	WHERE tutor_id=#{memberId}
+                	WHERE tutor_id=#{memberId} AND myclass.myclass_remaincnt > 0
                 </when>
 		</choose>
 	</select>
@@ -180,4 +180,18 @@
 		JOIN fav USING(lesson_no)
 		WHERE member_id = #{memberId}
 	</select>
+	
+ 	<select id="getProgress" parameterType="map" resultType="map">
+		SELECT MYCLASS_TOTALCNT, (MYCLASS_TOTALCNT-MYCLASS_REMAINCNT) MYCLASS_REMAINCNT
+		FROM myclass
+		JOIN lesson USING(lesson_no)
+		<choose>
+               <when test='memberType.equals("USER")'>
+					WHERE myclass.member_id = #{memberId} AND lesson_no = #{lessonNo}
+               </when>
+               <when test='memberType.equals("TUTOR")'>
+               		WHERE tutor_id = #{memberId} AND lesson_no = #{lessonNo}
+               </when>
+		</choose>
+	</select> 
 </mapper>

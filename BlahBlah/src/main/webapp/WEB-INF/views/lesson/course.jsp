@@ -122,7 +122,7 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
+							<%-- <p>${list.lessonInfo}</p> --%>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">

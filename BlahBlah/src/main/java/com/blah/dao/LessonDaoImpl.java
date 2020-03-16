@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.blah.vo.LessonVo;
+import com.blah.vo.MemberVo;
 import com.blah.vo.PagingVo;
 import com.blah.vo.ReviewVo;
 
@@ -353,5 +354,19 @@ public class LessonDaoImpl implements LessonDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public int updateProfile(MemberVo vo) {
+		int res =0;
+		try {
+			res = sqlSession.update(namespace+"updateLessonProfile",vo);
+			res = sqlSession.update(namespace+"updateReviewProfile",vo);
+		} catch (Exception e) {
+			System.out.println("[error] : lesson&review updateProfile");
+			e.printStackTrace();
+		}
+		
+		return res;
 	}
 }

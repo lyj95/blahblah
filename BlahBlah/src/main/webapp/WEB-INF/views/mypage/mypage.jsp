@@ -253,30 +253,32 @@
 									class="d-flex justify-content-between">
 										<h5 style="color: #666666">회원 탈퇴</h5>
 								</a></li>
-								<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
-									class="d-flex justify-content-between">
-										<h4>내 강의실</h4>
-								</a></li>
-								<li class="lic2"><a data-toggle="tab"
-									href="#my-room-lesson" class="d-flex justify-content-between">
-										<h5 style="color: #666666">수강 중인 강의</h5>
-								</a></li>
-								<li class="lic2"><a data-toggle="tab"
-									href="#my-room-lesson2" class="d-flex justify-content-between">
-										<h5 style="color: #666666">수강 만료된 강의</h5>
-								</a></li>
-								<li><a data-toggle="tab" href="#my-schedule"
-									class="d-flex justify-content-between">
-										<h4>스케줄</h4>
-								</a></li>
-								<li><a data-toggle="tab" href="#my-fav"
-									class="d-flex justify-content-between">
-										<h4>찜</h4>
-								</a></li>
-								<li><a data-toggle="tab" href="#my-level"
-									class="d-flex justify-content-between">
-										<h4>레벨 테스트</h4>
-								</a></li>
+								<c:if test="${member.memberType ne 'ADMIN' }">
+									<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
+										class="d-flex justify-content-between">
+											<h4>내 강의실</h4>
+									</a></li>
+									<li class="lic2"><a data-toggle="tab"
+										href="#my-room-lesson" class="d-flex justify-content-between">
+											<h5 style="color: #666666">수강 중인 강의</h5>
+									</a></li>
+									<li class="lic2"><a data-toggle="tab"
+										href="#my-room-lesson2" class="d-flex justify-content-between">
+											<h5 style="color: #666666">수강 만료된 강의</h5>
+									</a></li>
+									<li><a data-toggle="tab" href="#my-schedule"
+										class="d-flex justify-content-between">
+											<h4>스케줄</h4>
+									</a></li>
+									<li><a data-toggle="tab" href="#my-fav"
+										class="d-flex justify-content-between">
+											<h4>찜</h4>
+									</a></li>
+									<li><a data-toggle="tab" href="#my-level"
+										class="d-flex justify-content-between">
+											<h4>레벨 테스트</h4>
+									</a></li>
+								</c:if>
 							</ul>
 						</aside>
 
@@ -447,7 +449,7 @@
 																<h5 class="title">진도율</h5>
 																	<div class="progress">
 																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((((${progress.myclassTotalcnt })-(${progress.myclassRemaincnt }))/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
+																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
 																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
 																		</div>
 																	</div>
@@ -549,7 +551,6 @@
 								
 								<c:choose>
                                      <c:when test="${empty memberLevel}">
-                                     <h4>------- 레벨테스트 응시 후 확인하세요. -------</h4>
                                      <a class="primary-btn" href="leveltestStart">
 											레벨테스트 응시하기<i class="ti-arrow-right ml-1"></i>
 										</a>
@@ -563,7 +564,7 @@
 											<small class="input-sm-label">레벨</small> 
 											<input type="text" class="single-input-primary"
 												value="${memberLevel.memberLevel }급" disabled> <br>
-											<a class="primary-btn" href="leveltestResult">
+											<a class="primary-btn" href="leveltestStart">
 												추천강의 보기<i class="ti-arrow-right ml-1"></i>
 											</a>
 										</div>
