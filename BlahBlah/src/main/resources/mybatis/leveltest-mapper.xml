@@ -22,6 +22,7 @@
 		<result property="lessonTotal" column="LESSON_TOTAL" />
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
+		<result property="memberPhoto" column="MEMBER_PHOTO" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="LeveltestVo">
