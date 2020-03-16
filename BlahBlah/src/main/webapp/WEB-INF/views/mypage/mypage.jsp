@@ -551,7 +551,6 @@
 								
 								<c:choose>
                                      <c:when test="${empty memberLevel}">
-                                     <h4>------- 레벨테스트 응시 후 확인하세요. -------</h4>
                                      <a class="primary-btn" href="leveltestStart">
 											레벨테스트 응시하기<i class="ti-arrow-right ml-1"></i>
 										</a>
@@ -565,7 +564,7 @@
 											<small class="input-sm-label">레벨</small> 
 											<input type="text" class="single-input-primary"
 												value="${memberLevel.memberLevel }급" disabled> <br>
-											<a class="primary-btn" href="leveltestResult">
+											<a class="primary-btn" href="leveltestStart">
 												추천강의 보기<i class="ti-arrow-right ml-1"></i>
 											</a>
 										</div>

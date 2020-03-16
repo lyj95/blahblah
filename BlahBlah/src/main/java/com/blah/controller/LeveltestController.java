@@ -30,6 +30,7 @@ public class LeveltestController {
 		logger.info("Start leveltest?");
 		
 		MemberVo mvo = (MemberVo)session.getAttribute("login");
+		System.out.println("mvo : " + mvo);
 		String memberId = mvo.getMemberId();
 		
 		System.out.println("memberId : "+memberId);

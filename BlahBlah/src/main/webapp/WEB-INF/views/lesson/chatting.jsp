@@ -114,7 +114,7 @@
 			$("#open_call_state").show();
 		}
 		// 메세지를 주고받게 해주는 서버 등록 : websocket
-		signaling_server = new WebSocket("wss://localhost:8443/controller/viewChatting");
+		signaling_server = new WebSocket("wss://localhost:8443/blahblah/viewChatting");
 		//signaling_server = new WebSocket("wss://"+url+"/controller/viewChatting");
 		// 시크널링 서버 설정 onmessage 함수 등록
 		signaling_server.onopen = function(){
@@ -173,7 +173,7 @@
 			membercontainer.html("");
 			for(var i=0; i<signal.members.length; i++){
 				var li=$("<li>");												// li 태그 생성
-				var h=$("<h3>").html(signal.members[i]).css("color","gray");	// 자신
+				var h=$("<h4>").html(signal.members[i]).css("color","gray");	// 자신
 				if(call_token!=signal.members[i]){								// 상대방
 					h.css("color","blue");
 					//h.css("background","transparent");
@@ -267,14 +267,15 @@
 }
 #membercontainer{
 	position: absolute;
-	top:20px;
+	top:90px;
+	right:50px;
 	/* left:70%; */
 }
 
 #membercontainer>ul{
 	list-style-type:none;
 }
-#membercontainer>ul>li>h3{
+#membercontainer>ul>li>h4{
 	cursor:pointer;
 }
 </style>
@@ -295,6 +296,7 @@
 			<ul class="members">
 			</ul>
 		</div>
+		
 	</div>
 <!-- </div> -->
 </body>

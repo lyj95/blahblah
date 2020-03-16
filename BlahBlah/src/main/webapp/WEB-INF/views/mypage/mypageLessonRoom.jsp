@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="resources/css/style.css" />
     <style>
         textarea.autosize { min-height: 50px; }
+        #endBtn {position: absolute; top: 30px; right: 50px;}
+        .screenTxt {font-weight: bold; text-align: center; padding-top: 20%; font-size: larger;}
     </style>
   </head>
 
@@ -46,16 +48,19 @@
             <h1 class="title">강의 보기</h1>
             <div class="row">
                 <div class="col-lg-8 course_details_left">
-	                <div style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
+	                <div id="screen" style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
 	                <c:choose>
 		                <%-- <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}"> --%>
-		                <c:when test="${!empty lesson['attendChat']}">
-		                	<%-- <iframe src="https://172.30.1.36:8443/controller/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
-			                <iframe src="https://192.168.130.10:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe>
+		                <c:when test="${!empty lesson['attendChat'] && !empty lesson['write']}">
+		                <p class="screenTxt">
+		                		하단 버튼을 누르면 수업을 시작합니다<br><br>
+		                	<a class="primary-btn" id="startBtn" href="javascript:void(0);" onclick="startChat();">강의 시작하기</a>
+	                	</p>
+			                <%-- <iframe src="https://localhost:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
 		                </c:when>
 		                <c:otherwise>
-		                	<p style="font-weight: bold; text-align: center; padding-top: 20%; font-size: larger;">
-		                		수업 날짜가 아닙니다. <br><br>수업에서 만나요 :)
+		                	<p class="screenTxt">
+		                		수업 시간이 아닙니다. <br><br>다음 수업에서 만나요 :)
 		                	</p>
 		                </c:otherwise>
 	                </c:choose>
@@ -240,9 +245,6 @@
           <script src="resources/js/gmaps.min.js"></script>
           <script src="resources/js/theme.js"></script>
           <script type="text/javascript">
-          	  /* window.onbeforeunload = function() {
-        		 return "이 페이지를 나가면 종료합니다.";
-    	      } */
 	          	function ajaxFeedback(status){
 	        		var feedbackTxt;
 	        		var classDate;
@@ -294,6 +296,21 @@
 					$("#update-fb-txt").text(txt);
 					$("#fd-date").val(date);
 					$('#feedbackUpdate').modal('show');
+				}
+				function startChat(){
+					$('#screen').children().remove();
+					 $("#screen").append("<iframe src='https://localhost:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>' style='width:100%; height:100%;'></iframe>");
+					 $("#screen").append('<a class="primary-btn" id="endBtn" href="javascript:void(0);" onclick="endChat();">강의 종료</a>');
+					
+				}
+				function endChat(){
+					$('iframe').remove();
+					$('#endBtn').remove();
+					if("${userID}"=="${lesson['TUTOR_ID']}"){
+						$('#screen').append('<p class="screenTxt"> ${userID} 강사님 <br><br>오늘 수업의 피드백을 작성을 해주세요 <br><br> <small>※피드백 미작성시 수업 완료 처리가 되지 않습니다!</small></p>');
+					} else{
+						$('#screen').append('<p class="screenTxt"> 오늘 ${userID}님의 수업은 여기까지!<br><br> 다음 수업에서 만나요 ~ </p>');
+					}
 				}
 				
           </script>
