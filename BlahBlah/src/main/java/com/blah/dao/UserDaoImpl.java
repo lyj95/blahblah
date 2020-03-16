@@ -192,6 +192,11 @@ public class UserDaoImpl implements UserDao{
 		return list;
 	}
 	@Override
+	public int wroteFeedback(Map<String, Object> pk) {
+		int res = sqlSession.selectOne(NAMESPACE+"wroteFeedback",pk);
+		return res;
+	}
+	@Override
 	public int setRemainClass(Map<String, Object> pk) {
 		int res = sqlSession.update(NAMESPACE+"setRemainClass", pk);
 		return res;
