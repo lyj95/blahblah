@@ -397,9 +397,11 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-                                     <div class="container">
-                                     	<div id="calendar"></div>
-                                     </div>
+		
+                                <div class="container">
+                                	<div id="calendar"></div>
+                                </div>
+
 							</div>
 
 							<!-- 수강중인 강의 시작-->
@@ -429,19 +431,17 @@
 																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
 																</h4>
 																<%-- <p>${myclass.lessonInfo }</p> --%>
-																<c:forEach items="${tutorPhotoList }" var="tutor">
+															<%-- 	<c:forEach items="${tutorPhotoList }" var="tutor">
 																<c:if test="${myclass.tutorId eq tutor.memberId }">
+																</c:if>
+																</c:forEach> --%>
 																<div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 																	<div class="authr_meta">
-																		<img src="resources/profile/${tutor.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
+																		<img src="resources/profile/${myclass.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
 																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
 																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
 																	</div>
 																</div>
-																</c:if>
-																
-																
-																</c:forEach>
 																<br>			
 																<div class="percentage">
 																<h5 class="title">진도율</h5>
@@ -502,6 +502,8 @@
 
 							</div>
 							<!-- 수강만료된 강의 끝-->
+							<!-- 내강의실 부분 끝 -->
+							
 							<!-- 찜 목록 시작 -->
 							<div id="my-fav" class="tab-pane fade">
 								<h2>찜한 강의</h2>
@@ -539,7 +541,39 @@
 								</table>
 							</div>
 							<!-- 찜 목록 끝-->
-							<!-- 내강의실 부분 끝 -->
+							
+							<!-- 레벨테스트 시작 -->
+							<div id="my-level" class="tab-pane fade">
+								<h2>${member.memberId }님의 레벨테스트</h2>
+								<hr>
+								
+								<c:choose>
+                                     <c:when test="${empty memberLevel}">
+                                     <h4>------- 레벨테스트 응시 후 확인하세요. -------</h4>
+                                     <a class="primary-btn" href="leveltestStart">
+											레벨테스트 응시하기<i class="ti-arrow-right ml-1"></i>
+										</a>
+                                     
+                                     </c:when>
+                                     <c:otherwise>
+                                     	<div class="col-lg-8">
+											<small class="input-sm-label">점수</small> 
+											<input type="text" class="single-input-primary" 
+												value="${memberLevel.levelScore }점" disabled> 
+											<small class="input-sm-label">레벨</small> 
+											<input type="text" class="single-input-primary"
+												value="${memberLevel.memberLevel }급" disabled> <br>
+											<a class="primary-btn" href="leveltestResult">
+												추천강의 보기<i class="ti-arrow-right ml-1"></i>
+											</a>
+										</div>
+                                     </c:otherwise>
+                                </c:choose>     
+						
+							</div>
+							<!-- 레벨테스트 끝 -->
+							
+							
 						</div>
 					</div>
 				</div>

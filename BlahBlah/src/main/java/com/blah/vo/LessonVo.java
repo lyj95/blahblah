@@ -16,6 +16,7 @@ public class LessonVo {
 	private String tutorId;
 	private String lessonSample;		//강의 샘플 동영상 
 	private Date lessonStart;			//강의 시작 날짜 
+	private String memberPhoto;			//멤버 프로필 설정
 	
 	public LessonVo() {
 		super();
@@ -23,7 +24,7 @@ public class LessonVo {
 
 	public LessonVo(int lessonNo, String lessonName, String lessonInfo, String lessonLevel, String lessonType,
 			String lessonTime, int lessonPrice, int lessonTotal, String tutorId, String lessonSample,
-			Date lessonStart) {
+			Date lessonStart, String memberPhoto) {
 		super();
 		this.lessonNo = lessonNo;
 		this.lessonName = lessonName;
@@ -36,6 +37,7 @@ public class LessonVo {
 		this.tutorId = tutorId;
 		this.lessonSample = lessonSample;
 		this.lessonStart = lessonStart;
+		this.memberPhoto = memberPhoto;
 	}
 
 	public int getLessonNo() {
@@ -125,14 +127,25 @@ public class LessonVo {
 	public void setLessonStart(Date lessonStart) {
 		this.lessonStart = lessonStart;
 	}
+	
+	public String getMemberPhoto() {
+		return memberPhoto;
+	}
+	
+	public void setMemberPhoto(String memberPhoto) {
+		this.memberPhoto = memberPhoto;
+	}
 
 	@Override
 	public String toString() {
 		return "LessonVo [lessonNo=" + lessonNo + ", lessonName=" + lessonName + ", lessonInfo=" + lessonInfo
 				+ ", lessonLevel=" + lessonLevel + ", lessonType=" + lessonType + ", lessonTime=" + lessonTime
 				+ ", lessonPrice=" + lessonPrice + ", lessonTotal=" + lessonTotal + ", tutorId=" + tutorId
-				+ ", lessonSample=" + lessonSample + ", lessonStart=" + lessonStart + "]";
+				+ ", lessonSample=" + lessonSample + ", lessonStart=" + lessonStart + ", memberPhoto=" + memberPhoto
+				+ "]";
 	}
+
+
 		
 	
 	

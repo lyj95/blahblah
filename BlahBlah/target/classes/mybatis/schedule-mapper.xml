@@ -14,7 +14,6 @@
   		<result property="myclassDate2" column="MYCLASS_DATE2" />
   		<result property="myclassDate3" column="MYCLASS_DATE3" />
   		<result property="myclassDate4" column="MYCLASS_DATE4" />
-  		
   	</resultMap>
   	
   	<select id="selectCalendar" resultMap="calendarMap">
