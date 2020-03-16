@@ -232,7 +232,7 @@ Docs & License: https://fullcalendar.io/
             if (seg.isStart) {
                 timeText = this.getTimeText(eventRange);
                 if (timeText) {
-                    timeHtml = '<span class="fc-time">' + core.htmlEscape(timeText) + '</span>';
+                    timeHtml = '<span class="fc-time">' +""+'</span>';												/*시간부분 제거*/
                 }
             }
             titleHtml =

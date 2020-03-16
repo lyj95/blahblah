@@ -163,11 +163,11 @@ CREATE TABLE calendar (
 	member_id	varchar2(100)	NOT NULL,
 	calendar_content	varchar2(1000)	
 );
-CREATE TABLE leveltest (
-	leveltest_no	number	NOT NULL,
-	leveltest_answer	varchar2(2)	NOT NULL,
-	member_id	varchar2(100)	NOT NULL
-);
+--CREATE TABLE leveltest (
+--	leveltest_no	number	NOT NULL,
+--	leveltest_answer	varchar2(2)	NOT NULL,
+--	member_id	varchar2(100)	NOT NULL
+--);
 CREATE TABLE fav (
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL
@@ -179,6 +179,15 @@ CREATE TABLE feedbacks (
     class_date Date,
     feedback_txt varchar2(1000)
 );
+
+CREATE TABLE member_level (
+	member_id	varchar2(10)	PRIMARY KEY,
+    level_score number          NOT NULL,
+    member_level varchar2(20)    NOT NULL,
+    CONSTRAINT memeber_level_chk CHECK(member_level IN('상','중','하'))
+);
+ALTER TABLE member_level ADD CONSTRAINT FK_member_level FOREIGN KEY (member_id)
+REFERENCES member (member_id);
 
 -- 복합 기본키 제약조건
 
@@ -207,11 +216,11 @@ ALTER TABLE calendar ADD CONSTRAINT PK_CALENDAR PRIMARY KEY (
 	calendar_date,
 	member_id
 );
-ALTER TABLE leveltest ADD CONSTRAINT PK_LEVELTEST PRIMARY KEY (
-	leveltest_no,
-	leveltest_answer,
-	member_id
-);
+--ALTER TABLE leveltest ADD CONSTRAINT PK_LEVELTEST PRIMARY KEY (
+--	leveltest_no,
+--	leveltest_answer,
+--	member_id
+--);
 ALTER TABLE fav ADD CONSTRAINT PK_FAV PRIMARY KEY (
 	member_id,
 	lesson_no
@@ -283,9 +292,9 @@ ALTER TABLE calendar ADD CONSTRAINT FK_member_cal FOREIGN KEY (
 REFERENCES member (
 	member_id
 );
-ALTER TABLE leveltest ADD CONSTRAINT FK_member_ltest FOREIGN KEY (
-	member_id
-)
+--ALTER TABLE leveltest ADD CONSTRAINT FK_member_ltest FOREIGN KEY (
+--	member_id
+--)
 REFERENCES member (
 	member_id
 );
