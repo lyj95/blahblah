@@ -132,7 +132,7 @@
 	</select>	
 	
 	<select id="selectTutorPhoto" parameterType="MemberVo" resultMap="memberMap">
-		SELECT member_photo, member_id
+		SELECT member.member_photo, member_id
 		FROM MEMBER
 		JOIN lesson ON(member_id = tutor_id)
 		<choose>

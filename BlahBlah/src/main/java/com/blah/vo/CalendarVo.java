@@ -7,7 +7,6 @@ public class CalendarVo {
 	private String lessonName;
 	private String lessonTime;
 	private String tutorId;
-	private String paymentDay;
 	private String myclassDate1;
 	private String myclassDate2;
 	private String myclassDate3;
@@ -17,15 +16,13 @@ public class CalendarVo {
 		super();
 	}
 
-	public CalendarVo(String memberId, int lessonNo, String lessonName, String lessonTime, String tutorId,
-			String paymentDay, String myclassDate1, String myclassDate2, String myclassDate3, String myclassDate4) {
+	public CalendarVo(String memberId, int lessonNo, String lessonName, String lessonTime, String tutorId, String myclassDate1, String myclassDate2, String myclassDate3, String myclassDate4) {
 		super();
 		this.memberId = memberId;
 		this.lessonNo = lessonNo;
 		this.lessonName = lessonName;
 		this.lessonTime = lessonTime;
 		this.tutorId = tutorId;
-		this.paymentDay = paymentDay;
 		this.myclassDate1 = myclassDate1;
 		this.myclassDate2 = myclassDate2;
 		this.myclassDate3 = myclassDate3;
@@ -72,13 +69,13 @@ public class CalendarVo {
 		this.tutorId = tutorId;
 	}
 
-	public String getPaymentDay() {
-		return paymentDay;
-	}
-
-	public void setPaymentDay(String paymentDay) {
-		this.paymentDay = paymentDay;
-	}
+//	public String getPaymentDay() {
+//		return paymentDay;
+//	}
+//
+//	public void setPaymentDay(String paymentDay) {
+//		this.paymentDay = paymentDay;
+//	}
 
 	public String getMyclassDate1() {
 		return myclassDate1;
@@ -116,7 +113,7 @@ public class CalendarVo {
 	@Override
 	public String toString() {
 		return "CalendarVo [memberId=" + memberId + ", lessonNo=" + lessonNo + ", lessonName=" + lessonName
-				+ ", lessonTime=" + lessonTime + ", tutorId=" + tutorId + ", paymentDay=" + paymentDay
+				+ ", lessonTime=" + lessonTime + ", tutorId=" + tutorId 
 				+ ", myclassDate1=" + myclassDate1 + ", myclassDate2=" + myclassDate2 + ", myclassDate3=" + myclassDate3
 				+ ", myclassDate4=" + myclassDate4 + "]";
 	}
