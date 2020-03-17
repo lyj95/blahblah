@@ -11,7 +11,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="icon" href="resources/img/favicon.png" type="image/png" />
-    <title>About Us</title>
+    <title>Level Test</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="resources/css/bootstrap.css" />
     <link rel="stylesheet" href="resources/css/flaticon.css" />
@@ -77,13 +77,13 @@
             
             <!-- 강의목록 시작 -->
            	<c:forEach items="${list}" var="list">
-					<div class="single_course col-lg-4 col-sm-12" style="height:35vw">
+					<div class="single_course col-lg-4 col-sm-12" style="height:36vw">
 						<div class="course_head">
 							<!-- 강의 사진 -->
 							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
 								style="width: 100%" />
 						</div>
-						<div class="course_content"style="height:16vw">
+						<div class="course_content"style="height:15.3vw">
 							<!-- 강의 카테고리 -->
 
 							<span class="tag mb-4 d-inline-block">${list.lessonType}</span>
@@ -95,7 +95,6 @@
 							</h4>
 
 							<!-- 강의소개 -->
-							<p>${list.lessonInfo}</p>
 							<div
 								class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
 								<div class="authr_meta">

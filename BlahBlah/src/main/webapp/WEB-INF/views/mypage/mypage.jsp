@@ -11,7 +11,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <link rel="icon" href="resources/img/favicon.png" type="image/png" />
-<title>Blog Details</title>
+<title>My Page</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="resources/css/bootstrap.css" />
 <link rel="stylesheet" href="resources/css/flaticon.css" />

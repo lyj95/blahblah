@@ -6,7 +6,7 @@
 <head>
 <script type="text/javascript" 
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+<link rel="icon" href="resources/img/favicon.png" type="image/png" />
 <script type="text/javascript">
 
 var btn;
