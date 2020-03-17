@@ -26,8 +26,9 @@ public class LeveltestController {
 	private LeveltestService service = new LeveltestServiceImpl();
 
 	@RequestMapping(value = "/leveltestStart")
-	public ModelAndView startLeveltest(LeveltestVo lvo, HttpSession session) {
+	public ModelAndView startLeveltest(HttpSession session) {
 		logger.info("Start leveltest?");
+
 		
 		MemberVo mvo = (MemberVo)session.getAttribute("login");
 		System.out.println("mvo : " + mvo);
@@ -35,13 +36,18 @@ public class LeveltestController {
 		
 		System.out.println("memberId : "+memberId);
 		
-		lvo = service.selectLevel(memberId);
+		
+		LeveltestVo lvo = service.selectLevel(memberId);
 		System.out.println("lvo : "+lvo);
 		
+		
 		if(lvo == null) {
+			System.out.println("lvo는 null");
+			
 			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			
 			return mav;
 		}else {
+			System.out.println("lvo는 not null");
 			System.out.println("lvo" + lvo);
 			
 			ModelAndView mav = new ModelAndView("leveltest/leveltestResult");
