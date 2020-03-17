@@ -148,6 +148,7 @@
 	//캘린더 script
 	
 	document.addEventListener('DOMContentLoaded', function() {
+			var draggableEl = document.getElementById('draggable');
 		    var calendarEl = document.getElementById('calendar');
 		    var date = new Date();
 			var clist = new Array();
@@ -156,17 +157,26 @@
 		    var calendar = new FullCalendar.Calendar(calendarEl, {
 		      plugins: [ 'interaction', 'dayGrid' ],
 		      defaultDate: date,
-		      editable: false,
+		      editable: true,
+		      droppable:true,
+		      drop: function(info){
+		    	  alert("드롭 ");
+		      },
 		      eventLimit: true, // allow "more" link when too many events
+		      /* selectable: true,
+		      select: function(arg){
+		    	  alert("선택 :: "+arg);
+		    	  console.log("선택 :: "+arg.start);
+		      }, */
 		      events: [
 
 
 		    	  <c:forEach var = "clist2" items = "${clist}">
-		    	 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "${clist2.lessonName}",	// 강의명
+						url : 'javascript:alert("${clist2.myclassDate1}".substr(8,2));',
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
+						// start만있으면 하루, end까지 있으면 연속일정
 					},
 					
 					{
@@ -195,6 +205,9 @@
 
 		    calendar.render();
 		  });
+	// ${clist2.myclassDate1}".substr(0,4) : 2020
+	// "${clist2.myclassDate1}".substr(5,2)-1 2
+	// .substr(8,2) : 16
 </script>
 </head>
 
