@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blah.service.LessonService;
+import com.blah.service.PaymentService;
 import com.blah.service.UserService;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
@@ -34,6 +35,8 @@ public class LessonController {
 
 	@Autowired
 	private LessonService service;
+	@Autowired
+	private PaymentService pservice;
 
 	@RequestMapping(value = "/courseList")
 	public ModelAndView list(PagingVo page, HttpServletRequest request) {
@@ -69,9 +72,21 @@ public class LessonController {
 		fav.put("memberId", vo.getMemberId());
 		fav.put("lessonNo", lessonNo + "");
 
+		//수강신청된 강의인지 확인
+		int endLesson = pservice.chkLessonEnd(lessonNo);
+		System.out.println("controller endLesson: "+endLesson);
+		//해당 강의와 세션아이디가 myclass테이블에 동시에 등록돼있는지
+		String memberId = (String)request.getSession().getAttribute("userID");
+		System.out.println("controller memberId: "+memberId);
+		int myLesson = pservice.chkMyLesson(lessonNo, memberId);
+		System.out.println("controller myLesson: "+myLesson);
+		
 		mav.addObject("fav", service.chkFav(fav));
 		mav.addObject("vo", service.selectOne(lessonNo));
 		mav.addObject("reviewAvg", service.getReviewAvg(lessonNo));
+		mav.addObject("endLesson", endLesson);
+		mav.addObject("myLesson", myLesson);
+		
 		String memberPhoto = (String) request.getSession().getAttribute("memberPhoto");
 		model.addAttribute("memberPhoto", memberPhoto);
 

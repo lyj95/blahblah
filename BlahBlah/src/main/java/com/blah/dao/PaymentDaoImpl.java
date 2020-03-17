@@ -1,11 +1,13 @@
 package com.blah.dao;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.blah.vo.LessonVo;
 import com.blah.vo.MyclassVo;
 
 @Repository
@@ -59,6 +61,52 @@ public class PaymentDaoImpl implements PaymentDao{
 			e.printStackTrace();
 		}
 		return classday;
+	}
+
+	@Override
+	public int chkLessonEnd(int lessonNo) {
+		int endLesson = 0;
+		
+		  try { 
+			  endLesson = sqlSession.selectOne(namespace+"chkLessonEnd", lessonNo);
+			  System.out.println("endLesson : "+endLesson);
+			  if(endLesson > 0) {
+				  return endLesson;
+				} else {
+				  return 0;
+				}
+		  }catch(Exception e) { 
+			  System.out.println("[error] : checking End Lesson ");
+			  e.printStackTrace(); 
+		  }
+		 
+		return endLesson;
+	}
+
+	@Override
+	public int chkMyLesson(int lessonNo, String memberId) {
+		
+		System.out.println("daoimpl : "+lessonNo+" / "+memberId);
+		Map<String, Object> map = new HashMap<>();
+		map.put("lessonNo", lessonNo);
+		map.put("memberId", memberId);
+		System.out.println("daoimpl map : "+map);
+		int myLesson = 0;
+		
+		try { 
+			myLesson = sqlSession.selectOne(namespace+"isMyLesson", map);
+			System.out.println("daoimpl myLesson : "+myLesson);
+			  if(myLesson > 0) {
+				  return myLesson;
+				} else {
+				  return 0;
+				}
+		  }catch(Exception e) { 
+			  System.out.println("[error] : checking End Lesson ");
+			  e.printStackTrace(); 
+		  }
+		
+		return myLesson;
 	}
 
 }
