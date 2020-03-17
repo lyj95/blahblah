@@ -130,10 +130,10 @@ public class AccountController {
 		out.close();
 	}
 
-	@RequestMapping("logout")
+	@RequestMapping(value = "logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "common/main";
+		return "redirect:main";
 	}
 
 	@RequestMapping("findidform")

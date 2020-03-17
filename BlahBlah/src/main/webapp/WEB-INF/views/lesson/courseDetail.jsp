@@ -27,25 +27,35 @@
 		function chkTable(){
 		var lessonNo = ${vo.lessonNo};
 		var jdata = { "lessonNo" : lessonNo };
-		$.ajax({
-			url: "/blahblah/chkTable", 
-	        type: "POST",
-	        dataType: "json",
-	        contentType:"application/json",
-	        data: JSON.stringify(jdata),
-			success:function(msg){			//통신 성공시
-				if(msg.res == true){		//결제 진행 가능
-					location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
-				} else {					//결제 진행 불가
-					alert("이미 수강 중이거나 신청 마감된 강의입니다.");
-				}
-			},
+		
+		<% String memberType = (String)session.getAttribute("memberType");
+			System.out.println(memberType);
+		%>
+		var memberType = "<%=memberType%>";
 			
-			error:function(request,status,error){
-		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-		        location.href='courseDetail?lessonNo=${vo.lessonNo}';  
+			if(memberType == "TUTOR") {
+				alert("강사계정은 수강신청을 할 수 없습니다.");
+			} else {
+				$.ajax({
+					url: "/blahblah/chkTable", 
+			        type: "POST",
+			        dataType: "json",
+			        contentType:"application/json",
+			        data: JSON.stringify(jdata),
+					success:function(msg){			//통신 성공시
+						if(msg.res == true){		//결제 진행 가능
+							location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
+						} else {					//결제 진행 불가
+							alert("이미 수강 중이거나 신청 마감된 강의입니다.");
+						}
+					},
+					
+					error:function(request,status,error){
+				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				        location.href='courseDetail?lessonNo=${vo.lessonNo}';  
+					}
+				});
 			}
-		});
 	};
 </script> 
   <body>
@@ -282,15 +292,15 @@ function getCommentList(){
 	        	var memberId = "${userID}";
 	            var html = "";
 	            $.each(res, function(i){ 
-
-	            		console.log("//ajax data:"+res[i].memberId);
+	            		/* console.log("//ajax data:"+res[i].memberId);
 	            		console.log("//ajax data:"+res[i].reviewDate);
 	            		console.log("//ajax data:"+res[i].reviewContent);
+	            		console.log("//:"+res[i].memberPhoto); */
 	            	
 	                    html += "<div class='comment-list'>";
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
-	                    html += "<img name ='profileImg' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image();' style='width: 5vw; height: auto;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
+	                    html += "<img id ='profileImg"+i+"' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image("+i+");' style='width: 5vw; height: 60px;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //2.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
@@ -356,10 +366,9 @@ function getCommentAvg(){
 }  
 
 
-function no_image() {
-
-$("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
-
+function no_image(num) {
+	/* $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto'); */    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
+	$("#profileImg"+num).attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');  
 } 
 
 
@@ -367,7 +376,8 @@ $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw
 <!-- 찜 관련 자바스크립트 -->
 <script type="text/javascript">
 function addFav(){
-	if(${userID} == null){
+	var userId = "${userID}";
+	if(userId == null){
 		if(confirm("'찜'은 로그인 후 사용 가능합니다. \n지금 로그인 하시겠습니까?")){
 			location.href="/login";
 		}

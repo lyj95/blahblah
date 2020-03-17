@@ -39,9 +39,15 @@
                 <p class="text-uppercase">
                   1:1 영어 회화 화상 과외
                 </p>
-                <h2 class="text-uppercase mt-4 mb-5">
+                <!-- <h2 class="text-uppercase mt-4 mb-5">
                   	BLAH BLAH
+                </h2> -->
+                
+                <h2 class="text-uppercase mt-4 mb-5">
+                  	<img src="resources/img/blahblah.png" alt="BLAH BLAH">
                 </h2>
+                <br>
+                
                 <div>
                   <a href="courseList?page=1&perPageNum=6" class="primary-btn2 mb-3 mb-sm-0" style="font-size:14px;">강의 둘러보기</a>
                   <a href="leveltestStart" class="primary-btn ml-sm-3 ml-0" style="font-size:15px;">레벨 테스트</a>
@@ -174,7 +180,7 @@
             <div class="testi_item" style="background:white; height:14vw;">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
-                 <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'"/>
+                 <img src="resources/profile/${list.memberPhoto}" onerror="this.src='resources/img/about.png'" style="width:121px;height:94px;"/>
                 </div>
                 <div class="col-lg-8">
                   <div class="testi_text">

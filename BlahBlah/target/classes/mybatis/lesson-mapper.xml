@@ -16,10 +16,11 @@
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
 		<result property="memberPhoto" column="MEMBER_PHOTO" />
+		<result property="lessonStart" column="LESSON_START" />
 	</resultMap>
 	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap" >
-		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO
-		FROM (SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,
+		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,LESSON_START
+		FROM (SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,LESSON_START,
 				ROW_NUMBER() OVER(ORDER BY LESSON_NO DESC) AS RNUM
 			FROM LESSON
 			) MP
@@ -137,10 +138,8 @@
 	</insert>
 	
 	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
-		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, B.MEMBER_PHOTO 
+		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, A.member_photo
 		FROM REVIEW A
-		JOIN MEMBER B
-		ON A.MEMBER_ID = B.MEMBER_ID
 		WHERE LESSON_NO=#{lessonNo}
 		ORDER BY review_date DESC
 	</select>
@@ -185,5 +184,14 @@
 		LEFT OUTER JOIN fav USING(lesson_no)
 		GROUP BY lesson_no
 	</select>
+
+	<update id="updateLessonProfile" parameterType="MemberVo">
+		UPDATE lesson SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE tutor_id = #{memberId}
+	</update>
+	<update id="updateReviewProfile" parameterType="MemberVo">
+		UPDATE review SET MEMBER_PHOTO=#{memberPhoto} 
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 
 </mapper>

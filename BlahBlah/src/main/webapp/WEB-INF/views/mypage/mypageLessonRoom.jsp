@@ -130,7 +130,7 @@
 
                     <div class="percentage">
                         <div class="progress">
-                            <div class="progress-bar color-2" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+                            <div class="progress-bar color-2" role="progressbar" style="width: calc(${progress.MYCLASS_REMAINCNT}/${progress.MYCLASS_TOTALCNT }*100%)" aria-valuenow="80" aria-valuemin="0"
                              aria-valuemax="100"></div>
                         </div>
                     </div>
