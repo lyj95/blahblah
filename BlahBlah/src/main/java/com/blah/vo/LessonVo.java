@@ -10,12 +10,13 @@ public class LessonVo {
 	private String lessonInfo;
 	private String lessonLevel;
 	private String lessonType;
+	private String lessonDay;
 	private String lessonTime;
 	private int lessonPrice;
 	private int lessonTotal;
 	private String tutorId;
 	private String lessonSample;		//강의 샘플 동영상 
-	private Date lessonStart;			//강의 시작 날짜 
+	private String lessonStart;			//강의 시작 날짜 
 	private String memberPhoto;			//멤버 프로필 설정
 	
 	public LessonVo() {
@@ -23,14 +24,15 @@ public class LessonVo {
 	}
 
 	public LessonVo(int lessonNo, String lessonName, String lessonInfo, String lessonLevel, String lessonType,
-			String lessonTime, int lessonPrice, int lessonTotal, String tutorId, String lessonSample,
-			Date lessonStart, String memberPhoto) {
+			String lessonDay, String lessonTime, int lessonPrice, int lessonTotal, String tutorId, String lessonSample,
+			String lessonStart, String memberPhoto) {
 		super();
 		this.lessonNo = lessonNo;
 		this.lessonName = lessonName;
 		this.lessonInfo = lessonInfo;
 		this.lessonLevel = lessonLevel;
 		this.lessonType = lessonType;
+		this.lessonDay = lessonDay;
 		this.lessonTime = lessonTime;
 		this.lessonPrice = lessonPrice;
 		this.lessonTotal = lessonTotal;
@@ -80,6 +82,14 @@ public class LessonVo {
 		this.lessonType = lessonType;
 	}
 
+	public String getLessonDay() {
+		return lessonDay;
+	}
+
+	public void setLessonDay(String lessonDay) {
+		this.lessonDay = lessonDay;
+	}
+
 	public String getLessonTime() {
 		return lessonTime;
 	}
@@ -120,11 +130,11 @@ public class LessonVo {
 		this.lessonSample = lessonSample;
 	}
 
-	public Date getLessonStart() {
+	public String getLessonStart() {
 		return lessonStart;
 	}
 
-	public void setLessonStart(Date lessonStart) {
+	public void setLessonStart(String lessonStart) {
 		this.lessonStart = lessonStart;
 	}
 	
@@ -139,12 +149,11 @@ public class LessonVo {
 	@Override
 	public String toString() {
 		return "LessonVo [lessonNo=" + lessonNo + ", lessonName=" + lessonName + ", lessonInfo=" + lessonInfo
-				+ ", lessonLevel=" + lessonLevel + ", lessonType=" + lessonType + ", lessonTime=" + lessonTime
-				+ ", lessonPrice=" + lessonPrice + ", lessonTotal=" + lessonTotal + ", tutorId=" + tutorId
-				+ ", lessonSample=" + lessonSample + ", lessonStart=" + lessonStart + ", memberPhoto=" + memberPhoto
-				+ "]";
+				+ ", lessonLevel=" + lessonLevel + ", lessonType=" + lessonType + ", lessonDay=" + lessonDay
+				+ ", lessonTime=" + lessonTime + ", lessonPrice=" + lessonPrice + ", lessonTotal=" + lessonTotal
+				+ ", tutorId=" + tutorId + ", lessonSample=" + lessonSample + ", lessonStart=" + lessonStart
+				+ ", memberPhoto=" + memberPhoto + "]";
 	}
-
 
 		
 	

@@ -253,6 +253,7 @@
 									class="d-flex justify-content-between">
 										<h5 style="color: #666666">회원 탈퇴</h5>
 								</a></li>
+
 								<c:if test="${member.memberType ne 'ADMIN' }">
 									<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
 										class="d-flex justify-content-between">
@@ -274,10 +275,12 @@
 										class="d-flex justify-content-between">
 											<h4>찜</h4>
 									</a></li>
-									<li><a data-toggle="tab" href="#my-level"
-										class="d-flex justify-content-between">
-											<h4>레벨 테스트</h4>
-									</a></li>
+									<c:if test="${member.memberType eq 'USER' }">
+										<li><a data-toggle="tab" href="#my-level"
+											class="d-flex justify-content-between">
+												<h4>레벨 테스트</h4>
+										</a></li>
+									</c:if>
 								</c:if>
 							</ul>
 						</aside>

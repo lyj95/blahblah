@@ -91,23 +91,34 @@
 			<!-- end search box -->
 			<div class="row">
 				<!-- ------------- 강의목록 반복되는 부분 ------------ -->
-
 				<c:forEach items="${list}" var="list">
-					<div class="single_course col-lg-4 col-sm-12" style="height:35vw">
+					<div class="single_course col-lg-4 col-sm-12" style="height:38vw">
 						<div class="course_head">
 							<!-- 강의 사진 -->
 							<img class="img-fluid" src="resources/img/courses/c1.jpg" alt=""
 								style="width: 100%" />
 						</div>
-						<div class="course_content"style="height:16vw">
+						<div class="course_content"style="height:17vw">
 							<!-- 강의 카테고리 -->
 
 							<span class="tag mb-4 d-inline-block">${list.lessonType}</span>
 							<span class="tag mb-2 d-inline-block">${list.lessonLevel}</span>
-
+							<c:choose>
+								<c:when test="${not empty list.lessonStart }">
+									<span class="tag mb-2 d-inline-block" style="background-color:red">수강신청마감</span>
+								</c:when>
+							</c:choose>
+							
 							<!-- 강의명 -->
 							<h4 class="mb-3">
-								<a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
+								<c:choose>
+									<c:when test="${not empty list.lessonStart }">
+										${list.lessonName}
+									</c:when>
+									<c:otherwise>
+										<a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
+									</c:otherwise>
+								</c:choose>
 							</h4>
 
 							<!-- 강의소개 -->

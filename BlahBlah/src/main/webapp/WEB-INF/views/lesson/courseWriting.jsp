@@ -64,7 +64,7 @@
 				</div>
 				<div class="form-group row">
               <div class="col-sm-2">강의레벨</div>
-					<div class="default-select" id="lessonLevel">		
+					<div class="col-sm-4 lg-3" id="lessonLevel">		
 					<select class="nice-select" tabindex="0" id="lessonLevel" name="lessonLevel">
 	                     <option value="상">상</option>
 	                     <option value="중">중</option>
@@ -74,25 +74,35 @@
 				</div>
             <div class="form-group row">
               <div class="col-sm-2">강의목표</div>
-					<div class="default-select" id="lessonType">
-						<select class="nice-select" tabindex="0" id="lessonType" name="lessonType">
-	                     <option value="SPEAKING">자유회화</option>
-	                     <option value="LICENSE">시험대비</option>
-						</select>						
+              		<div class="col-sm-4 lg-3" id="lessonType">
+					<select class="nice-select" tabindex="0" id="lessonType" name="lessonType">
+                     <option value="SPEAKING">자유회화</option>
+                     <option value="LICENSE">시험대비</option>
+					</select>
 					</div>
 				</div>           
 
             <div class="form-group row">
               <label for="lessonTime" class="col-sm-2 col-form-label">강의시간</label>
-              <div class="col-sm-3 lg-3">
-                <input type="text" class="form-control" name ="lessonTime" id="lessonTime">
+              <div class="col-sm-4 lg-3">
+					<span style="padding:0px 10px 0px 0px;"><select class="nice-select" tabindex="0" id="lessonDay" name="lessonDay">
+                     <option value="일">일요일</option>
+                     <option value="월">월요일</option>
+                     <option value="화">화요일</option>
+                     <option value="수">수요일</option>
+                     <option value="목">목요일</option>
+                     <option value="금">금요일</option>
+                     <option value="토">토요일</option>
+					</select></span>	
+					<span style="padding:2px 0px 0px 10px;"><input type="time" name ="lessonTime" id="lessonTime"></span>					
+				
               </div>
             </div>
             <div class="form-group row">
               <label for="lessonPrice" class="col-sm-2 col-form-label">수강료 (4주 기준)</label>
               <div class="col-sm-3 lg-3">
-                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice">                
-              </div>
+                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice">              
+              </div><span>원</span>  
             </div>
 				<div class="form-group row">
 					<label for="lessonFile" class="col-sm-4 col-form-label">샘플
