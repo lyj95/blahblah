@@ -292,15 +292,15 @@ function getCommentList(){
 	        	var memberId = "${userID}";
 	            var html = "";
 	            $.each(res, function(i){ 
-
-	            		console.log("//ajax data:"+res[i].memberId);
+	            		/* console.log("//ajax data:"+res[i].memberId);
 	            		console.log("//ajax data:"+res[i].reviewDate);
 	            		console.log("//ajax data:"+res[i].reviewContent);
+	            		console.log("//:"+res[i].memberPhoto); */
 	            	
 	                    html += "<div class='comment-list'>";
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
-	                    html += "<img name ='profileImg' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image();' style='width: 5vw; height: auto;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
+	                    html += "<img id ='profileImg"+i+"' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image("+i+");' style='width: 5vw; height: 60px;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //2.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
@@ -366,10 +366,9 @@ function getCommentAvg(){
 }  
 
 
-function no_image() {
-
-$("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
-
+function no_image(num) {
+	/* $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto'); */    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
+	$("#profileImg"+num).attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');  
 } 
 
 
