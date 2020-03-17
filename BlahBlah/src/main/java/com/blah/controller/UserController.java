@@ -47,7 +47,8 @@ public class UserController {
 		logger.info("Mypage");
 		
 		MemberVo vo = (MemberVo)session.getAttribute("login");
-		String memberId = vo.getMemberId();
+		String memberId = vo.getMemberId();		
+		String type = (String)session.getAttribute("memberType");
 		
 		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
@@ -61,7 +62,12 @@ public class UserController {
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
 		
-		System.out.println("memberLevel : " + lservice.selectLevel(memberId));
+		if(type.equals("TUTOR")) { //강사 캘린더
+			String tutorId = vo.getMemberId();	
+			System.out.println("강사 아이디 : "+tutorId);
+			mav.addObject("tutorClist", sservice.selectTutorCalendar(tutorId));
+		}
+		
 		
 		return mav;
 	}
