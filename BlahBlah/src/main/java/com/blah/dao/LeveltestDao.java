@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.blah.vo.LessonVo;
 import com.blah.vo.LeveltestVo;
-import com.blah.vo.PagingVo;
 
 public interface LeveltestDao {
 
