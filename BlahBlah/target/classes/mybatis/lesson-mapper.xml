@@ -137,10 +137,8 @@
 	</insert>
 	
 	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
-		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, B.MEMBER_PHOTO 
+		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, A.member_photo
 		FROM REVIEW A
-		JOIN MEMBER B
-		ON A.MEMBER_ID = B.MEMBER_ID
 		WHERE LESSON_NO=#{lessonNo}
 		ORDER BY review_date DESC
 	</select>
