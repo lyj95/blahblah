@@ -19,4 +19,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return dao.selectCalendar(memberId);
 	}
 
+	@Override
+	public List<CalendarVo> selectTutorCalendar(String tutorId) {
+		return dao.selectTutorCalendar(tutorId);
+	}
+
 }

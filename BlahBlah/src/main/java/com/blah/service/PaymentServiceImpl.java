@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blah.dao.PaymentDao;
+import com.blah.vo.LessonVo;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -29,6 +30,18 @@ public class PaymentServiceImpl implements PaymentService{
 	public String selectDay(String lessonNo) {
 		// TODO Auto-generated method stub
 		return dao.selectDay(lessonNo);
+	}
+
+	@Override
+	public int chkLessonEnd(int lessonNo) {
+		// TODO Auto-generated method stub
+		return dao.chkLessonEnd(lessonNo);
+	}
+
+	@Override
+	public int chkMyLesson(int lessonNo, String memberId) {
+		// TODO Auto-generated method stub
+		return dao.chkMyLesson(lessonNo, memberId);
 	}
 
 }

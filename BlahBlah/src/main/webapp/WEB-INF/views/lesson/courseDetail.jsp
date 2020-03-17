@@ -10,7 +10,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="resources/img/favicon.png" type="image/png" />
     <title>Courses Details</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="resources/css/bootstrap.css" />
@@ -133,9 +133,18 @@
                         </li>
                     </ul>
                     <div class="row">
-                    	<div class="col-6">
+                    <c:choose>
+                    	<c:when test="${endLesson gt 0}">
+							<div class="col-6">
+                   			<input type="button" class="primary-btn2 text-uppercase enroll rounded-0 text-white" style="background-color:gray;border:0px;text-align:center;padding-left:37px;" value="수강 신청 마감"/>
+                    		</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col-6">
                    			<input type="button" onclick="chkTable()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" value="수강 신청"/>
-                    	</div>
+                    		</div>
+						</c:otherwise>
+                    </c:choose>	
                     	  
 						<!-- 찜 버튼 -->    
                     	<div class="col-6">
@@ -172,7 +181,14 @@
 									</select>
 								</div>
 							</div>
-                            <textarea name="reviewContent" id="reviewContent" class="form-control" cols="10" rows="10"></textarea>
+							<c:choose>
+								<c:when test="${myLesson gt 0}">
+									<textarea name="reviewContent" id="reviewContent" class="form-control" cols="10" rows="10"></textarea>
+								</c:when>
+								<c:otherwise>
+									<textarea name="reviewContent" id="reviewContent" class="form-control" cols="10" rows="10" disabled></textarea>
+								</c:otherwise>
+							</c:choose>
                             <div class="mt-10 text-right">
                                 <a href="javascript:reviewsubmit();" class="primary-btn2 text-right rounded-0 text-white">작성</a>
                             </div>
@@ -259,26 +275,32 @@ function reviewsubmit(){
     		 "reviewGrade" : reviewGrade,
     		 "memberPhoto" : memberPhoto
     		 };    
+     var myLesson = "${myLesson}";
+     alert(myLesson);
      
-     $.ajax({
-         type: "post", //데이터를 보낼 방식
-         url: "addReview", //데이터를 보낼 url
-         data: params, //보낼 데이터
-          
-         success: function(data){//데이터를 보내는 것이 성공했을 시 출력되는 메시지
-             
-	            if(data.check==true){
-		            alert("리뷰가 등록되었습니다.");
-	                $("#reviewContent").val("");//comment 창 초기화
-	                getCommentList(); //댓글목록 불러오기
-	                getCommentAvg();
-	            }
-	        },
-    	error:function(){
-    		 alert("서버와 통신실패");
-         	// alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-    }
- });
+     if(myLesson <= 0){
+    	 alert("후기는 해당 강의에 신청한 회원만 작성 가능합니다.");
+     } else {
+    	 $.ajax({
+             type: "post", //데이터를 보낼 방식
+             url: "addReview", //데이터를 보낼 url
+             data: params, //보낼 데이터
+              
+             success: function(data){//데이터를 보내는 것이 성공했을 시 출력되는 메시지
+                 
+    	            if(data.check==true){
+    		            alert("리뷰가 등록되었습니다.");
+    	                $("#reviewContent").val("");//comment 창 초기화
+    	                getCommentList(); //댓글목록 불러오기
+    	                getCommentAvg();
+    	            }
+    	        },
+        	error:function(){
+        		 alert("서버와 통신실패");
+             	// alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	        }
+	     });
+     }
 }
 
 function getCommentList(){
@@ -292,15 +314,15 @@ function getCommentList(){
 	        	var memberId = "${userID}";
 	            var html = "";
 	            $.each(res, function(i){ 
-	            		/* console.log("//ajax data:"+res[i].memberId);
+
+	            		console.log("//ajax data:"+res[i].memberId);
 	            		console.log("//ajax data:"+res[i].reviewDate);
 	            		console.log("//ajax data:"+res[i].reviewContent);
-	            		console.log("//:"+res[i].memberPhoto); */
 	            	
 	                    html += "<div class='comment-list'>";
 	                    html += "<div class='single-comment single-reviews justify-content-between d-flex'>";
 	                    html += "<div class='user justify-content-between d-flex'><div class='thumb'>";
-	                    html += "<img id ='profileImg"+i+"' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image("+i+");' style='width: 5vw; height: 60px;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
+	                    html += "<img name ='profileImg' src='resources/profile/"+res[i].memberPhoto+"' onerror='no_image();' style='width: 5vw; height: auto;' /></div><div class='desc'>";  //1.프로필사진 링크 넣기
 	                    html += "<h5><a href='#'>"+res[i].memberId+"</a>";  //2.작성자 아이디
 	                    html += "<div class='star'>";//별점부분
 
@@ -366,9 +388,10 @@ function getCommentAvg(){
 }  
 
 
-function no_image(num) {
-	/* $("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto'); */    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
-	$("#profileImg"+num).attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');  
+function no_image() {
+
+$("img[name=profileImg]").attr("src", "resources/img/about.png").css('width: 5vw', 'height: auto');    // 주의 : 대체 이미지도 없으면 무한 루프에 걸린다.
+
 } 
 
 

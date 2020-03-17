@@ -11,7 +11,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <link rel="icon" href="resources/img/favicon.png" type="image/png" />
-<title>Blog Details</title>
+<title>My Page</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="resources/css/bootstrap.css" />
 <link rel="stylesheet" href="resources/css/flaticon.css" />
@@ -147,6 +147,7 @@
 	//캘린더 script
 	
 	document.addEventListener('DOMContentLoaded', function() {
+			var draggableEl = document.getElementById('draggable');
 		    var calendarEl = document.getElementById('calendar');
 		    var date = new Date();
 			var clist = new Array();
@@ -155,45 +156,89 @@
 		    var calendar = new FullCalendar.Calendar(calendarEl, {
 		      plugins: [ 'interaction', 'dayGrid' ],
 		      defaultDate: date,
-		      editable: false,
+		      editable: true,
+		      droppable:true,
+		      drop: function(info){
+		    	  alert("드롭 ");
+		      },
 		      eventLimit: true, // allow "more" link when too many events
+		      /* selectable: true,
+		      select: function(arg){
+		    	  alert("선택 :: "+arg);
+		    	  console.log("선택 :: "+arg.start);
+		      }, */
 		      events: [
-
-
+		    	  
+		    	<c:if test="${member.memberType eq 'USER' }">
 		    	  <c:forEach var = "clist2" items = "${clist}">
-		    	 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
+						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
+						// start만있으면 하루, end까지 있으면 연속일정
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "${clist2.lessonName}" + " / " +"${clist2.lessonTime}".substr(2,7),
+						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
+						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
+						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
 					},
 							
 										
 				</c:forEach> 
+			  </c:if>
+		  
+			  <c:if test="${member.memberType eq 'TUTOR' }">
+	    	  <c:forEach var = "clist2" items = "${tutorClist}">
+				{
+					title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
+					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+					start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
+					// start만있으면 하루, end까지 있으면 연속일정
+				},
+				
+				{
+					title: "${clist2.lessonName}" + " / " +"${clist2.lessonTime}".substr(2,7),
+					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+					start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
+				},
+				
+				{
+					title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
+					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+					start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
+				},
+				
+				{
+					title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
+					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+					start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
+				},
+						
+									
+			</c:forEach> 
+		  </c:if>
 
 		      ]
 		    });
 
 		    calendar.render();
 		  });
+	// ${clist2.myclassDate1}".substr(0,4) : 2020
+	// "${clist2.myclassDate1}".substr(5,2)-1 2
+	// .substr(8,2) : 16
 </script>
 </head>
 

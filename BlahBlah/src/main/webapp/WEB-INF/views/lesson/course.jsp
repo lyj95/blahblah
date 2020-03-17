@@ -111,14 +111,7 @@
 							
 							<!-- 강의명 -->
 							<h4 class="mb-3">
-								<c:choose>
-									<c:when test="${not empty list.lessonStart }">
-										${list.lessonName}
-									</c:when>
-									<c:otherwise>
-										<a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
-									</c:otherwise>
-								</c:choose>
+								<a href="courseDetail?lessonNo=${list.lessonNo }">${list.lessonName}</a>
 							</h4>
 
 							<!-- 강의소개 -->

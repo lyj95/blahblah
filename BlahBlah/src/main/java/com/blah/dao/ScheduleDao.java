@@ -9,5 +9,6 @@ public interface ScheduleDao {
 	String NAMESPACE = "calendar.";
 
 	public List<CalendarVo> selectCalendar(String memberId);
+	public List<CalendarVo> selectTutorCalendar(String tutorId);
 	
 }

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" href="resources/img/favicon.png" type="image/png" />
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
 
@@ -13,8 +14,6 @@
 	<title>아이디 찾기</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="resources/login/images/icons/favicon.ico"/>
 <!--================"C:/Users/GangNangYee/Desktop/Login_v9/login"===============================================================================-->
 	<link rel="stylesheet" type="text/css" href="resources/login/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
