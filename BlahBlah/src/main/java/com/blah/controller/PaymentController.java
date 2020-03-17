@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.blah.dao.UserDao;
 import com.blah.service.LessonService;
 import com.blah.service.PaymentService;
 import com.blah.service.UserService;
+import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MsgVo;
 
 @Controller
 public class PaymentController {
@@ -34,6 +37,8 @@ public class PaymentController {
 	@Autowired
 	private UserService us;
 	
+	@Autowired
+	private UserDao Userdao;
 	
 	/**
 	 * 결제 진행 전 payment 테이블에 해당 강의가 결제된 내역이 있는지 확인 후 ajax로 결과 리턴
@@ -92,16 +97,20 @@ public class PaymentController {
 		MemberVo vo = (MemberVo)session.getAttribute("login");				//세션
 		
 		logger.info("lessonNo : "+lessonNo);
-		int lessonPrice = ls.selectOne(lessonNo).getLessonPrice();			//lessonNo로 결제금액 가져오기
+		LessonVo lvo = ls.selectOne(lessonNo);
+		
+		int lessonPrice = lvo.getLessonPrice();			//lessonNo로 결제금액 가져오기
 		String memberId = us.selectMember(vo).getMemberId();
 		String userName = us.selectMember(vo).getMemberName();		//ID로 회원이름 가져오기
 		String userEmail = us.selectMember(vo).getMemberEmail();		//ID로 회원메일 가져오기
+		String tutorId = lvo.getTutorId();
 		
 		model.addAttribute("lessonNo", lessonNo);
 		model.addAttribute("lessonPrice", lessonPrice);	
 		model.addAttribute("memberId", memberId);	
 		model.addAttribute("userName", userName);	
 		model.addAttribute("userEmail", userEmail);	
+		model.addAttribute("tutorId", tutorId);	
 		
 		return "payment/payment";
 	}
@@ -261,6 +270,10 @@ public class PaymentController {
 
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("everythings_fine", everythings_fine);
+		
+		//TODO 메세지 내용 수정하기
+		MsgVo mvo = new MsgVo(jdata.get("tutorId"), memberId+"님이  강의를 수강신청 하셨습니다. \n마이페이지 나의강의실에서 확인해주세요 !" );
+		Userdao.insertMsg(mvo);
 		
 		return map;	
 	}

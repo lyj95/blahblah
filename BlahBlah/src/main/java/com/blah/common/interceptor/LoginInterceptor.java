@@ -52,6 +52,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			|| request.getRequestURI().contains("/searchByQnaContent")
 			|| request.getRequestURI().contains("/kakaoLogin")
 			|| request.getRequestURI().contains("/lessonRoom")
+//			|| request.getRequestURI().contains("/msgUnread")
 			|| request.getRequestURI().contains("/leveltestStart")){
 
 			return true;

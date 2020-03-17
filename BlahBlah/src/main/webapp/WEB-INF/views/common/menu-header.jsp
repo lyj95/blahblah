@@ -17,8 +17,32 @@
     <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
-	<script type="text/javascript">
-
+	
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+   function getUnread(){
+      $.ajax({
+         type : "POST",
+         url : "msgUnread?memberId=${userID}",
+         dataType : "json",
+         success : function(result){
+            if(result >= 1){   //결과값이 1보다 크면 결과 출력
+               showUnread(result);
+            } else{
+               showUnread('');
+            }
+         }
+      });
+   }
+/*    function getInfiniteUnread(){
+      setInterval(function(){
+         getUnread();
+      }, 10000);
+   } */
+   function showUnread(result){
+      $('#unread').html(result);
+   }
+   
 </script>
    <!--================ Start Header Menu Area =================-->
     <header class="header_area white-header">
@@ -127,6 +151,7 @@
                      %>
            				<li class="nav-item">
            					<a class="nav-link" href="mypage">My Page</a>
+           					<span class="badge badge-danger badge-counter" id="unread"></span>
            				</li>
            				<li class="nav-item">
            					<a class="nav-link" href="logout">Logout</a>

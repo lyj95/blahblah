@@ -44,6 +44,13 @@
 		<result property="classDate" column="CLASS_DATE"/>
 		<result property="feedbackTxt" column="FEEDBACK_TXT"/>
 	</resultMap>
+	<resultMap type="MsgVo" id="msgMap">
+		<result property="msgNo" column="MSG_NO"/>
+		<result property="getId" column="GET_ID"/>
+		<result property="content" column="CONTENT"/>
+		<result property="regdate" column="REGDATE"/>
+		<result property="readCk" column="READ_CK"/>
+	</resultMap>
 	
 	<select id="selectMember" parameterType="MemberVo" resultMap="memberMap">
 		SELECT member_id, member_pw, member_type, member_name, member_email, member_level, member_photo
@@ -194,4 +201,22 @@
                </when>
 		</choose>
 	</select> 
+	
+	<select id="insertMsg" parameterType="msgVo">
+		INSERT INTO msg VALUES(msg_seq.NEXTVAL,#{getId},#{content},SYSDATE,0)
+	</select>
+	
+	<update id="readMsg" parameterType="int">
+		UPDATE msg SET read_ck = 1 WHERE msg_no=#{msgNo}
+	</update>
+	
+	<select id="getAllMsg" parameterType="string" resultMap="msgMap">
+		SELECT * FROM msg WHERE get_id=#{memberId} ORDER BY regdate DESC
+	</select>
+	
+	<select id="getUnreadAllMsg" parameterType="string" resultType="int">
+		SELECT COUNT(msg_no) FROM msg WHERE get_id = #{memberId} AND read_ck = 0
+	</select>
+	
+	
 </mapper>

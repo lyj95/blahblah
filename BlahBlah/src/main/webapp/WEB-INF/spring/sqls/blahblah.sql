@@ -66,7 +66,26 @@ CREATE SEQUENCE review_seq
   MAXVALUE 10000
   MINVALUE 1
   NOCYCLE;  
+  
+CREATE SEQUENCE MSG_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
+	
+	
 -- 테이블 생성
+
+CREATE TABLE msg(
+    msg_no number PRIMARY KEY,
+    send_id varchar2(100) NOT NULL,
+    get_id varchar2(100) NOT NULL,
+    content varchar2(4000) NOT NULL,
+    regdate DATE NOT NULL,
+    read_ck NUMBER -- 0이면 안읽은 것 1이면 읽은 것
+);
+  
 CREATE TABLE member (
 	member_id	varchar2(100)	PRIMARY KEY,
 	member_pw	varchar2(100)	NOT NULL,
