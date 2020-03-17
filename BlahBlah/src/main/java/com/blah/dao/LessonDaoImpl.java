@@ -178,7 +178,6 @@ public class LessonDaoImpl implements LessonDao {
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
 			list = sqlSession.selectList(namespace+"selectReviewList",lessonNo);
-			
 		}catch(Exception e) {
 			System.out.println("[error] : selectReviewList ");
 			e.printStackTrace();

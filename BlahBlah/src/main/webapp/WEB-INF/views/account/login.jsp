@@ -4,13 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script type="text/javascript" 
-		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link rel="icon" href="resources/img/favicon.png" type="image/png" />
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-
-
 
 $(function(){ $("#loginChk").hide(); });
 function login(){
@@ -55,7 +51,6 @@ function login(){
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="resources/login/images/icons/favicon.ico"/>
 <!--================"C:/Users/GangNangYee/Desktop/Login_v9/login"===============================================================================-->
 	<link rel="stylesheet" type="text/css" href="resources/login/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->

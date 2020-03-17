@@ -97,7 +97,7 @@ public class ReviewVo {
 	public String toString() {
 		return "ReviewVo [memberId=" + memberId + ", lessonNo=" + lessonNo + ", reviewTitle=" + reviewTitle
 				+ ", reviewContent=" + reviewContent + ", reviewDate=" + reviewDate + ", reviewGrade=" + reviewGrade
-				+ "]";
+				+ ",memberPhoto=" + memberPhoto+ "]";
 	}
 
 }
