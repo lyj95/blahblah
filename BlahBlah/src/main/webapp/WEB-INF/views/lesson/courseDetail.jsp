@@ -214,7 +214,7 @@
                    <!-- 수강후기 평균 별점 종료 -->
                          
   				<!-- ------------- 강의리뷰 반복되는 부분 ------------ -->
-						<div class="comments-area mb-30">
+						<div class="comments-area mb-30" style="height:300px; overflow: auto;">
 							<div id="reviewList"></div>
 						</div>
 
@@ -281,7 +281,6 @@ function reviewsubmit(){
     		 "memberPhoto" : memberPhoto
     		 };    
      var myLesson = "${myLesson}";
-     alert(myLesson);
      
      if(myLesson <= 0){
     	 alert("후기는 해당 강의에 신청한 회원만 작성 가능합니다.");
@@ -312,7 +311,7 @@ function getCommentList(){
 
 	$.ajax({
 	        type:'GET',
-	        url : "reviewList?lessonNo=${vo.lessonNo}",  //보낼 url
+	        url : "reviewList?tutorId=${vo.tutorId}",  //보낼 url
 	        dataType : "json",
 	        success : function(data){
 	        	var res = data.reviewlist;
@@ -364,7 +363,7 @@ function getCommentAvg(){
 
 	$.ajax({
 	        type:'GET',
-	        url : "reviewAvg?lessonNo=${vo.lessonNo}",  //보낼 url
+	        url : "reviewAvg?tutorId=${vo.tutorId}",  //보낼 url
 	        dataType : "json",
 	        success : function(data){
 	        	var avg = data.avg;

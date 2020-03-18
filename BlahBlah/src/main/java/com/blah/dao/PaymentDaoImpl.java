@@ -65,22 +65,14 @@ public class PaymentDaoImpl implements PaymentDao{
 
 	@Override
 	public int chkLessonEnd(int lessonNo) {
-		int endLesson = 0;
-		
-		  try { 
-			  endLesson = sqlSession.selectOne(namespace+"chkLessonEnd", lessonNo);
+		int endLesson = sqlSession.selectOne(namespace+"chkLessonEnd", lessonNo);
 			  System.out.println("endLesson : "+endLesson);
 			  if(endLesson > 0) {
 				  return endLesson;
 				} else {
 				  return 0;
 				}
-		  }catch(Exception e) { 
-			  System.out.println("[error] : checking End Lesson ");
-			  e.printStackTrace(); 
-		  }
-		 
-		return endLesson;
+		  
 	}
 
 	@Override
@@ -91,9 +83,9 @@ public class PaymentDaoImpl implements PaymentDao{
 		map.put("lessonNo", lessonNo);
 		map.put("memberId", memberId);
 		System.out.println("daoimpl map : "+map);
+		
 		int myLesson = 0;
 		
-		try { 
 			myLesson = sqlSession.selectOne(namespace+"isMyLesson", map);
 			System.out.println("daoimpl myLesson : "+myLesson);
 			  if(myLesson > 0) {
@@ -101,12 +93,7 @@ public class PaymentDaoImpl implements PaymentDao{
 				} else {
 				  return 0;
 				}
-		  }catch(Exception e) { 
-			  System.out.println("[error] : checking End Lesson ");
-			  e.printStackTrace(); 
-		  }
-		
-		return myLesson;
+		 
 	}
 
 }

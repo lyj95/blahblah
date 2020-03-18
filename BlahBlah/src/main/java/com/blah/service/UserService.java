@@ -30,6 +30,7 @@ public interface UserService {
 	public int updateFeedback(FeedbackVo vo, String userId);
 	public List<LessonVo> selectFav(String memberId);
 	public HashMap<String,Integer> getProgress(int lessonNo, MemberVo user);
+	public String getUserType(String userId);
 	public List<MsgVo> getAllMsg(String memberId);
 	public int readMsg(int msgNo);
 	public int getUnreadAllMsg(String memberId);

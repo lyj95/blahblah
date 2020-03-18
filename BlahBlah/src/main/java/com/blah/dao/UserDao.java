@@ -31,7 +31,7 @@ public interface UserDao {
 	public int setRemainClass(Map<String, Object> pk);
 	public int wroteFeedback(Map<String, Object> pk);
 	public HashMap<String, Integer> getProgress(Map<String, String> map);
-	
+	public String getUserType(String userId);
 	public int insertMsg(MsgVo vo);
 	public int readMsg(int no);
 	public List<MsgVo> getAllMsg(String memberId);

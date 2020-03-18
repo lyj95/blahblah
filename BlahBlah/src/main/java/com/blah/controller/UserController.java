@@ -2,6 +2,7 @@ package com.blah.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.blah.common.validate.FileValidate;
 import com.blah.service.LeveltestService;
 import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
+import com.blah.vo.CalendarVo;
 import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
@@ -153,7 +155,6 @@ public class UserController {
 	@RequestMapping(value="/updateFeedback", produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String updateFeedback(HttpSession session, FeedbackVo vo){
-		System.out.println("업데이트 용 : "+vo.toString());
 		String userId = (String)session.getAttribute("userID");
 		String msg = "피드백 수정을 실패했습니다."; 
 		int success = service.updateFeedback(vo, userId);
@@ -163,7 +164,27 @@ public class UserController {
 		System.out.println(msg+" : feedback");
 		return msg;
 	}
-	
+	@RequestMapping(value="updateClassDate", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateClassDate(HttpSession session, CalendarVo calendar, int classCnt, Date updateDate) {
+		System.out.println(calendar.getMemberId());
+		System.out.println(updateDate+"확인");
+
+		// TODO 상대방이 조건이 있는지 확인 -> 우선 이사람의 memberType확인 
+		String userId = (String)session.getAttribute("userID");
+		String type = service.getUserType(userId);		// type 확인
+		String res;
+		if(type.equals("USER")) {
+			res = sservice.updateDateByUser(calendar, classCnt, updateDate);
+		} else {
+			calendar.setTutorId(userId);
+			res = sservice.updateDateByTutor(calendar, classCnt, updateDate);
+		}
+		// TODO 없으면 update 문 실행
+		
+		return res;
+	}
+
 	@RequestMapping(value = "/readMsg")
 	@ResponseBody
 	public int readMsg(@RequestParam int msgNo) {

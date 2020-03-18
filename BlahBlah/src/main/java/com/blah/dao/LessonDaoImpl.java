@@ -173,11 +173,11 @@ public class LessonDaoImpl implements LessonDao {
 	}
 
 	@Override
-	public List<ReviewVo> selectReviewList(int lessonNo) {
+	public List<ReviewVo> selectReviewList(String tutorId) {	//tutorID로 가져와야함
 
 		List<ReviewVo> list = new ArrayList<ReviewVo>();
 		try {
-			list = sqlSession.selectList(namespace+"selectReviewList",lessonNo);
+			list = sqlSession.selectList(namespace+"selectReviewList",tutorId);
 		}catch(Exception e) {
 			System.out.println("[error] : selectReviewList ");
 			e.printStackTrace();
@@ -214,11 +214,11 @@ public class LessonDaoImpl implements LessonDao {
 	}
 
 	@Override
-	public Double getReviewAvg(int lessonNo) {
+	public Double getReviewAvg(String tutorId) {
 		Double reviewAvg = 0.0;
 		List<Integer> reviewGradeList = new ArrayList<Integer>();
 		try {
-			reviewGradeList = sqlSession.selectList(namespace+"getReviewGrade",lessonNo); //리뷰 그래이드 값 가져온다.
+			reviewGradeList = sqlSession.selectList(namespace+"getReviewGrade",tutorId); //리뷰 그래이드 값 가져온다.
 			
 			double sum = 0;
 			for(int i : reviewGradeList){

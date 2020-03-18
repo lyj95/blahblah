@@ -201,7 +201,9 @@
                </when>
 		</choose>
 	</select> 
-	
+	<select id="getUserType" parameterType="String" resultType="String">
+		SELECT member_type FROM MEMBER WHERE member_id = #{userId}
+	</select>
 	<select id="insertMsg" parameterType="msgVo">
 		INSERT INTO msg VALUES(msg_seq.NEXTVAL,#{getId},#{content},SYSDATE,0)
 	</select>
@@ -217,6 +219,5 @@
 	<select id="getUnreadAllMsg" parameterType="string" resultType="int">
 		SELECT COUNT(msg_no) FROM msg WHERE get_id = #{memberId} AND read_ck = 0
 	</select>
-	
 	
 </mapper>

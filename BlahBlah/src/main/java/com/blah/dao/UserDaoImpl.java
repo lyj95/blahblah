@@ -208,6 +208,11 @@ public class UserDaoImpl implements UserDao{
 		HashMap<String, Integer> res = sqlSession.selectOne(NAMESPACE + "getProgress", map);
 		return res;
 	}
+	@Override
+	public String getUserType(String userId) {
+		String userType = sqlSession.selectOne(NAMESPACE+"getUserType", userId);
+		return userType;
+	}
 
 	@Override
 	public int insertMsg(MsgVo vo) {

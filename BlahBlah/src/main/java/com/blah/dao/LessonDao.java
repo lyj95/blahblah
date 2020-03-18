@@ -24,10 +24,10 @@ public interface LessonDao {
 	List<LessonVo> searchMidLevel();
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
-	List<ReviewVo> selectReviewList(int lessonNo);
+	List<ReviewVo> selectReviewList(String tutorId);
 	List<ReviewVo> selectLatestReview();
 	int listCount();
-	Double getReviewAvg(int lessonNo);
+	Double getReviewAvg(String tutorId);
 	List<LessonVo> orderByRiview(PagingVo page);
 	int listReviewCount();
 	int deleteReview(int reviewNo);

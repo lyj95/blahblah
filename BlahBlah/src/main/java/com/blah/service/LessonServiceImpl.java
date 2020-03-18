@@ -165,9 +165,9 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<ReviewVo> selectReviewList(int lessonNo) {
+	public List<ReviewVo> selectReviewList(String tutorId) {
 		// TODO 리뷰조회
-		return dao.selectReviewList(lessonNo);
+		return dao.selectReviewList(tutorId);
 	}
 
 	@Override
@@ -182,9 +182,9 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public Double getReviewAvg(int lessonNo) {
+	public Double getReviewAvg(String tutorId) {
 		// TODO 리뷰 평점 가져오기
-		return dao.getReviewAvg(lessonNo);
+		return dao.getReviewAvg(tutorId);
 	}
 
 	@Override
