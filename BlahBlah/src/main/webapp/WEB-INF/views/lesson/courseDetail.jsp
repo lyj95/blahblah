@@ -281,9 +281,12 @@ function reviewsubmit(){
     		 "memberPhoto" : memberPhoto
     		 };    
      var myLesson = "${myLesson}";
+     var existReview = "${existReview}";
      
      if(myLesson <= 0){
     	 alert("후기는 해당 강의에 신청한 회원만 작성 가능합니다.");
+     } else if(existReview > 0){
+    	 alert("이미 후기가 입력되어 있습니다. 수정을 원하시면 기존 리뷰 삭제 후 재등록 바랍니다.");
      } else {
     	 $.ajax({
              type: "post", //데이터를 보낼 방식
@@ -304,7 +307,7 @@ function reviewsubmit(){
              	// alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	        }
 	     });
-     }
+     } 
 }
 
 function getCommentList(){

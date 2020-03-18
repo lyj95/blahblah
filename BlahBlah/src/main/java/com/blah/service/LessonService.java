@@ -38,6 +38,7 @@ public interface LessonService {
 	int deleteFav(Map<String, String> fav);
 	int insertFav(Map<String, String> fav);
 	List<Map<String, String>> selectFavCount();
+	int chkReview(int lessonNo);
 
 	
 
