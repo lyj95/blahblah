@@ -22,7 +22,6 @@ public class ScheduleDaoImpl implements ScheduleDao{
 		
 		try {
 			res = sqlSession.selectList(NAMESPACE+"selectCalendar", memberId);	
-			System.out.println("!!!!!!!!!!!!!"+res.get(0).getLessonTime());
 		}catch(Exception e) {
 			System.out.println("[error] : schedule selectCalendar");
 			e.printStackTrace();
