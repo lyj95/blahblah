@@ -43,7 +43,12 @@ public class PaymentDaoImpl implements PaymentDao{
 	public int insert(HashMap<String, Object> insertMap) {
 		int res=0;
 		try {
-			res= sqlSession.insert(namespace+"insert", insertMap);
+			int myclassInsert = sqlSession.insert(namespace+"insert", insertMap);
+			System.out.println("daoimpl 강의번호: "+insertMap.get("lessonNo"));
+			int lessonStartUpdate = sqlSession.update(namespace+"updateLessonStart", insertMap);
+			if(myclassInsert > 0 && lessonStartUpdate > 0) {
+				res = 1;
+			}
 		}catch(Exception e) {
 			System.out.println("[error] : Myclass table insert ");
 			e.printStackTrace();
