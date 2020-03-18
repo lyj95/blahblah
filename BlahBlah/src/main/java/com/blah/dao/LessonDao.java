@@ -37,6 +37,7 @@ public interface LessonDao {
 	int insertFav(Map<String, String> fav);
 	List<Map<String, String>> selectFavCount();
 	int updateProfile(MemberVo fileobj);
+	int chkReview(int lessonNo);
 	
 
 }

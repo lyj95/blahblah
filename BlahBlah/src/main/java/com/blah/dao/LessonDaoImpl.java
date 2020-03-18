@@ -36,7 +36,7 @@ public class LessonDaoImpl implements LessonDao {
 		List<LessonVo> list = new ArrayList<LessonVo>();
 		try {
 			
-			list = sqlSession.selectList(namespace+"selectList", page);		
+			list = sqlSession.selectList(namespace+"selectList", page);
 		}catch(Exception e) {
 			System.out.println("[error] : selectList ");
 			e.printStackTrace();
@@ -361,6 +361,21 @@ public class LessonDaoImpl implements LessonDao {
 		try {
 			res = sqlSession.update(namespace+"updateLessonProfile",vo);
 			res = sqlSession.update(namespace+"updateReviewProfile",vo);
+		} catch (Exception e) {
+			System.out.println("[error] : lesson&review updateProfile");
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int chkReview(int lessonNo) {
+		int res =0;
+		try {
+			System.out.println("쿼리문 lessonNo : "+lessonNo);
+			res = sqlSession.selectOne(namespace+"chkReview",lessonNo);
+			System.out.println("daoimpl checking Review exist : "+res);
 		} catch (Exception e) {
 			System.out.println("[error] : lesson&review updateProfile");
 			e.printStackTrace();

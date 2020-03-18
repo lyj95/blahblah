@@ -41,7 +41,7 @@ public class LeveltestController {
 		System.out.println("lvo : "+lvo);
 		
 		
-		if(lvo == null) {
+		if(lvo.getMemberLevel() == null) {
 			System.out.println("lvo는 null");
 			
 			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			

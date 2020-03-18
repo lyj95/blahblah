@@ -235,4 +235,10 @@ public class LessonServiceImpl implements LessonService {
 		return dao.selectFavCount();
 	}
 
+	@Override
+	public int chkReview(int lessonNo) {
+		// TODO Auto-generated method stub
+		return dao.chkReview(lessonNo);
+	}
+
 }
