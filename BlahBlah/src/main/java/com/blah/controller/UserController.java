@@ -2,6 +2,7 @@ package com.blah.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +27,7 @@ import com.blah.common.validate.FileValidate;
 import com.blah.service.LeveltestService;
 import com.blah.service.ScheduleService;
 import com.blah.service.UserService;
+import com.blah.vo.CalendarVo;
 import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
@@ -61,6 +64,8 @@ public class UserController {
 //		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
+		mav.addObject("msgList", service.getAllMsg(memberId));
+
 		
 		if(type.equals("TUTOR")) { //강사 캘린더
 			String tutorId = vo.getMemberId();	
@@ -68,6 +73,7 @@ public class UserController {
 			mav.addObject("tutorClist", sservice.selectTutorCalendar(tutorId));
 		}
 		
+
 		
 		return mav;
 	}
@@ -81,7 +87,10 @@ public class UserController {
 		
 		service.uploadProfile(request,session,uploadFile,vo);
 		
-		model.addAttribute("member", service.selectMember(vo));
+		MemberVo res = service.selectMember(vo);
+		model.addAttribute("member", res);
+		session.setAttribute("memberPhoto", res.getMemberPhoto());
+		
 		return "mypage/mypage";
 	}
 	
@@ -146,7 +155,6 @@ public class UserController {
 	@RequestMapping(value="/updateFeedback", produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String updateFeedback(HttpSession session, FeedbackVo vo){
-		System.out.println("업데이트 용 : "+vo.toString());
 		String userId = (String)session.getAttribute("userID");
 		String msg = "피드백 수정을 실패했습니다."; 
 		int success = service.updateFeedback(vo, userId);
@@ -155,5 +163,46 @@ public class UserController {
 		}
 		System.out.println(msg+" : feedback");
 		return msg;
+	}
+	@RequestMapping(value="updateClassDate", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateClassDate(HttpSession session, CalendarVo calendar, int classCnt, Date updateDate) {
+		System.out.println(calendar.getMemberId());
+		System.out.println(updateDate+"확인");
+
+		// TODO 상대방이 조건이 있는지 확인 -> 우선 이사람의 memberType확인 
+		String userId = (String)session.getAttribute("userID");
+		String type = service.getUserType(userId);		// type 확인
+		String res;
+		if(type.equals("USER")) {
+			res = sservice.updateDateByUser(calendar, classCnt, updateDate);
+		} else {
+			calendar.setTutorId(userId);
+			res = sservice.updateDateByTutor(calendar, classCnt, updateDate);
+		}
+		// TODO 없으면 update 문 실행
+		
+		return res;
+	}
+
+	@RequestMapping(value = "/readMsg")
+	@ResponseBody
+	public int readMsg(@RequestParam int msgNo) {
+		logger.info("[course] readMsg");
+		int res = 0;
+		res = service.readMsg(msgNo);
+		
+		return res;
+		
+	}
+	
+	@RequestMapping(value = "/msgUnread")
+	@ResponseBody
+	public int msgUnread(@RequestParam String memberId) {
+//		logger.info("[course] msgUnread");
+		int res = service.getUnreadAllMsg(memberId);
+		
+		return res;
+		
 	}
 }

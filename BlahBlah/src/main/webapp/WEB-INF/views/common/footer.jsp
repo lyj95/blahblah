@@ -51,3 +51,11 @@ Copyright &copy;2020 All rights reserved | This template is made with <i class="
       </div>
     </footer>
 <!--================ End footer Area  =================-->
+
+ 	<script type="text/javascript">
+	$(document).ready(function(){
+			getUnread();
+			/* getInfiniteUnread(); */
+		
+	});
+	</script>

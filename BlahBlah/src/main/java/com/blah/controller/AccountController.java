@@ -224,6 +224,9 @@ public class AccountController {
 
 		MemberVo res = service.naverLogin(apiResult);
 		session.setAttribute("login", res);
+		session.setAttribute("userID", res.getMemberId());
+		session.setAttribute("memberType", res.getMemberType());
+		session.setAttribute("memberPhoto", res.getMemberPhoto());
 
 		return "common/main";
 	}
@@ -238,6 +241,9 @@ public class AccountController {
 
 		MemberVo res = service.kakaoLogin(userInfo);
 		session.setAttribute("login", res);
+		session.setAttribute("userID", res.getMemberId());
+		session.setAttribute("memberType", res.getMemberType());
+		session.setAttribute("memberPhoto", res.getMemberPhoto());
 
 		return "common/main";
 	}

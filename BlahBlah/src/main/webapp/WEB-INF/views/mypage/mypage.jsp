@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +24,10 @@
 <link rel="stylesheet" href="resources/css/style.css" />
 <!-- calendar css -->
 <link href='resources/calendar/packages/core/main.css' rel='stylesheet' />
-<link href='resources/calendar/packages/daygrid/main.css' rel='stylesheet' />
+<link href='resources/calendar/packages/daygrid/main.css'
+	rel='stylesheet' />
 
 <style type="text/css">
-
-
 .lic {
 	display: none;
 }
@@ -159,41 +158,68 @@
 		      defaultDate: date,
 		      editable: true,
 		      droppable:true,
-		      drop: function(info){
-		    	  alert("드롭 ");
+		      eventDrop:function(arg){		// 드래그 후 드롭했을 때
+		    	var dateStr = arg.event.start.getFullYear() + "년 " + ( arg.event.start.getMonth() + 1 ) + "월 " + arg.event.start.getDate() + "일";
+		   		if(confirm("\'"+arg.event.title+"\' 수업의 날짜를 "+dateStr+"로 변경하시겠습니까?")){
+		   			ajaxCalendar(arg);
+		    	} else {
+		    		arg.revert();
+		    	}
 		      },
 		      eventLimit: true, // allow "more" link when too many events
-		      /* selectable: true,
-		      select: function(arg){
-		    	  alert("선택 :: "+arg);
-		    	  console.log("선택 :: "+arg.start);
-		      }, */
 		      events: [
 		    	  
 		    	<c:if test="${member.memberType eq 'USER' }">
 		    	  <c:forEach var = "clist2" items = "${clist}">
+<<<<<<< HEAD
+					{	
+						
+						title: "[1] ${clist2.lessonName}",	// 강의명
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
+						classNames:'${clist2.memberId}',
+=======
 					{
 						title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+>>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
 						// start만있으면 하루, end까지 있으면 연속일정
 					},
 					
 					{
+<<<<<<< HEAD
+						title: "[2] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
+=======
 						title: "${clist2.lessonName}" + " / " +"${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+>>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
 					},
 					
 					{
+<<<<<<< HEAD
+						title: "[3] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
+=======
 						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+>>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
 					},
 					
 					{
+<<<<<<< HEAD
+						title: "[4] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
+=======
 						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+>>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
 					},
 							
@@ -237,13 +263,38 @@
 
 		    calendar.render();
 		  });
+	
 	// ${clist2.myclassDate1}".substr(0,4) : 2020
 	// "${clist2.myclassDate1}".substr(5,2)-1 2
 	// .substr(8,2) : 16
+	function ajaxCalendar(arg){
+		var updateTitle = arg.event.title.substr(4).trim();
+		var classCnt = arg.event.title.substr(1,1);
+		alert(updateTitle+"\n"+classCnt+"\n"+arg.event.start+"\n"+arg.event.id+"\n제발 클래스"+arg.event.classNames);
+				
+		$.ajax({
+			type: "POST",
+			url: "updateClassDate",
+			data: {
+				"lessonNo":arg.event.id,
+				"memberId":arg.event.classNames+"",
+				"classCnt":classCnt,
+				"updateDate":arg.event.start
+			},
+			dataType: "text",
+			success: function(data){
+				alert(data);
+			},
+			error:function(request,status,error){
+				console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			}
+		});
+	}
 </script>
 </head>
 
 <body>
+
 	<!--================ Start Header Menu Area =================-->
 	<jsp:include page="../common/menu-header.jsp" />
 	<!--================ End Header Menu Area =================-->
@@ -258,7 +309,7 @@
 						<div class="banner_content text-center">
 							<h2>MyPage</h2>
 							<div class="page_link">
-								<a href="index.html">Home</a> <a href="#">Mypage</a>
+								<a href="main">Home</a> <a href="#">Mypage</a>
 							</div>
 						</div>
 					</div>
@@ -300,8 +351,8 @@
 								</a></li>
 
 								<c:if test="${member.memberType ne 'ADMIN' }">
-									<li id="myroom"><a data-toggle="tab" href="#my-room-lesson"
-										class="d-flex justify-content-between">
+									<li id="myroom"><a data-toggle="tab"
+										href="#my-room-lesson" class="d-flex justify-content-between">
 											<h4>내 강의실</h4>
 									</a></li>
 									<li class="lic2"><a data-toggle="tab"
@@ -337,23 +388,23 @@
 
 						<div class="tab-content quotes" style="width: 100%;">
 							<!-- 내정보 시작 -->
-									<div id="my-info" class="tab-pane fade in active show">
+							<div id="my-info" class="tab-pane fade in active show">
 								<h2>${member.memberId }님의정보</h2>
 								<span class="tag">${member.memberType }</span>
 								<hr>
 								<div class="row">
 									<div class="col-lg-4">
-										<img src="resources/profile/${member.memberPhoto}" onerror="this.src='resources/img/about.png'"
-										 alt="" style="width: 17vw; height: 14vw;">
+										<img src="resources/profile/${member.memberPhoto}"
+											onerror="this.src='resources/img/about.png'" alt=""
+											style="width: 17vw; height: 14vw;">
 									</div>
 									<div class="col-lg-8">
 										<small class="input-sm-label">name</small> <input type="text"
-											class="single-input-primary"
-											value="${member.memberName }" disabled> <small
-											class="input-sm-label">email</small> <input type="text"
-											class="single-input-primary"
-											value="${member.memberEmail }" disabled> <br>
-										<a class="primary-btn" href="#" data-toggle="modal"
+											class="single-input-primary" value="${member.memberName }"
+											disabled> <small class="input-sm-label">email</small>
+										<input type="text" class="single-input-primary"
+											value="${member.memberEmail }" disabled> <br> <a
+											class="primary-btn" href="#" data-toggle="modal"
 											data-target="#exampleModal" data-backdrop="static">
 											Change Profile<i class="ti-arrow-right ml-1"></i>
 										</a>
@@ -364,28 +415,32 @@
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">프로필 사진 변경</h5>
+														<h5 class="modal-title" id="exampleModalLabel">프로필 사진
+															변경</h5>
 														<button type="button" class="close" data-dismiss="modal"
 															aria-label="Close">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-													<form:form method="post" id="chageProfileForm" enctype="multipart/form-data"  modelAttribute="uploadFile" action="uploadProfile">
-													<div class="modal-body">
-													
-														<span class="btn-file">
-														<input type="file" id="userProfile" name="filesDir">
-														</span>
-															<p style="color:red; font-weight:bold;">
-															<form:errors path="file"></form:errors>
+													<form:form method="post" id="chageProfileForm"
+														enctype="multipart/form-data" modelAttribute="uploadFile"
+														action="uploadProfile">
+														<div class="modal-body">
+
+															<span class="btn-file"> <input type="file"
+																id="userProfile" name="filesDir">
+															</span>
+															<p style="color: red; font-weight: bold;">
+																<form:errors path="file"></form:errors>
 															</p>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Close</button>
-														<input type="submit" class="btn btn-warning" value="Save changes">
-														<!-- <input type="button" class="btn btn-warning" value="Save changes" onclick="CheckForm();"> -->
-													</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-dismiss="modal">Close</button>
+															<input type="submit" class="btn btn-warning"
+																value="Save changes">
+															<!-- <input type="button" class="btn btn-warning" value="Save changes" onclick="CheckForm();"> -->
+														</div>
 													</form:form>
 												</div>
 											</div>
@@ -394,6 +449,101 @@
 
 									</div>
 								</div>
+								<br>
+								<span class="tag">알림</span>
+								<div style="height: 170px; overflow: scroll; overflow-x: hidden">
+								<table class="table table-hover table-sm" style="text-align: center;">
+									<%-- <col width="40"> --%>
+									<col width="200">
+									<col width="80">
+									<thead>
+										<tr>
+											<th scope="col">내용</th>
+											<th scope="col">날짜</th>
+										</tr>
+									</thead>
+									<tbody>
+									<c:choose>
+										<c:when test="${empty msgList }">
+											<tr>
+												<td colspan="2">받은 알림이 없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+										<c:forEach items="${msgList }" var="msgList">
+										<c:choose>
+											<c:when test="${msgList.readCk eq '0'}">
+											<tr id="msg${msgList.msgNo}">
+											<c:choose>
+												<c:when test="${fn:length(msgList.content) gt 30}">
+													<td onclick="showMsgFunction(${msgList.msgNo});"><c:out
+															value="${fn:substring(msgList.content, 0, 29)}..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${msgList.content}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
+												<td><small>${msgList.regdate }</small></td>
+											</tr>
+											
+											</c:when>
+											<c:otherwise>
+											<tr id="msg${msgList.msgNo}" style="background-color:rgba(246,246,246);">
+											<c:choose>
+												<c:when test="${fn:length(msgList.content) gt 30}">
+													<td onclick="showMsgFunction(${msgList.msgNo});"><c:out
+															value="${fn:substring(msgList.content, 0, 29)} ..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${msgList.content}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
+												<td><small>${msgList.regdate }</small></td>
+											</tr>
+											
+											</c:otherwise>
+										</c:choose>
+											<!-- 알람 디테일 모달 -->
+											<div class="modal show" id="detailMsg${msgList.msgNo}">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header modal-header-info">
+															<h4 class="modal-title">
+																<span class="glyphicon glyphicon-envelope"></span> 알림
+															</h4>
+															<button type="button" class="close"
+																id="close${msgList.msgNo}" data-dismiss="modal"
+																aria-hidden="true">×</button>
+														</div>
+														<div class="modal-body" style="heigth: 300px">
+															<div class="form-group">
+																<label class="col-sm-12" for="inputBody"><span
+																	class="glyphicon glyphicon-list"></span>알림 내용</label>
+																<div class="col-sm-12">
+																	<textarea class="form-control"
+																		id="inputBody${msgList.msgNo}" rows="8" name="content"
+																		readonly="readonly" style="resize: none;">${msgList.content }</textarea>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<input type="reset" class="btn btn-primary"
+																	id="cancle${msgList.msgNo}" data-dismiss="modal"
+																	style="border: 1px solid lightgray;" value="확인" /> 
+													
+															</div>
+														</div>
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<!-- /.modal compose message -->
+											
+										</c:forEach>
+										</c:otherwise>
+									</c:choose>
+							
+								</tbody></table></div>
 							</div>
 
 							<!-- 비밀번호 변경 시작 -->
@@ -401,18 +551,19 @@
 								<h2>비밀번호 변경</h2>
 								<hr>
 								<div style="padding: 30px 70px 30px">
-									
-										<input class="form-control" type="password" name="" id="nowPw"
-											placeholder="현재 비밀번호"><br>
-										<br> <input class="form-control" type="password" name="" id="newPw"
-											placeholder="새 비밀번호"><br> 
-											<input class="form-control" type="password" name="" id="newPwChk"
-											placeholder="새 비밀번호 확인"><br>
-											<div id="pwchk"></div>
-										<div class="text-right">
-											<input type="button" value="변경" class="btn primary-btn" onclick="changePwFunction();">
-										</div>
-								
+
+									<input class="form-control" type="password" name="" id="nowPw"
+										placeholder="현재 비밀번호"><br> <br> <input
+										class="form-control" type="password" name="" id="newPw"
+										placeholder="새 비밀번호"><br> <input
+										class="form-control" type="password" name="" id="newPwChk"
+										placeholder="새 비밀번호 확인"><br>
+									<div id="pwchk"></div>
+									<div class="text-right">
+										<input type="button" value="변경" class="btn primary-btn"
+											onclick="changePwFunction();">
+									</div>
+
 								</div>
 							</div>
 							<!-- 비밀번호 변경 끝-->
@@ -425,14 +576,14 @@
 									<form action="deleteMember">
 										<p>회원탈퇴 진행 시 본인을 포함한 타인 모두 아이디 재사용이나 복구가 불가능합니다.</p>
 										<p>그래도 탈퇴하시려면 비밀번호 입력 후 '회원 탈퇴' 버튼을 클릭해주세요.</p>
-										<br>
-										<br> <input class="form-control" type="password"
-											name="memberPw" placeholder="현재 비밀번호" id="delpw"> <br>
-										<br>	
+										<br> <br> <input class="form-control"
+											type="password" name="memberPw" placeholder="현재 비밀번호"
+											id="delpw"> <br> <br>
 										<div class="text-center">
-											<input type="button" value="회원 탈퇴" class="btn primary-btn" onclick="deleteMemberFunction();">
+											<input type="button" value="회원 탈퇴" class="btn primary-btn"
+												onclick="deleteMemberFunction();">
 										</div>
-									</form>	
+									</form>
 								</div>
 							</div>
 							<!-- 회원 탈퇴 끝-->
@@ -447,10 +598,16 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-		
+<<<<<<< HEAD
                                 <div class="container">
                                 	<div id="calendar"></div>
                                 </div>
+=======
+
+								<div class="container">
+									<div id="calendar"></div>
+								</div>
+>>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 
 							</div>
 
@@ -469,42 +626,47 @@
 												<c:forEach items="${myclassList}" var="myclass">
 													<c:forEach items="${progressList }" var="progress">
 														<c:if test="${progress.lessonNo eq myclass.lessonNo }">
-													<div class="col-lg-4 col-sm-12">
-														<div class="single_course">
-															<div class="course_head">
-																<img class="img-fluid img-full"
-																	src="resources/img/courses/c1.jpg" alt="" />
-															</div>
-															<div class="course_content">
-																<span class="tag mb-4 d-inline-block">${myclass.lessonType }</span>
-																<h4 class="mb-3">
-																	<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
-																</h4>
-																<%-- <p>${myclass.lessonInfo }</p> --%>
-															<%-- 	<c:forEach items="${tutorPhotoList }" var="tutor">
+															<div class="col-lg-4 col-sm-12">
+																<div class="single_course">
+																	<div class="course_head">
+																		<img class="img-fluid img-full"
+																			src="resources/img/courses/c1.jpg" alt="" />
+																	</div>
+																	<div class="course_content">
+																		<span class="tag mb-4 d-inline-block">${myclass.lessonType }</span>
+																		<h4 class="mb-3">
+																			<a href="lessonRoom?lessonNo=${myclass.lessonNo}">${myclass.lessonName }</a>
+																		</h4>
+																		<%-- <p>${myclass.lessonInfo }</p> --%>
+																		<%-- 	<c:forEach items="${tutorPhotoList }" var="tutor">
 																<c:if test="${myclass.tutorId eq tutor.memberId }">
 																</c:if>
 																</c:forEach> --%>
-																<div class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-																	<div class="authr_meta">
-																		<img src="resources/profile/${myclass.memberPhoto}" onerror="this.src='resources/img/courses/author1.png'" alt="" 
-																		style="width: 35px !important;height: 35px; border-radius: 50%; vertical-align: middle" />
-																		<span class="d-inline-block ml-2">${myclass.tutorId }</span>
-																	</div>
-																</div>
-																<br>			
-																<div class="percentage">
-																<h5 class="title">진도율</h5>
-																	<div class="progress">
-																		<div class="progress-bar color-6" role="progressbar"
-																			style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;" aria-valuenow="${progress.myclassRemaincnt }"
-																			aria-valuemin="0" aria-valuemax="${progress.myclassTotalcnt }">
+																		<div
+																			class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
+																			<div class="authr_meta">
+																				<img src="resources/profile/${myclass.memberPhoto}"
+																					onerror="this.src='resources/img/courses/author1.png'"
+																					alt=""
+																					style="width: 35px !important; height: 35px; border-radius: 50%; vertical-align: middle" />
+																				<span class="d-inline-block ml-2">${myclass.tutorId }</span>
+																			</div>
+																		</div>
+																		<br>
+																		<div class="percentage">
+																			<h5 class="title">진도율</h5>
+																			<div class="progress">
+																				<div class="progress-bar color-6" role="progressbar"
+																					style="width: calc((${progress.myclassRemaincnt }/${progress.myclassTotalcnt })*100%);background-color: #fdc632;"
+																					aria-valuenow="${progress.myclassRemaincnt }"
+																					aria-valuemin="0"
+																					aria-valuemax="${progress.myclassTotalcnt }">
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-													</div>
 														</c:if>
 													</c:forEach>
 												</c:forEach>
@@ -553,7 +715,7 @@
 							</div>
 							<!-- 수강만료된 강의 끝-->
 							<!-- 내강의실 부분 끝 -->
-							
+
 							<!-- 찜 목록 시작 -->
 							<div id="my-fav" class="tab-pane fade">
 								<h2>찜한 강의</h2>
@@ -580,7 +742,9 @@
 													<tr>
 														<td>${fav.lessonType }</td>
 														<td>${fav.tutorId }</td>
-														<td><a href="courseDetail?lessonNo=${fav.lessonNo }">${fav.lessonName } <small> (${fav.lessonTime })</small></a></td>
+														<td><a href="courseDetail?lessonNo=${fav.lessonNo }">${fav.lessonName }
+																<small> (${fav.lessonTime })</small>
+														</a></td>
 														<td>${fav.lessonLevel }</td>
 														<td>${fav.lessonPrice }</td>
 													</tr>
@@ -591,38 +755,38 @@
 								</table>
 							</div>
 							<!-- 찜 목록 끝-->
-							
+
 							<!-- 레벨테스트 시작 -->
 							<div id="my-level" class="tab-pane fade">
-								<h2>${member.memberId }님의 레벨테스트</h2>
+								<h2>${member.memberId }님의레벨테스트</h2>
 								<hr>
-								
+
 								<c:choose>
-                                     <c:when test="${empty memberLevel}">
-                                     <a class="primary-btn" href="leveltestStart">
-											레벨테스트 응시하기<i class="ti-arrow-right ml-1"></i>
+									<c:when test="${empty memberLevel}">
+										<a class="primary-btn" href="leveltestStart"> 레벨테스트 응시하기<i
+											class="ti-arrow-right ml-1"></i>
 										</a>
-                                     
-                                     </c:when>
-                                     <c:otherwise>
-                                     	<div class="col-lg-8">
-											<small class="input-sm-label">점수</small> 
-											<input type="text" class="single-input-primary" 
-												value="${memberLevel.levelScore }점" disabled> 
-											<small class="input-sm-label">레벨</small> 
-											<input type="text" class="single-input-primary"
+
+									</c:when>
+									<c:otherwise>
+										<div class="col-lg-8">
+											<small class="input-sm-label">점수</small> <input type="text"
+												class="single-input-primary"
+												value="${memberLevel.levelScore }점" disabled> <small
+												class="input-sm-label">레벨</small> <input type="text"
+												class="single-input-primary"
 												value="${memberLevel.memberLevel }급" disabled> <br>
-											<a class="primary-btn" href="leveltestStart">
-												추천강의 보기<i class="ti-arrow-right ml-1"></i>
+											<a class="primary-btn" href="leveltestStart"> 추천강의 보기<i
+												class="ti-arrow-right ml-1"></i>
 											</a>
 										</div>
-                                     </c:otherwise>
-                                </c:choose>     
-						
+									</c:otherwise>
+								</c:choose>
+
 							</div>
 							<!-- 레벨테스트 끝 -->
-							
-							
+
+
 						</div>
 					</div>
 				</div>
@@ -635,6 +799,38 @@
 	<!--================ Start footer Area  =================-->
 	<jsp:include page="../common/footer.jsp" />
 	<!--================ End footer Area  =================-->
+	
+	<script type="text/javascript">
+	function showMsgFunction(no){
+ 		var modal = document.getElementById('detailMsg'+no);
+ 	  	var cancle = document.getElementById("cancle"+no);
+ 	  	var close = document.getElementById("close"+no);
+     	modal.style.display = "block";
+    	window.onclick = function(event) {
+     	   if (event.target == $('#detailMsg'+no)) {
+    	        modal.style.display = "none";
+   	     }
+    	}
+     	cancle.onclick = function() {
+        	modal.style.display = "none";
+        }	   
+     	close.onclick = function() {
+        	modal.style.display = "none";
+        } 
+     	
+        $.ajax({
+            type : "GET",
+            url : "readMsg?msgNo="+no,
+            dataType : "json",
+            success : function(data){
+               if(data == 0){return; }
+               $('#msg'+no).css("background-color","rgba(246,246,246)").css("color","gray");
+               getUnread();
+            }
+         });
+	}
+	
+	</script>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

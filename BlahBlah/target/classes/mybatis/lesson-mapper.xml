@@ -15,8 +15,8 @@
 		<result property="lessonTotal" column="LESSON_TOTAL" />
 		<result property="tutorId" column="TUTOR_ID" />
 		<result property="lessonSample" column="LESSON_SAMPLE" />
-		<result property="memberPhoto" column="MEMBER_PHOTO" />
 		<result property="lessonStart" column="LESSON_START" />
+		<result property="memberPhoto" column="MEMBER_PHOTO" />
 	</resultMap>
 	<select id="selectList" parameterType="com.blah.vo.PagingVo" resultMap="LessonMap" >
 		SELECT LESSON_NO,LESSON_NAME,LESSON_INFO,LESSON_LEVEL,LESSON_TYPE,LESSON_TIME,LESSON_PRICE,LESSON_TOTAL,TUTOR_ID,LESSON_SAMPLE,MEMBER_PHOTO,LESSON_START
@@ -72,7 +72,7 @@
 	
 	<insert id="insert" parameterType="LessonVo">
 		INSERT INTO LESSON
-		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,#{tutorId},'',#{memberPhoto},'')
+		Values(lesson_seq.NEXTVAL,#{lessonName},#{lessonInfo},#{lessonLevel},#{lessonType},#{lessonTime},#{lessonPrice},4,#{tutorId},'','',#{memberPhoto})
 	</insert>	
 	
 	<select id="getLastLessonSeq" resultType="int">
