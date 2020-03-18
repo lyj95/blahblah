@@ -18,11 +18,11 @@ public class LogAop {
 				logger.info(i+"번째: "+args[i]);
 			}
 		}
-		System.out.println("------before end-----");
+		//System.out.println("------before end-----");
 	}
 	
 	public void after(JoinPoint join) {
-		System.out.println("----after start----");
+		//System.out.println("----after start----");
 		Logger logger = LoggerFactory.getLogger(join.getTarget()+"");
 		logger.info("---------Aop End--------");
 		

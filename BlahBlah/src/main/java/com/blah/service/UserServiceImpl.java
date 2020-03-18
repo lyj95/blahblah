@@ -59,6 +59,9 @@ public class UserServiceImpl implements UserService {
 		return dao.selectMember(vo);
 	}
 
+	/**
+	 * memberType 검사
+	 */
 	@Override
 	public List<MyclassVo> selectProgress(MemberVo vo) {
 		return dao.selectProgress(vo);

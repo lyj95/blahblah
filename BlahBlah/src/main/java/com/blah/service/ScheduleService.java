@@ -8,6 +8,8 @@ import com.blah.vo.CalendarVo;
 public interface ScheduleService {
 	
 	public List<CalendarVo> selectCalendar(String memberId);
+	
+	@Deprecated
 	public List<CalendarVo> selectTutorCalendar(String tutorId);
 
 	public String updateDateByUser(CalendarVo calendar, int classCnt, Date updateDate);

@@ -169,94 +169,46 @@
 		      eventLimit: true, // allow "more" link when too many events
 		      events: [
 		    	  
-		    	<c:if test="${member.memberType eq 'USER' }">
 		    	  <c:forEach var = "clist2" items = "${clist}">
-<<<<<<< HEAD
 					{	
 						
 						title: "[1] ${clist2.lessonName}",	// 강의명
-						url : 'javascript:void(0);',
+						//title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
+						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
-=======
-					{
-						title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
-						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
->>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
 						// start만있으면 하루, end까지 있으면 연속일정
 					},
 					
 					{
-<<<<<<< HEAD
 						title: "[2] ${clist2.lessonName}",
-						url : 'javascript:void(0);',
-						id:'${clist2.lessonNo}',
-=======
-						title: "${clist2.lessonName}" + " / " +"${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
->>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
+						id:'${clist2.lessonNo}',
+						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
 					},
 					
 					{
-<<<<<<< HEAD
 						title: "[3] ${clist2.lessonName}",
-						url : 'javascript:void(0);',
-						id:'${clist2.lessonNo}',
-=======
-						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
->>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
+						id:'${clist2.lessonNo}',
+						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
 					},
 					
 					{
-<<<<<<< HEAD
 						title: "[4] ${clist2.lessonName}",
-						url : 'javascript:void(0);',
-						id:'${clist2.lessonNo}',
-=======
-						title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
->>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
+						id:'${clist2.lessonNo}',
+						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
 					},
 							
 										
 				</c:forEach> 
-			  </c:if>
 		  
-			  <c:if test="${member.memberType eq 'TUTOR' }">
-	    	  <c:forEach var = "clist2" items = "${tutorClist}">
-				{
-					title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
-					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
-					start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
-					// start만있으면 하루, end까지 있으면 연속일정
-				},
-				
-				{
-					title: "${clist2.lessonName}" + " / " +"${clist2.lessonTime}".substr(2,7),
-					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
-					start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
-				},
-				
-				{
-					title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
-					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
-					start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
-				},
-				
-				{
-					title: "${clist2.lessonName}" + " / " + "${clist2.lessonTime}".substr(2,7),
-					url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
-					start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
-				},
-						
-									
-			</c:forEach> 
-		  </c:if>
+			 
 
 		      ]
 		    });
@@ -598,16 +550,9 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-<<<<<<< HEAD
                                 <div class="container">
                                 	<div id="calendar"></div>
                                 </div>
-=======
-
-								<div class="container">
-									<div id="calendar"></div>
-								</div>
->>>>>>> efc1d583a78ab1bb52f90bad884ed437c4956f8f
 
 							</div>
 

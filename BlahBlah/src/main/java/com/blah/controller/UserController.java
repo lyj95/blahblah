@@ -60,21 +60,11 @@ public class UserController {
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
 		mav.addObject("clist", sservice.selectCalendar(memberId));
-		System.out.println("캘린더 체크 : "+sservice.selectCalendar(memberId));
 //		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
 		mav.addObject("msgList", service.getAllMsg(memberId));
 
-		
-		if(type.equals("TUTOR")) { //강사 캘린더
-			String tutorId = vo.getMemberId();	
-			System.out.println("강사 아이디 : "+tutorId);
-			mav.addObject("tutorClist", sservice.selectTutorCalendar(tutorId));
-		}
-		
-
-		
 		return mav;
 	}
 	
@@ -167,10 +157,6 @@ public class UserController {
 	@RequestMapping(value="updateClassDate", produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String updateClassDate(HttpSession session, CalendarVo calendar, int classCnt, Date updateDate) {
-		System.out.println(calendar.getMemberId());
-		System.out.println(updateDate+"확인");
-
-		// TODO 상대방이 조건이 있는지 확인 -> 우선 이사람의 memberType확인 
 		String userId = (String)session.getAttribute("userID");
 		String type = service.getUserType(userId);		// type 확인
 		String res;
@@ -180,7 +166,6 @@ public class UserController {
 			calendar.setTutorId(userId);
 			res = sservice.updateDateByTutor(calendar, classCnt, updateDate);
 		}
-		// TODO 없으면 update 문 실행
 		
 		return res;
 	}
