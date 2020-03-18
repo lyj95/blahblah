@@ -195,4 +195,7 @@
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 
+	<select id="chkReview" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM REVIEW WHERE LESSON_NO = #{lessonNo}
+	</select>
 </mapper>

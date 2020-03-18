@@ -33,6 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<CalendarVo> selectCalendar(String memberId) {
 		String type = userDao.getUserType(memberId);			// 유저 타입 확인
 		List<CalendarVo> schedule; 
+		System.out.println(type+" 타입");
 		if(type.equals("USER")) {	// USER일 경우
 			schedule = dao.selectCalendar(memberId);
 		} else {		// TUTOR일 경우
