@@ -16,4 +16,6 @@ public interface ScheduleService {
 
 	public String updateDateByTutor(CalendarVo calendar, int classCnt, Date updateDate);
 
+	public String updateClassDate(CalendarVo calendar, int classCnt, Date updateDate);
+
 }

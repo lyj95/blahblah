@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
 		
 		// lesson & myClass join 한 DB 정보
 		HashMap<String, Object> map = dao.getLessonInfo(lessonNo);	
-		for(Object key : map.keySet()) { System.out.println(key+" : "+map.get(key)); }  // 확인용 sysout
+		//for(Object key : map.keySet()) { System.out.println(key+" : "+map.get(key)); }  // 확인용 sysout
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
 		String today = format.format(new Date());							// 오늘 날짜 String Type
@@ -209,17 +209,17 @@ public class UserServiceImpl implements UserService {
 				break;
 			}
 		}
-		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
-			if(isClassDay) map.put("attendChat", true); 	// 화상채팅 참가 자격
-		}
+
+		Map<String, Object> pk = new HashMap<String, Object>();
+		pk.put("lessonNo", lessonNo);
+		pk.put("memberId", (String)map.get("MEMBER_ID"));
+		pk.put("classDay", today);
+		int res = dao.wroteFeedback(pk);
 		
-		if(userId.equals(map.get("TUTOR_ID")) && isClassDay) {
-			Map<String, Object> pk = new HashMap<String, Object>();
-			pk.put("lessonNo", lessonNo);
-			pk.put("memberId", (String)map.get("MEMBER_ID"));
-			pk.put("classDay", today);
-			int res = dao.wroteFeedback(pk);
-			if(res == 0) {
+		// 조건 1.날짜 2.참가자 3.피드백 작성여부
+		if(isClassDay && res == 0) {
+			map.put("attendChat", true);
+			if(userId.equals(map.get("TUTOR_ID"))) {
 				map.put("write",true);		// 피드백 작성이 아직 되지 않았음
 			}
 		}
@@ -238,6 +238,7 @@ public class UserServiceImpl implements UserService {
 		boolean authorization = isClassTutor(vo.getLessonNo(), userId);		// 피드백 입력 권한 확인
 		int res = setRemainClass(vo.getLessonNo(),vo.getMemberId());	// 남은 강의 수 차감
 		if(authorization && res>0) {		// 피드백을 작성한 권한이 있다면 & 강의 수 차감을 성공했다면 
+			vo.setFeedbackTxt(vo.getFeedbackTxt().trim());		// 앞뒤 공백 제거
 			res += dao.insertFeedback(vo);		// 강의 피드백 입력
 		}
 		return res;

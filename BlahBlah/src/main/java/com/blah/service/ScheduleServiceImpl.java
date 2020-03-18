@@ -45,6 +45,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	/**
 	 * TUTOR가 강의 날짜를 변경
 	 */
+	@Deprecated
 	@Override
 	public String updateDateByTutor(CalendarVo calendar, int classCnt, Date updateDate) {
 		// user가 가지고 있는 수업의 날짜 들고오기
@@ -68,7 +69,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int res = dao.updateDateByTutor(map);
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
 	}
-	
+	@Deprecated
 	@Override
 	public String updateDateByUser(CalendarVo calendar, int classCnt, Date updateDate) {
 		// 강의 Tutor가 가지고있는 수업의 날짜 들고와 비교하기
@@ -96,6 +97,32 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
 	}
 	
+	@Override
+	public String updateClassDate(CalendarVo calendar, int classCnt, Date updateDate) {
+		List<MyclassVo> schedule;
+		if(calendar.getTutorId() != null) {		// type : TUTOR
+			schedule = dao.selectUserDates(calendar.getMemberId());
+		}else {			// type : USER
+			schedule = dao.selectTutorDates(calendar);
+		}
+		String changeDate = format.format(updateDate);
+		for(MyclassVo myClass : schedule) {
+			Date[] compareDay = new Date[]{myClass.getLesson1st(), myClass.getLesson2nd(), myClass.getLesson3rd(),myClass.getLesson4th()};
+			for(int i=0; i<compareDay.length; i++) {
+				if(changeDate.compareTo(format.format(compareDay[i]))==0) {
+					return "상대방이 해당 날짜에 스케줄이 있습니다. 다른 날짜를 선택해주세요.";
+				}
+			}
+		}
+		// TODO 위의 return 에 걸리지 않았다면 스케줄 변경이 가능하다는 소리 -> 날짜 저장
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("lessonNo", calendar.getLessonNo());
+		map.put("memberId", calendar.getMemberId());
+		map.put("whichClass", classCnt);
+		map.put("updateDate", updateDate);
+		int res = dao.updateDateByTutor(map);
+		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
+	}
 	
 	
 	/**

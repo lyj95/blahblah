@@ -1,7 +1,5 @@
 package com.blah.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -160,13 +158,11 @@ public class UserController {
 		String userId = (String)session.getAttribute("userID");
 		String type = service.getUserType(userId);		// type 확인
 		String res;
-		if(type.equals("USER")) {
-			res = sservice.updateDateByUser(calendar, classCnt, updateDate);
-		} else {
-			calendar.setTutorId(userId);
-			res = sservice.updateDateByTutor(calendar, classCnt, updateDate);
-		}
 		
+		if(type.equals("TUTOR")) {
+			calendar.setTutorId(userId);
+		}
+		res = sservice.updateClassDate(calendar,classCnt,updateDate);
 		return res;
 	}
 
