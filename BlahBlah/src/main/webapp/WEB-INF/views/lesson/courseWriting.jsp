@@ -24,6 +24,26 @@
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
   </head>
+  
+  <script type="text/javascript">
+  function onlyNumber(event){
+	    event = event || window.event;
+	    var keyID = (event.which) ? event.which : event.keyCode;
+	    if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+	        return;
+	    else
+	        return false;
+	}
+	 
+	function removeChar(event) {
+	    event = event || window.event;
+	    var keyID = (event.which) ? event.which : event.keyCode;
+	    if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+	        return;
+	    else
+	        event.target.value = event.target.value.replace(/[^0-9]/g, "");
+	}  
+  </script>
 
   <body>
     <!--================ Start Header Menu Area =================-->
@@ -101,7 +121,7 @@
             <div class="form-group row">
               <label for="lessonPrice" class="col-sm-2 col-form-label">수강료 (4주 기준)</label>
               <div class="col-sm-3 lg-3">
-                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice" required>              
+                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' required>              
               </div><span>원</span>  
             </div>
 				<div class="form-group row">
