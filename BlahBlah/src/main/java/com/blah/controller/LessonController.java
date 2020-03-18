@@ -77,13 +77,12 @@ public class LessonController {
 		System.out.println("controller endLesson: "+endLesson);
 		//해당 강의와 세션아이디가 myclass테이블에 동시에 등록돼있는지
 		String memberId = (String)request.getSession().getAttribute("userID");
-		System.out.println("controller memberId: "+memberId);
 		int myLesson = pservice.chkMyLesson(lessonNo, memberId);
-		System.out.println("controller myLesson: "+myLesson);
+		System.out.println("controller endLesson: "+endLesson);
 		
 		mav.addObject("fav", service.chkFav(fav));
 		mav.addObject("vo", service.selectOne(lessonNo));
-		mav.addObject("reviewAvg", service.getReviewAvg(lessonNo));
+		mav.addObject("reviewAvg", service.getReviewAvg(service.selectOne(lessonNo).getTutorId()));
 		mav.addObject("endLesson", endLesson);
 		mav.addObject("myLesson", myLesson);
 		
@@ -270,11 +269,11 @@ public class LessonController {
 
 	@RequestMapping(value = "/reviewList")
 	@ResponseBody
-	public Map<String, List<ReviewVo>> reviewList(@RequestParam int lessonNo) {
+	public Map<String, List<ReviewVo>> reviewList(@RequestParam String tutorId) {
 		logger.info("[course]Select reviewList"); // log에 info 찍어주는 것
 
 		Map<String, List<ReviewVo>> map = new HashMap<String, List<ReviewVo>>();
-		map.put("reviewlist", service.selectReviewList(lessonNo));
+		map.put("reviewlist", service.selectReviewList(tutorId));
 
 		return map;
 
@@ -282,11 +281,11 @@ public class LessonController {
 
 	@RequestMapping(value = "/reviewAvg")
 	@ResponseBody
-	public Map<String, Double> reviewAvg(@RequestParam int lessonNo) {
+	public Map<String, Double> reviewAvg(@RequestParam String tutorId) {
 		logger.info("[course]Select reviewList"); // log에 info 찍어주는 것
 
 		Map<String, Double> map = new HashMap<String, Double>();
-		map.put("avg", service.getReviewAvg(lessonNo));
+		map.put("avg", service.getReviewAvg(tutorId));
 
 		return map;
 

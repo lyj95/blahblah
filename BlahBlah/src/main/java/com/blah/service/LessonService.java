@@ -25,9 +25,9 @@ public interface LessonService {
 	List<LessonVo> searchMidLevel();
 	List<LessonVo> searchLowLevel();
 	int addReview(ReviewVo vo);
-	List<ReviewVo> selectReviewList(int lessonNo);
+	List<ReviewVo> selectReviewList(String tutorId);
 	int listCount();
-	Double getReviewAvg(int lessonNo);
+	Double getReviewAvg(String tutorId);
 	List<LessonVo> orderByRiview(PagingVo page);
 	int listReviewCount();
 	int deleteReview(int reviewNo);

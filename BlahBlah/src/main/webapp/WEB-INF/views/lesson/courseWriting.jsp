@@ -94,14 +94,14 @@
                      <option value="금">금요일</option>
                      <option value="토">토요일</option>
 					</select></span>	
-					<span style="padding:2px 0px 0px 10px;"><input type="time" name ="lessonTime" id="lessonTime"></span>					
+					<span style="padding:2px 0px 0px 10px;"><input type="time" name ="lessonTime" id="lessonTime" required></span>					
 				
               </div>
             </div>
             <div class="form-group row">
               <label for="lessonPrice" class="col-sm-2 col-form-label">수강료 (4주 기준)</label>
               <div class="col-sm-3 lg-3">
-                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice">              
+                <input type="text" class="form-control" name ="lessonPrice" id="lessonPrice" required>              
               </div><span>원</span>  
             </div>
 				<div class="form-group row">

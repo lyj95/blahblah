@@ -137,10 +137,10 @@
 		Values(review_seq.nextval,#{memberId},#{lessonNo},#{reviewContent},SYSDATE,#{reviewGrade},#{memberPhoto})
 	</insert>
 	
-	<select id="selectReviewList" parameterType="int" resultMap="ReviewMap">
+	<select id="selectReviewList" parameterType="String" resultMap="ReviewMap">
 		SELECT A.REVIEW_SEQ, A.MEMBER_ID, A.LESSON_NO, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_GRADE, A.member_photo
-		FROM REVIEW A
-		WHERE LESSON_NO=#{lessonNo}
+		FROM REVIEW A JOIN LESSON L ON(A.LESSON_NO = L.LESSON_NO)
+		WHERE TUTOR_ID=#{tutorId}
 		ORDER BY review_date DESC
 	</select>
 	<select id="selectLatestReview" resultMap="ReviewMap">
@@ -154,10 +154,11 @@
 		WHERE rownum<=5
 	]]>
 	</select>	
-	<select id="getReviewGrade" parameterType="int" resultType="int" >
-		SELECT REVIEW_GRADE
-		FROM REVIEW
-		WHERE LESSON_NO=#{lessonNo}
+	<select id="getReviewGrade" parameterType="String" resultType="int" >
+		SELECT A.REVIEW_GRADE
+		FROM REVIEW A JOIN LESSON L ON(A.LESSON_NO = L.LESSON_NO)
+		WHERE TUTOR_ID=#{tutorId}
+		ORDER BY review_date DESC
 	</select>
 	
 	<delete id="deleteReview" parameterType="int">
