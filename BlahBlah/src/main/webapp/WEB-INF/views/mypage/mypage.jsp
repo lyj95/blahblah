@@ -172,7 +172,7 @@
 		    	  <c:forEach var = "clist2" items = "${clist}">
 					{	
 						
-						title: "[1] ${clist2.lessonName}",	// 강의명
+						title: "${clist2.lessonTime}".substr(2,7)+" [1] ${clist2.lessonName}",	// 강의명
 						//title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
@@ -182,7 +182,7 @@
 					},
 					
 					{
-						title: "[2] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+"[2] ${clist2.lessonName}",
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
@@ -190,7 +190,7 @@
 					},
 					
 					{
-						title: "[3] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+"[3] ${clist2.lessonName}",
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
@@ -198,7 +198,7 @@
 					},
 					
 					{
-						title: "[4] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+"[4] ${clist2.lessonName}",
 						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
@@ -216,13 +216,9 @@
 		    calendar.render();
 		  });
 	
-	// ${clist2.myclassDate1}".substr(0,4) : 2020
-	// "${clist2.myclassDate1}".substr(5,2)-1 2
-	// .substr(8,2) : 16
+
 	function ajaxCalendar(arg){
-		var updateTitle = arg.event.title.substr(4).trim();
-		var classCnt = arg.event.title.substr(1,1);
-		alert(updateTitle+"\n"+classCnt+"\n"+arg.event.start+"\n"+arg.event.id+"\n제발 클래스"+arg.event.classNames);
+		var classCnt = arg.event.title.substr(7,1);
 				
 		$.ajax({
 			type: "POST",
@@ -238,6 +234,7 @@
 				alert(data);
 			},
 			error:function(request,status,error){
+				alert(request.responseText);
 				console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			}
 		});

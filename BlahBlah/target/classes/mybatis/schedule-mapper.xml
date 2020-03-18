@@ -36,11 +36,11 @@
   		WHERE MEMBER_ID=#{memberId}
   	</select>
   	<select id="selectTutorDates" parameterType="calendarVo" resultMap="myclassMap">
-	  	SELECT MYCLASS_DATE1, MYCLASS_DATE2, MYCLASS_DATE3, MYCLASS_DATE4  FROM MYCLASS 
-  		JOIN LESSON USING(LESSON_NO) 
-  		WHERE TUTOR_ID=#{tutorId}
+		SELECT MYCLASS_DATE1, MYCLASS_DATE2, MYCLASS_DATE3, MYCLASS_DATE4  
+		FROM MYCLASS
+		JOIN LESSON USING(LESSON_NO)
+		WHERE TUTOR_ID = (SELECT TUTOR_ID FROM MYCLASS JOIN LESSON USING(LESSON_NO) WHERE lesson_no = #{lessonNo} and member_id =#{memberId})
   	</select>
-  		
  	<update id="updateDateByTutor" parameterType="hashmap">
   		UPDATE MYCLASS 
   		SET
