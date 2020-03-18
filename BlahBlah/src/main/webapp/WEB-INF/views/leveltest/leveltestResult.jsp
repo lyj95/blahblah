@@ -40,7 +40,7 @@
               <div class="banner_content text-center">
                 <h2>Level Test</h2>
                 <div class="page_link">
-                  <a href="index.html">Home</a>
+                  <a href="main">Home</a>
                   <a href="leveltest/leveltest-start.jsp">Level Test</a>
                 </div>
               </div>
