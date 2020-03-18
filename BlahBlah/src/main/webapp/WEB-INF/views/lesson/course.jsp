@@ -39,7 +39,7 @@
 						<div class="banner_content text-center">
 							<h2>Courses</h2>
 							<div class="page_link">
-								<a href="index.html">Home</a> <a href="courses.html">Courses</a>
+								<a href="main">Home</a> <a href="courseList">Courses</a>
 							</div>
 						</div>
 					</div>

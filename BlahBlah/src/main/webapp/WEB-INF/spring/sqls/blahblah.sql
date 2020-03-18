@@ -79,7 +79,6 @@ CREATE SEQUENCE MSG_SEQ
 
 CREATE TABLE msg(
     msg_no number PRIMARY KEY,
-    send_id varchar2(100) NOT NULL,
     get_id varchar2(100) NOT NULL,
     content varchar2(4000) NOT NULL,
     regdate DATE NOT NULL,

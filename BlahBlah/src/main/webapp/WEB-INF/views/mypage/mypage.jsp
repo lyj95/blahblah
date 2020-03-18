@@ -257,7 +257,7 @@
 						<div class="banner_content text-center">
 							<h2>MyPage</h2>
 							<div class="page_link">
-								<a href="index.html">Home</a> <a href="#">Mypage</a>
+								<a href="main">Home</a> <a href="#">Mypage</a>
 							</div>
 						</div>
 					</div>
@@ -414,7 +414,7 @@
 									<c:choose>
 										<c:when test="${empty msgList }">
 											<tr>
-												<td colspan="2">받은 알람 없습니다.</td>
+												<td colspan="2">받은 알림이 없습니다.</td>
 											</tr>
 										</c:when>
 										<c:otherwise>
@@ -422,14 +422,30 @@
 										<c:choose>
 											<c:when test="${msgList.readCk eq '0'}">
 											<tr id="msg${msgList.msgNo}">
-												<td onclick="showMsgFunction(${msgList.msgNo});">${msgList.content }</td>
+											<c:choose>
+												<c:when test="${fn:length(msgList.content) gt 30}">
+													<td onclick="showMsgFunction(${msgList.msgNo});"><c:out
+															value="${fn:substring(msgList.content, 0, 29)}..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${msgList.content}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
 												<td><small>${msgList.regdate }</small></td>
 											</tr>
 											
 											</c:when>
 											<c:otherwise>
 											<tr id="msg${msgList.msgNo}" style="background-color:rgba(246,246,246);">
-												<td onclick="showMsgFunction(${msgList.msgNo});">${msgList.content }</td>
+											<c:choose>
+												<c:when test="${fn:length(msgList.content) gt 30}">
+													<td onclick="showMsgFunction(${msgList.msgNo});"><c:out
+															value="${fn:substring(msgList.content, 0, 29)} ..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${msgList.content}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
 												<td><small>${msgList.regdate }</small></td>
 											</tr>
 											

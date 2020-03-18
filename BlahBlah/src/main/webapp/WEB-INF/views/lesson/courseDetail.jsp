@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="resources/css/themify-icons.css" />
     <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css" />
     <link rel="stylesheet" href="resources/vendors/nice-select/css/nice-select.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <!-- main css -->
     <link rel="stylesheet" href="resources/css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -44,7 +45,10 @@
 			        data: JSON.stringify(jdata),
 					success:function(msg){			//통신 성공시
 						if(msg.res == true){		//결제 진행 가능
-							location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
+							if(confirm("'확인'버튼을 누르면 결제창으로 이동합니다.")){
+								location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
+							}
+							
 						} else {					//결제 진행 불가
 							alert("이미 수강 중이거나 신청 마감된 강의입니다.");
 						}
@@ -150,10 +154,12 @@
                     	<div class="col-6">
                     		<c:choose>
                     			<c:when test="${fav eq 'fav' }">
-                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" ><i id="heart" class="ti-heart mr-2" style="color:#fdc632;"></i><span>찜</span></button>
+                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" >
+                    				<i id="heart" class="fa fa-heart" style="color:#fdc632;"></i><span> 찜</span></button>
                     			</c:when>
                     			<c:otherwise>
-                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" ><i id="heart" class="ti-heart mr-2"></i><span>찜</span></button>
+                    				<button type="button" onclick="addFav()" class="primary-btn2 text-uppercase enroll rounded-0 text-white" >
+                    				<i id="heart" class="fa fa-heart"></i><span> 찜</span></button>
                     			</c:otherwise>
                     		</c:choose>
                     	</div>		
@@ -231,7 +237,6 @@
 					</div>
                 </div>
             </div>
-        </div>
     </section>
     <!--================ End Course Details Area =================-->
 
