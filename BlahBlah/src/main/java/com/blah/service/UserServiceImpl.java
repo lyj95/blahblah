@@ -218,25 +218,6 @@ public class UserServiceImpl implements UserService {
 				map.put("write",true);		// 피드백 작성이 아직 되지 않았음
 			}
 		}
-		
-//		map.put("flag", false);		// 참가 자격 : 기본값 false로 세팅
-//		
-//		if(userId.equals(map.get("MEMBER_ID")) || userId.equals(map.get("TUTOR_ID"))) {
-//			map.put("flag", true);		// session 정보와 비교
-//		}
-//		
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");		// 날짜 형식 
-//		String today = format.format(new Date());							// 오늘 날짜 String Type
-//		
-//		int classCnt = ((BigDecimal)map.get("MYCLASS_TOTALCNT")).intValue();
-//		for(int i=1; i<=classCnt; i++) {
-//			Date compareDay = (Date) map.get("MYCLASS_DATE"+i);
-//			if(today.compareTo(format.format(compareDay)) == 0) {
-//				map.put("classDay",today);		// DB 날짜와 오늘 날짜가 같으면 수업날짜 map에 저장
-//				break;
-//			}
-//		}
-		
 		return map;
 	}
 	
@@ -323,5 +304,17 @@ public class UserServiceImpl implements UserService {
 		map.put("memberType", user.getMemberType());
 		
 		return dao.getProgress(map);
+	}
+	/**
+	 * 유저 아이디를 이용해 유저의 타입을 확인
+	 * 
+	 * @author yaans
+	 * @param userId 유저 아이디
+	 * @return 'TUTOR' || 'USER'
+	 */
+	@Override
+	public String getUserType(String userId) {
+		String userType = dao.getUserType(userId);
+		return userType;
 	}
 }

@@ -30,4 +30,5 @@ public interface UserDao {
 	public int setRemainClass(Map<String, Object> pk);
 	public int wroteFeedback(Map<String, Object> pk);
 	public HashMap<String, Integer> getProgress(Map<String, String> map);
+	public String getUserType(String userId);
 }

@@ -15,11 +15,47 @@
   		<result property="myclassDate3" column="MYCLASS_DATE3" />
   		<result property="myclassDate4" column="MYCLASS_DATE4" />
   	</resultMap>
-  	
+  	<resultMap type="MyclassVo" id="myclassMap">
+		<result property="lessonNo" column="LESSON_NO"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="myclassTotalcnt" column="MYCLASS_TOTALCNT"/>
+		<result property="myclassRemaincnt" column="MYCLASS_REMAINCNT"/>
+		<result property="lesson1st" column="MYCLASS_DATE1"/>
+		<result property="lesson2nd" column="MYCLASS_DATE2"/>
+		<result property="lesson3rd" column="MYCLASS_DATE3"/>
+		<result property="lesson4th" column="MYCLASS_DATE4"/>
+	</resultMap>
   	<select id="selectCalendar" resultMap="calendarMap">
   		SELECT M.MEMBER_ID, C.LESSON_NO, L.LESSON_NAME, L.LESSON_TIME, L.TUTOR_ID,  C.MYCLASS_DATE1, C.MYCLASS_DATE2, C.MYCLASS_DATE3, C.MYCLASS_DATE4
   		FROM MEMBER M, LESSON L, MYCLASS C
   		WHERE M.MEMBER_ID = C.MEMBER_ID AND L.LESSON_NO = C.LESSON_NO AND M.MEMBER_ID = #{memberId}
   	</select>
   	
+  	<select id="selectUserDates" parameterType="String" resultMap="myclassMap">
+  		SELECT MYCLASS_DATE1, MYCLASS_DATE2, MYCLASS_DATE3, MYCLASS_DATE4  FROM MYCLASS 
+  		WHERE MEMBER_ID=#{memberId}
+  	</select>
+  	<!-- SELECT MYCLASS_DATE1, MYCLASS_DATE2, MYCLASS_DATE3, MYCLASS_DATE4  FROM MYCLASS 
+  		JOIN LESSON USING(LESSON_NO) 
+  		WHERE TUTOR_ID=#{memberId} -->
+  		
+ 	<update id="updateDateByTutor" parameterType="hashmap">
+  		UPDATE MYCLASS 
+  		SET
+  		<choose>
+  			<when test="whichClass==1">
+  				myclass_date1 = #{updateDate}
+  			</when>
+  			<when test="whichClass==2">
+  				myclass_date2 = #{updateDate}
+  			</when>
+  			<when test="whichClass==3">
+  				myclass_date3 = #{updateDate}
+  			</when>
+  			<when test="whichClass==4">
+  				myclass_date4 = #{updateDate}
+  			</when>
+  		</choose>
+  		WHERE lesson_no =#{lessonNo} AND member_id=#{memberId}
+  	</update>
 </mapper>

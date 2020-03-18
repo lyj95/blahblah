@@ -194,4 +194,7 @@
                </when>
 		</choose>
 	</select> 
+	<select id="getUserType" parameterType="String" resultType="String">
+		SELECT member_type FROM MEMBER WHERE member_id = #{userId}
+	</select>
 </mapper>

@@ -159,41 +159,47 @@
 		      defaultDate: date,
 		      editable: true,
 		      droppable:true,
-		      drop: function(info){
-		    	  alert("드롭 ");
+		      eventDrop:function(arg){		// 드래그 후 드롭했을 때
+		    	var dateStr = arg.event.start.getFullYear() + "년 " + ( arg.event.start.getMonth() + 1 ) + "월 " + arg.event.start.getDate() + "일";
+		   		if(confirm("\'"+arg.event.title+"\' 수업의 날짜를 "+dateStr+"로 변경하시겠습니까?")){
+		   			ajaxCalendar(arg);
+		    	} else {
+		    		arg.revert();
+		    	}
 		      },
 		      eventLimit: true, // allow "more" link when too many events
-		      /* selectable: true,
-		      select: function(arg){
-		    	  alert("선택 :: "+arg);
-		    	  console.log("선택 :: "+arg.start);
-		      }, */
 		      events: [
 
 
 		    	  <c:forEach var = "clist2" items = "${clist}">
-					{
-						title: "${clist2.lessonName}",	// 강의명
-						url : 'javascript:alert("${clist2.myclassDate1}".substr(8,2));',
+					{	
+						
+						title: "[1] ${clist2.lessonName}",	// 강의명
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
+						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
 						// start만있으면 하루, end까지 있으면 연속일정
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "[2] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "[3] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
 					},
 					
 					{
-						title: "${clist2.lessonName}",
-						url : '..',
+						title: "[4] ${clist2.lessonName}",
+						url : 'javascript:void(0);',
+						id:'${clist2.lessonNo}',
 						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))
 					},
 							
@@ -205,13 +211,38 @@
 
 		    calendar.render();
 		  });
+	
 	// ${clist2.myclassDate1}".substr(0,4) : 2020
 	// "${clist2.myclassDate1}".substr(5,2)-1 2
 	// .substr(8,2) : 16
+	function ajaxCalendar(arg){
+		var updateTitle = arg.event.title.substr(4).trim();
+		var classCnt = arg.event.title.substr(1,1);
+		alert(updateTitle+"\n"+classCnt+"\n"+arg.event.start+"\n"+arg.event.id+"\n제발 클래스"+arg.event.classNames);
+				
+		$.ajax({
+			type: "POST",
+			url: "updateClassDate",
+			data: {
+				"lessonNo":arg.event.id,
+				"memberId":arg.event.classNames+"",
+				"classCnt":classCnt,
+				"updateDate":arg.event.start
+			},
+			dataType: "text",
+			success: function(data){
+				alert(data);
+			},
+			error:function(request,status,error){
+				console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			}
+		});
+	}
 </script>
 </head>
 
 <body>
+
 	<!--================ Start Header Menu Area =================-->
 	<jsp:include page="../common/menu-header.jsp" />
 	<!--================ End Header Menu Area =================-->
@@ -415,7 +446,6 @@
 							<div id="my-schedule" class="tab-pane fade">
 								<h2>스케줄</h2>
 								<hr>
-		
                                 <div class="container">
                                 	<div id="calendar"></div>
                                 </div>
