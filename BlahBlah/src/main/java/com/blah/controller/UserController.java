@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,7 +50,8 @@ public class UserController {
 		logger.info("Mypage");
 		
 		MemberVo vo = (MemberVo)session.getAttribute("login");
-		String memberId = vo.getMemberId();
+		String memberId = vo.getMemberId();		
+		String type = (String)session.getAttribute("memberType");
 		
 		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
@@ -62,8 +64,16 @@ public class UserController {
 //		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
+		mav.addObject("msgList", service.getAllMsg(memberId));
+
 		
-		System.out.println("memberLevel : " + lservice.selectLevel(memberId));
+		if(type.equals("TUTOR")) { //강사 캘린더
+			String tutorId = vo.getMemberId();	
+			System.out.println("강사 아이디 : "+tutorId);
+			mav.addObject("tutorClist", sservice.selectTutorCalendar(tutorId));
+		}
+		
+
 		
 		return mav;
 	}
@@ -77,7 +87,10 @@ public class UserController {
 		
 		service.uploadProfile(request,session,uploadFile,vo);
 		
-		model.addAttribute("member", service.selectMember(vo));
+		MemberVo res = service.selectMember(vo);
+		model.addAttribute("member", res);
+		session.setAttribute("memberPhoto", res.getMemberPhoto());
+		
 		return "mypage/mypage";
 	}
 	
@@ -170,5 +183,26 @@ public class UserController {
 		// TODO 없으면 update 문 실행
 		
 		return res;
+	}
+
+	@RequestMapping(value = "/readMsg")
+	@ResponseBody
+	public int readMsg(@RequestParam int msgNo) {
+		logger.info("[course] readMsg");
+		int res = 0;
+		res = service.readMsg(msgNo);
+		
+		return res;
+		
+	}
+	
+	@RequestMapping(value = "/msgUnread")
+	@ResponseBody
+	public int msgUnread(@RequestParam String memberId) {
+//		logger.info("[course] msgUnread");
+		int res = service.getUnreadAllMsg(memberId);
+		
+		return res;
+		
 	}
 }

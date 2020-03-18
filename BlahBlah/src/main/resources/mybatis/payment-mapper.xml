@@ -40,4 +40,10 @@
 	<select id="selectDay" parameterType="String" resultMap="String">
 		SELECT SUBSTR(LESSON_TIME, 1, 1) FROM LESSON WHERE LESSON_NO = #{lessonNo}
 	</select>
+	<select id="chkLessonEnd" parameterType="int" resultType="int">
+		SELECT LESSON_NO FROM MYCLASS WHERE LESSON_NO = #{lessonNo}
+	</select>
+	<select id="isMyLesson" parameterType="hashmap" resultType="int">
+		SELECT LESSON_NO FROM MYCLASS WHERE LESSON_NO = #{lessonNo} AND MEMBER_ID = #{memberId}
+	</select>
 </mapper>

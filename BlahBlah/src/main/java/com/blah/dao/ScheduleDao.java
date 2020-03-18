@@ -16,5 +16,6 @@ public interface ScheduleDao {
 	public List<MyclassVo> selectUserDates(String memberId);
 
 	public int updateDateByTutor(Map<String, Object> map);
+	public List<CalendarVo> selectTutorCalendar(String tutorId);
 	
 }

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.blah.vo.FeedbackVo;
 import com.blah.vo.FilesVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MsgVo;
 import com.blah.vo.MyclassVo;
 
 @Service
@@ -316,5 +318,21 @@ public class UserServiceImpl implements UserService {
 	public String getUserType(String userId) {
 		String userType = dao.getUserType(userId);
 		return userType;
+	}
+
+	@Override
+	public List<MsgVo> getAllMsg(String memberId) {
+		
+		return dao.getAllMsg(memberId);
+	}
+
+	@Override
+	public int readMsg(int msgNo) {
+		return dao.readMsg(msgNo);
+	}
+
+	@Override
+	public int getUnreadAllMsg(String memberId) {
+		return dao.getUnreadAllMsg(memberId);
 	}
 }

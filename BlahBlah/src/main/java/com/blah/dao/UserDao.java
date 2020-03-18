@@ -7,6 +7,7 @@ import java.util.Map;
 import com.blah.vo.FeedbackVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MsgVo;
 import com.blah.vo.MyclassVo;
 
 public interface UserDao {
@@ -31,4 +32,10 @@ public interface UserDao {
 	public int wroteFeedback(Map<String, Object> pk);
 	public HashMap<String, Integer> getProgress(Map<String, String> map);
 	public String getUserType(String userId);
+	public int insertMsg(MsgVo vo);
+	public int readMsg(int no);
+	public List<MsgVo> getAllMsg(String memberId);
+	public int getUnreadAllMsg(String memberId);
+	
+	
 }

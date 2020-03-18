@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.blah.vo.FeedbackVo;
 import com.blah.vo.LessonVo;
 import com.blah.vo.MemberVo;
+import com.blah.vo.MsgVo;
 import com.blah.vo.MyclassVo;
 
 @Repository
@@ -211,5 +212,62 @@ public class UserDaoImpl implements UserDao{
 	public String getUserType(String userId) {
 		String userType = sqlSession.selectOne(NAMESPACE+"getUserType", userId);
 		return userType;
+	}
+
+	@Override
+	public int insertMsg(MsgVo vo) {
+		// TODO 쪽지 보내기
+		int res = 0;
+		
+		try {
+			res = sqlSession.insert(NAMESPACE+"insertMsg",vo);
+		}catch (Exception e) {
+			System.out.println("[error] : insertMsg");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int readMsg(int msgNo) {
+		// TODO 쪽지 읽었다고 처리
+		int res = 0;
+		
+		try {
+			res = sqlSession.update(NAMESPACE+"readMsg",msgNo);
+		}catch (Exception e) {
+			System.out.println("[error] : readMsg");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
+	@Override
+	public List<MsgVo> getAllMsg(String memberId) {
+		// TODO 모든 받은 쪽지 목록
+		List<MsgVo> list = new ArrayList<MsgVo>();
+		
+		try {
+			list = sqlSession.selectList(NAMESPACE + "getAllMsg", memberId);
+		} catch(Exception e) {
+			System.out.println("[error] : getAllMsg");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int getUnreadAllMsg(String memberId) {
+		// TODO 읽지 않은 쪽지 갯수
+		int res = 0;
+		
+		try {
+			res = sqlSession.selectOne(NAMESPACE+"getUnreadAllMsg",memberId);
+		}catch (Exception e) {
+			System.out.println("[error] : getUnreadAllMsg");
+			e.printStackTrace();
+		}
+		return res;
 	}
 }

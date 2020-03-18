@@ -58,4 +58,9 @@
   		</choose>
   		WHERE lesson_no =#{lessonNo} AND member_id=#{memberId}
   	</update>
+  	<select id="selectTutorCalendar" resultMap="calendarMap">
+	  	SELECT C.MEMBER_ID, L.LESSON_NO, L.LESSON_NAME, L.LESSON_TIME, L.TUTOR_ID, C.MYCLASS_DATE1, C.MYCLASS_DATE2, C.MYCLASS_DATE3, C.MYCLASS_DATE4
+		FROM LESSON L, MYCLASS C
+		WHERE L.LESSON_NO = C.LESSON_NO AND L.TUTOR_ID = #{tutorId}
+  	</select>
 </mapper>

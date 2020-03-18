@@ -42,4 +42,18 @@ public class ScheduleDaoImpl implements ScheduleDao{
 		int res = sqlSession.update(NAMESPACE+"updateDateByTutor", map);
 		return res;
 	}
+	
+	@Override
+	public List<CalendarVo> selectTutorCalendar(String tutorId) {
+		
+		List<CalendarVo> res = new ArrayList<CalendarVo>();		
+		try {
+			res = sqlSession.selectList(NAMESPACE + "selectTutorCalendar", tutorId);		
+		}catch(Exception e) {
+			System.out.println("[error] : schedule select Tutor Calendar");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }
