@@ -16,6 +16,7 @@ import com.blah.dao.UserDao;
 import com.blah.dao.UserDaoImpl;
 import com.blah.vo.CalendarVo;
 import com.blah.vo.LessonVo;
+import com.blah.vo.MemberVo;
 import com.blah.vo.MsgVo;
 import com.blah.vo.MyclassVo;
 
@@ -37,14 +38,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 	 * 유저 타입에 맞춘 calendar 스케줄 들고오기
 	 */
 	@Override
-	public List<CalendarVo> selectCalendar(String memberId) {
-		String type = userDao.getUserType(memberId);			// 유저 타입 확인
+	public List<CalendarVo> selectCalendar(MemberVo vo) {
+		System.out.println(vo.getMemberId()+"ser");
+//		String type = userDao.getUserType(vo.getMemberId());			// 유저 타입 확인
+		String type = vo.getMemberType();		// 유저 타입 확인
 		List<CalendarVo> schedule; 
 		System.out.println(type+" 타입");
 		if(type.equals("USER")) {	// USER일 경우
-			schedule = dao.selectCalendar(memberId);
+			schedule = dao.selectCalendar(vo.getMemberId());
 		} else {		// TUTOR일 경우
-			schedule = dao.selectTutorCalendar(memberId);	
+			schedule = dao.selectTutorCalendar(vo.getMemberId());	
 		}
 		return schedule;
 	}
@@ -109,6 +112,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("whichClass", classCnt);
 		map.put("updateDate", updateDate);
 		int res = dao.updateDateByTutor(map);
+		// 스케줄 바뀌면 알림 보내기
+		if(res > 0) {
+			LessonVo lesson = ldao.selectOne(calendar.getLessonNo());
+			MsgVo msg = new MsgVo(calendar.getMemberId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
+			udao.insertMsg(msg);
+		}
+		
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
 	}
 	
@@ -136,6 +146,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("whichClass", classCnt);
 		map.put("updateDate", updateDate);
 		int res = dao.updateDateByTutor(map);
+		
+		// 스케줄 바뀌면 알림 보내기
+		if(res > 0) {
+			LessonVo lesson = ldao.selectOne(calendar.getLessonNo());
+			MsgVo msg = new MsgVo(calendar.getMemberId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
+			udao.insertMsg(msg);
+		}
+		
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
 	}
 	

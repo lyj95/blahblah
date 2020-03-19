@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.blah.vo.CalendarVo;
+import com.blah.vo.MemberVo;
 
 public interface ScheduleService {
 	
-	public List<CalendarVo> selectCalendar(String memberId);
+	public List<CalendarVo> selectCalendar(MemberVo vo);
 	
 	@Deprecated
 	public List<CalendarVo> selectTutorCalendar(String tutorId);

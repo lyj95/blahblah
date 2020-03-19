@@ -48,7 +48,7 @@
 	</select>
 	
 	<update id="updateLessonStart" parameterType="hashmap">
-		UPDATE LESSON SET LESSON_START = SYSDATE WHERE LESSON_NO=#{lessonNo}
+		UPDATE LESSON SET LESSON_START = 'SYSDATE' WHERE LESSON_NO=#{lessonNo}
 	</update>
 	
 </mapper>

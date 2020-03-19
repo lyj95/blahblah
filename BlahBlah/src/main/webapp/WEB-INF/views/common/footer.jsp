@@ -53,9 +53,14 @@ Copyright &copy;2020 All rights reserved | This template is made with <i class="
 <!--================ End footer Area  =================-->
 
  	<script type="text/javascript">
+ 	<%
+                
+       if(request.getSession().getAttribute("login") != null) { 
+    %>
 	$(document).ready(function(){
 			getUnread();
 			/* getInfiniteUnread(); */
 		
 	});
+	<% } %>
 	</script>

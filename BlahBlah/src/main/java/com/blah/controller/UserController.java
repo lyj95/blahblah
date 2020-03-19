@@ -48,16 +48,15 @@ public class UserController {
 		logger.info("Mypage");
 		
 		MemberVo vo = (MemberVo)session.getAttribute("login");
-		String memberId = vo.getMemberId();		
+		String memberId = vo.getMemberId();
 		String type = (String)session.getAttribute("memberType");
-		
 		
 		ModelAndView mav = new ModelAndView("mypage/mypage");
 		mav.addObject("myclassList", service.selectMyClass(vo));
 		mav.addObject("closedmyclassList", service.selectClosedMyClass(vo));
 		mav.addObject("member", service.selectMember(vo));
 		mav.addObject("progressList", service.selectProgress(vo));
-		mav.addObject("clist", sservice.selectCalendar(memberId));
+		mav.addObject("clist", sservice.selectCalendar(vo));
 //		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
 		System.out.println(service.selectFav(memberId));
@@ -181,7 +180,7 @@ public class UserController {
 	@RequestMapping(value = "/msgUnread")
 	@ResponseBody
 	public int msgUnread(@RequestParam String memberId) {
-//		logger.info("[course] msgUnread");
+		logger.info("[course] msgUnread");
 		int res = service.getUnreadAllMsg(memberId);
 		
 		return res;

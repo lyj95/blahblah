@@ -114,7 +114,7 @@
 			$("#open_call_state").show();
 		}
 		// 메세지를 주고받게 해주는 서버 등록 : websocket
-		signaling_server = new WebSocket("wss://sclass.iptime.org:8443/BlahBlah/viewChatting");
+		signaling_server = new WebSocket("wss://192.168.130.10:8443/blahblah/viewChatting");
 		//signaling_server = new WebSocket("wss://"+url+"/controller/viewChatting");
 		// 시크널링 서버 설정 onmessage 함수 등록
 		signaling_server.onopen = function(){
