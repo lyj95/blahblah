@@ -1,20 +1,24 @@
 package com.blah.service;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.blah.controller.HomeController;
@@ -233,6 +237,25 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public List<Map<String, String>> selectFavCount() {
 		return dao.selectFavCount();
+	}
+
+	@Override
+	public int memoDownload(HttpServletRequest request, HttpServletResponse response, String memoTxt) throws IOException {
+		
+		try {
+			File storage = new File("C:/blahblahMemo");
+			if(!storage.exists()) {	//존재하는지 여부. exists가 true이면 파일이 있다.
+				storage.mkdirs(); //디렉토리 만들기	
+			}
+			
+			OutputStream output = new FileOutputStream("C:/blahblahMemo/classMemo.txt");
+			output.write(memoTxt.getBytes()); //Byte형으로만 넣을 수 있음
+				
+		} catch (Exception e) {
+	        e.getStackTrace();
+		}
+		
+		return 0;
 	}
 
 }

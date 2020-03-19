@@ -1,10 +1,12 @@
 package com.blah.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -324,6 +326,16 @@ public class LessonController {
 			service.insertFav(fav);
 			return 1;
 		}
+	}
+	
+	@RequestMapping(value = "/memoDownload", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public int memoDownload (Model model, @RequestParam String memoTxt, HttpServletRequest reques, HttpServletResponse response) throws IOException {
+		logger.info("[memo] memoDownload");
+		
+		int res = service.memoDownload(reques,response,memoTxt);
+		
+		return res;
 	}
 
 }

@@ -93,22 +93,20 @@
                 <div class="col-lg-8 course_details_left">
   
                     <div class="content_wrapper">
-                    	<div class="main_image">
+                    	<!-- <div class="main_image">
                         <img class="img-fluid" src="resources/img/courses/course-details.jpg" alt="">
-                   		</div>
-                   		
-                        <h4 class="title">강의 소개</h4>
-                        <div class="content">
-                       		 ${vo.lessonInfo}
-
-                        </div>
-                        
+                   		</div> -->
                         <h4 class="title">샘플 강의</h4>
                         <div class="content">
 							<video oncontextmenu="return false;" id="myVideo" width="640"controls>
 								<source src="resources/lessonSample/${vo.lessonNo}/videoFile.mp4">
 							</video>                
                         </div>                       
+                   		
+                        <h4 class="title">강의 소개</h4>
+                        <div class="content">
+                       		 ${vo.lessonInfo}
+                        </div>
                     </div>
                 </div>
 

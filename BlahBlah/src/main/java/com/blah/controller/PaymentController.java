@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.blah.dao.LessonDao;
 import com.blah.dao.UserDao;
 import com.blah.service.LessonService;
 import com.blah.service.PaymentService;
@@ -39,6 +40,8 @@ public class PaymentController {
 	
 	@Autowired
 	private UserDao Userdao;
+	@Autowired
+	private LessonDao ldao;
 	
 	/**
 	 * 결제 진행 전 payment 테이블에 해당 강의가 결제된 내역이 있는지 확인 후 ajax로 결과 리턴
@@ -271,8 +274,9 @@ public class PaymentController {
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("everythings_fine", everythings_fine);
 		
-		//TODO 메세지 내용 수정하기
-		MsgVo mvo = new MsgVo(jdata.get("tutorId"), memberId+"님이  강의를 수강신청 하셨습니다. \n마이페이지 나의강의실에서 확인해주세요 !" );
+		// 메세지 내용 수정하기
+		LessonVo lesson = ldao.selectOne(Integer.parseInt(lessonNo));
+		MsgVo mvo = new MsgVo(jdata.get("tutorId"), memberId+"님이  "+lesson.getLessonName()+"강의를 수강신청 하셨습니다. \n마이페이지 나의강의실에서 확인해주세요 !" );
 		Userdao.insertMsg(mvo);
 		
 		return map;	

@@ -63,6 +63,7 @@ public class UserController {
 		System.out.println("캘린더 체크 : "+sservice.selectCalendar(memberId));
 //		mav.addObject("tutorPhotoList", service.selectTutorPhoto(vo));
 		mav.addObject("favList", service.selectFav(memberId));
+		System.out.println(service.selectFav(memberId));
 		mav.addObject("memberLevel", lservice.selectLevel(memberId));
 		mav.addObject("msgList", service.getAllMsg(memberId));
 
