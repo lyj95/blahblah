@@ -13,7 +13,7 @@
 	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
 	var appCtx = pathname.substring(0, pathname.indexOf("/",2));
 	var root = url+appCtx;
-	alert("루트 : "+url+"\n${userID} 입장");
+	//alert("루트 : "+url+"\n${userID} 입장");
 	/* webRtc를 적용하기 위한 기본설정  */
 	
 	//webRtc에 필요한 변수를 지정
@@ -27,7 +27,7 @@
 	// 선언한 변수에 값 세팅하기
 	/* 웹 표준 */
 	if(navigator.getUserMedia){
-		alert("standard browser");
+		//alert("standard browser");
 		// 브라우저가 알아서 연결 정보 삽입
 		rtc_peer_connection = RTCPeerConnection;
 		rtc_session_description = RTCSessionDescription;	// session 정보
@@ -41,7 +41,7 @@
 	}
 	/* firefox브라우저 */
 	else if(navigator.mozGetUserMedia){
-		alert("firefox browser");
+		//alert("firefox browser");
 		rtc_peer_connection = mozRTCPeerConnection;
 		rtc_session_description = mozRTCSessionDescription;
 		// 로컬의 미디어 데이터를 불러옴
@@ -55,7 +55,7 @@
 	}
 	/* 크롬 브라우저 */
 	else if(navigator.webkitGetUserMedia){
-		alert("chrome browser");
+		//alert("chrome browser");
 		rtc_peer_connection = webkitRTCPeerConnection;
 		rtc_session_description = webkitRTCSessionDescription;
 		get_user_media = navigator.webkitGetUserMedia.bind(navigator);	//로컬의 미디어 데이터를 불러옴
@@ -68,7 +68,7 @@
 	else{
 		//현재 문서를 '안전'하게 불러온 경우가 아니라면 navigator.mediaDevices는 undefined이므로 getUserMedia()도 사용할 수 없습니다
 		// -> http 이용해서 웹소켓 통신 시도 할때 undefined가 뜬 이유가..... https 꼭 사용!
-		alert("지원 : "+navigator.getUserMedia);
+		//alert("지원 : "+navigator.getUserMedia);
 		alert("이 브라우저는 화상채팅을 지원하지 않습니다.");
 	}
 </script>

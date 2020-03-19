@@ -150,8 +150,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 		// 스케줄 바뀌면 알림 보내기
 		if(res > 0) {
 			LessonVo lesson = ldao.selectOne(calendar.getLessonNo());
-			MsgVo msg = new MsgVo(calendar.getMemberId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
-			udao.insertMsg(msg);
+			MsgVo msg1 = new MsgVo(calendar.getMemberId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
+			udao.insertMsg(msg1);
+			MsgVo msg2 = new MsgVo(calendar.getTutorId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
+			udao.insertMsg(msg2);
 		}
 		
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
