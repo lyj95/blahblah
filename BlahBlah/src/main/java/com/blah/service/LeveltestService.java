@@ -10,5 +10,6 @@ public interface LeveltestService {
 	public int insert(LeveltestVo vo);
 	public LeveltestVo selectLevel(String memberId);
 	List<LessonVo> selectList(String memberLevel);
+	public int selectCount(String memberId);
 
 }

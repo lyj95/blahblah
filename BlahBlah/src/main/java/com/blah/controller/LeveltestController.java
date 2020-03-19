@@ -38,15 +38,16 @@ public class LeveltestController {
 		
 		
 		LeveltestVo lvo = service.selectLevel(memberId);
+		int res = service.selectCount(memberId);
 		System.out.println("lvo : "+lvo);
-		
-		
-		if(lvo.getMemberLevel() == null) {
-			System.out.println("lvo는 null");
-			
-			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			
+				
+		if(res == 0) {
+			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");
+			System.out.println("lvo는 null");						
 			return mav;
-		}else {
+			
+		}else{
+			
 			System.out.println("lvo는 not null");
 			System.out.println("lvo" + lvo);
 			
