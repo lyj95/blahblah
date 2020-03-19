@@ -257,5 +257,10 @@ public class LessonServiceImpl implements LessonService {
 		
 		return 0;
 	}
+	
+	public int chkReview(int lessonNo) {
+		// TODO Auto-generated method stub
+		return dao.chkReview(lessonNo);
+	}
 
 }

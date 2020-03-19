@@ -7,12 +7,16 @@
 <link rel="icon" href="resources/img/favicon.png" type="image/png" />
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+function enterkey() {
+    if (window.event.keyCode == 13) {
+         login();
+    }
+}
 
 $(function(){ $("#loginChk").hide(); });
 function login(){
 	var memberId = $("#memberId").val().trim();
 	var memberPw = $("#memberPw").val().trim();
-	console.log(memberId + "/" + memberPw);
 	var loginVal = {
 			"memberId":memberId,
 			"memberPw":memberPw
@@ -90,7 +94,7 @@ function login(){
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" id="memberPw" placeholder="비밀번호">
+					<input class="input100" type="password" id="memberPw" placeholder="비밀번호" onkeyup="enterkey();">
 					<span class="focus-input100"></span>
 				</div>
 

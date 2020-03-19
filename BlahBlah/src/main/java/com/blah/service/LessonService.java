@@ -41,6 +41,7 @@ public interface LessonService {
 	int insertFav(Map<String, String> fav);
 	List<Map<String, String>> selectFavCount();
 	int memoDownload(HttpServletRequest reques,  HttpServletResponse response, String memoTxt) throws IOException;
+	int chkReview(int lessonNo);
 
 	
 

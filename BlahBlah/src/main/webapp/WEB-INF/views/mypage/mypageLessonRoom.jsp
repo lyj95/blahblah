@@ -51,7 +51,7 @@
 	                <div id="screen" style="width: 100%; height:50%; border:1px solid lightgray; background:#f9f9f9;">
 	                <c:choose>
 		                <%-- <c:when test="${!empty lesson['classDay'] && lesson['flag'] eq true}"> --%>
-		                <c:when test="${!empty lesson['attendChat'] && !empty lesson['write']}">
+		                <c:when test="${!empty lesson['attendChat']}">
 		                <p class="screenTxt">
 		                		하단 버튼을 누르면 수업을 시작합니다<br><br>
 		                	<a class="primary-btn" id="startBtn" href="javascript:void(0);" onclick="startChat();">강의 시작하기</a>

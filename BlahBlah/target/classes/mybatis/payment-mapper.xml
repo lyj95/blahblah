@@ -46,4 +46,9 @@
 	<select id="isMyLesson" parameterType="hashmap" resultType="int">
 		SELECT COUNT(*) FROM MYCLASS WHERE LESSON_NO = #{lessonNo} AND MEMBER_ID = #{memberId}
 	</select>
+	
+	<update id="updateLessonStart" parameterType="hashmap">
+		UPDATE LESSON SET LESSON_START = SYSDATE WHERE LESSON_NO=#{lessonNo}
+	</update>
+	
 </mapper>

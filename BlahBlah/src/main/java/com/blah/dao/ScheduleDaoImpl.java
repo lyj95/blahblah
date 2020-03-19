@@ -38,6 +38,12 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	}
 
 	@Override
+	public List<MyclassVo> selectTutorDates(CalendarVo calendar) {
+		List<MyclassVo> schedule =sqlSession.selectList(NAMESPACE+"selectTutorDates", calendar);
+		return schedule;
+	}
+	
+	@Override
 	public int updateDateByTutor(Map<String, Object> map) {
 		int res = sqlSession.update(NAMESPACE+"updateDateByTutor", map);
 		return res;

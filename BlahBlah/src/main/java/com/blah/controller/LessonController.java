@@ -81,12 +81,16 @@ public class LessonController {
 		String memberId = (String)request.getSession().getAttribute("userID");
 		int myLesson = pservice.chkMyLesson(lessonNo, memberId);
 		System.out.println("controller endLesson: "+endLesson);
+		//해당 강의에 리뷰등록 여부 확인
+		int existReview = service.chkReview(lessonNo);
+		System.out.println("controller existReview: "+existReview);
 		
 		mav.addObject("fav", service.chkFav(fav));
 		mav.addObject("vo", service.selectOne(lessonNo));
 		mav.addObject("reviewAvg", service.getReviewAvg(service.selectOne(lessonNo).getTutorId()));
 		mav.addObject("endLesson", endLesson);
 		mav.addObject("myLesson", myLesson);
+		mav.addObject("existReview", existReview);
 		
 		String memberPhoto = (String) request.getSession().getAttribute("memberPhoto");
 		model.addAttribute("memberPhoto", memberPhoto);
