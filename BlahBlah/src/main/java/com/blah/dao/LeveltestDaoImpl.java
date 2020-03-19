@@ -57,6 +57,22 @@ public class LeveltestDaoImpl implements LeveltestDao{
 		return list;
 	}
 
+	@Override
+	public int selectCount(String memberId) {
+			
+		int res = 0;
+		System.out.println("아이디 : " + memberId);
+		
+		try{
+			res = sqlSession.selectOne(NAMESPACE + "selectCount", memberId);
+			System.out.println("res !!!!!!!!!!!!!! : "+res);
+		}catch(Exception e) {
+			System.out.println("[error] : Leveltest selectCount ");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 
 
 

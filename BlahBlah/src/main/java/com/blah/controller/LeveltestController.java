@@ -38,24 +38,28 @@ public class LeveltestController {
 		
 		
 		LeveltestVo lvo = service.selectLevel(memberId);
+		int res = service.selectCount(memberId);
 		System.out.println("lvo : "+lvo);
 		
+		ModelAndView mav = new ModelAndView("leveltest/leveltestStart");
 		
-		if(lvo.getMemberLevel() == null) {
-			System.out.println("lvo는 null");
-			
-			ModelAndView mav = new ModelAndView("leveltest/leveltestStart");			
+		
+		if(res == 0) {
+			System.out.println("lvo는 null");						
 			return mav;
-		}else {
+			
+		}else if(res==1){
+			
 			System.out.println("lvo는 not null");
 			System.out.println("lvo" + lvo);
 			
-			ModelAndView mav = new ModelAndView("leveltest/leveltestResult");
+			ModelAndView mav2 = new ModelAndView("leveltest/leveltestResult");
 			mav.addObject("lvo", service.selectLevel(memberId));
 			mav.addObject("list", service.selectList(lvo.getMemberLevel()));
 			
-			return mav;
+			return mav2;
 		}
+		return mav;
 		
 	}
 

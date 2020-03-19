@@ -31,6 +31,11 @@ public class LeveltestServiceImpl implements LeveltestService{
 		return dao.selectList(memberLevel);
 	}
 
+	@Override
+	public int selectCount(String memberId) {
+		return dao.selectCount(memberId);
+	}
+
 
 
 
