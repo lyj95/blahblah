@@ -688,7 +688,14 @@
 																<small> (${fav.lessonTime })</small>
 														</a></td>
 														<td>${fav.lessonLevel }</td>
-														<td>${fav.lessonPrice }</td>
+														<c:choose>
+															<c:when test="${fav.lessonStart eq null || fav.lessonStart == '' }">
+																<td>${fav.lessonPrice }</td>
+															</c:when>
+															<c:otherwise>
+																<td><span class="badge badge-light">신청 불가</span></td>	
+															</c:otherwise>
+														</c:choose>
 													</tr>
 												</c:forEach>
 											</c:otherwise>

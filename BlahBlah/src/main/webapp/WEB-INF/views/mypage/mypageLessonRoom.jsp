@@ -115,8 +115,8 @@
                     </ul>
                     <h4 class="title">Memo</h4>
                     <div class="feedeback">
-                        <textarea name="memo" class="autosize" style="width: 100%;" onkeydown="resize(this)" onkeyup="resize(this)" placeholder=" 수업 내용 필기"></textarea>
-                        <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Save Memo</a>
+                        <textarea name="memo" id="memo" class="autosize" style="width: 100%;" resize: none;" placeholder=" 수업 내용 필기"></textarea>
+                        <a class="primary-btn2 text-uppercase enroll rounded-0 text-white" onclick="memoDownload();">Save Memo</a>
                     </div>
                    	<!-- 사전 추가 -->
 					<h4 class="title">사전</h4>
@@ -312,6 +312,27 @@
 					}
 				}
 				
+          </script>
+          <script type="text/javascript">
+          	function memoDownload(){
+          		var memoTxt = $("#memo").val();
+          		 $.ajax({
+          			url:"memoDownload",
+          		  	data: {memoTxt : memoTxt},
+          		  	async: false,
+          		  	type:"POST",
+          		  	success:function(data){
+          			  	alert("메모를 저장했습니다.");
+          			  	console.log(data);
+          		  	},
+          		  error:function(request,status,error){
+          		   	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          		  }
+          			 
+          		 });
+          		
+          	}
+          
           </script>
         </body>
 </html>

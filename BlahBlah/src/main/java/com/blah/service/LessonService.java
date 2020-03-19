@@ -1,9 +1,11 @@
 package com.blah.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +40,7 @@ public interface LessonService {
 	int deleteFav(Map<String, String> fav);
 	int insertFav(Map<String, String> fav);
 	List<Map<String, String>> selectFavCount();
+	int memoDownload(HttpServletRequest reques,  HttpServletResponse response, String memoTxt) throws IOException;
 	int chkReview(int lessonNo);
 
 	

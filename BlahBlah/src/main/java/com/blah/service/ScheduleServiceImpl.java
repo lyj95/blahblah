@@ -10,10 +10,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blah.dao.LessonDao;
 import com.blah.dao.ScheduleDao;
 import com.blah.dao.UserDao;
 import com.blah.dao.UserDaoImpl;
 import com.blah.vo.CalendarVo;
+import com.blah.vo.LessonVo;
+import com.blah.vo.MsgVo;
 import com.blah.vo.MyclassVo;
 
 @Service
@@ -22,6 +25,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private ScheduleDao dao;
 	@Autowired
+	private UserDao udao;
+	@Autowired
+	private LessonDao ldao;
+
 	private UserDao userDao = new UserDaoImpl();
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA);		// 날짜 형식
@@ -67,6 +74,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 		map.put("whichClass", classCnt);
 		map.put("updateDate", updateDate);
 		int res = dao.updateDateByTutor(map);
+		
+		// 스케줄 바뀌면 알림 보내기
+		if(res > 0) {
+			LessonVo lesson = ldao.selectOne(calendar.getLessonNo());
+			MsgVo msg = new MsgVo(calendar.getMemberId(),"["+lesson.getLessonName()+"]\n"+"위 강의의 스케줄이 변경되었습니다. \n자세한 사항은 마이페이지 스케줄에서 확인해주세요 !");
+			udao.insertMsg(msg);
+		}
+		
 		return (res>0)? "스케줄 변경에 성공했습니다.":"스케줄 변경에 실패했습니다.";
 	}
 	@Deprecated
