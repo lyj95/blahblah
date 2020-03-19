@@ -56,7 +56,6 @@
 		                		하단 버튼을 누르면 수업을 시작합니다<br><br>
 		                	<a class="primary-btn" id="startBtn" href="javascript:void(0);" onclick="startChat();">강의 시작하기</a>
 	                	</p>
-			                <%-- <iframe src="https://localhost:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>" style="width:100%; height:100%;"></iframe> --%>
 		                </c:when>
 		                <c:otherwise>
 		                	<p class="screenTxt">
@@ -299,7 +298,7 @@
 				}
 				function startChat(){
 					$('#screen').children().remove();
-					 $("#screen").append("<iframe src='https://localhost:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>' style='width:100%; height:100%;'></iframe>");
+					 $("#screen").append("<iframe src='https://sclass.iptime.org:8443/BlahBlah/chatting?userId=<%=session.getAttribute("userID")%>' style='width:100%; height:100%;'></iframe>");
 					 $("#screen").append('<a class="primary-btn" id="endBtn" href="javascript:void(0);" onclick="endChat();">강의 종료</a>');
 					
 				}

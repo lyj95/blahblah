@@ -174,7 +174,7 @@
 						
 						title: "${clist2.lessonTime}".substr(2,7)+" [1] ${clist2.lessonName}",	// 강의명
 						//title: "${clist2.lessonName}"+ " / " + "${clist2.lessonTime}".substr(2,7) ,	// 강의명
-						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+						url : 'https://sclass.iptime.org:8443/BlahBlah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate1}".substr(0,4), "${clist2.myclassDate1}".substr(5,2)-1, "${clist2.myclassDate1}".substr(8,2))
@@ -183,7 +183,7 @@
 					
 					{
 						title: "${clist2.lessonTime}".substr(2,7)+"[2] ${clist2.lessonName}",
-						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+						url : 'https://sclass.iptime.org:8443/BlahBlah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate2}".substr(0,4), "${clist2.myclassDate2}".substr(5,2)-1, "${clist2.myclassDate2}".substr(8,2))
@@ -191,7 +191,7 @@
 					
 					{
 						title: "${clist2.lessonTime}".substr(2,7)+"[3] ${clist2.lessonName}",
-						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+						url : 'https://sclass.iptime.org:8443/BlahBlah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate3}".substr(0,4), "${clist2.myclassDate3}".substr(5,2)-1, "${clist2.myclassDate3}".substr(8,2))
@@ -199,7 +199,7 @@
 					
 					{
 						title: "${clist2.lessonTime}".substr(2,7)+"[4] ${clist2.lessonName}",
-						url : 'https://localhost:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
+						url : 'https://sclass.iptime.org:8443/BlahBlah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
 						start: new Date("${clist2.myclassDate4}".substr(0,4), "${clist2.myclassDate4}".substr(5,2)-1, "${clist2.myclassDate4}".substr(8,2))

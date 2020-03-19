@@ -38,7 +38,7 @@
 				alert("강사계정은 수강신청을 할 수 없습니다.");
 			} else {
 				$.ajax({
-					url: "/blahblah/chkTable", 
+					url: "/BlahBlah/chkTable", 
 			        type: "POST",
 			        dataType: "json",
 			        contentType:"application/json",
@@ -46,7 +46,7 @@
 					success:function(msg){			//통신 성공시
 						if(msg.res == true){		//결제 진행 가능
 							if(confirm("'확인'버튼을 누르면 결제창으로 이동합니다.")){
-								location.href='/blahblah/payment?lessonNo=${vo.lessonNo}';
+								location.href='/BlahBlah/payment?lessonNo=${vo.lessonNo}';
 							}
 							
 						} else {					//결제 진행 불가

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class WebcamController {
-	// https://192.168.130.31:8443/controller/chatting?userId=13212
 	@RequestMapping(value = "chatting", method = RequestMethod.GET)
 	public String goViewChatting(HttpServletRequest request) {
 		try {
@@ -19,8 +18,6 @@ public class WebcamController {
 		} catch (Exception e) {
 			System.out.println("채팅 들어가기 전에 유저 널값 !! ");
 		}
-//		HttpSession session = request.getSession();
-//		session.setAttribute("userId", userId);
 		
 		return "lesson/chatting";
 	}
