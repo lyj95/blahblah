@@ -74,6 +74,4 @@ public class LeveltestDaoImpl implements LeveltestDao{
 	}
 
 
-
-
 }

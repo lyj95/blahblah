@@ -36,7 +36,7 @@
 	</select>
 	
 	<select id="selectCount" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM MEMBER_LEVEL WHERE MEMBER_ID = ${memberId}
+		SELECT COUNT(*) FROM MEMBER_LEVEL WHERE MEMBER_ID=#{memberId}
 	</select>
 
 	<select id="selectList" parameterType="com.blah.vo.LeveltestVo" resultMap="LessonMap" >
