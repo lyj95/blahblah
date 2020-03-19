@@ -1,23 +1,3 @@
--- 쿼리문 추가해서 실행하는 건 developer에서 해주면 감사함다 !! 컬럼 추가하고 commit 하는거 잊지 말기 ~!
--- 여기는 테이블 수정된거 계속해서 업데이트하는 용도로 사용할게요 !
--- 블라블라 화이팅 ^____^;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 -- DROP
 DROP TABLE member;
@@ -34,11 +14,15 @@ DROP TABLE calendar;
 DROP TABLE leveltest;
 DROP TABLE fav;
 DROP TABLE feedbacks;
+DROP TABLE member_level;
+DROP TABLE msg;
+DROP SEQUENCE msg_seq;
 DROP SEQUENCE lesson_seq;
 DROP SEQUENCE notice_seq;
 DROP SEQUENCE qna_seq;
 DROP SEQUENCE member_seq;
 DROP SEQUENCE review_seq;
+
 -- 시퀀스 생성
 
 CREATE SEQUENCE lesson_seq
@@ -181,11 +165,7 @@ CREATE TABLE calendar (
 	member_id	varchar2(100)	NOT NULL,
 	calendar_content	varchar2(1000)	
 );
---CREATE TABLE leveltest (
---	leveltest_no	number	NOT NULL,
---	leveltest_answer	varchar2(2)	NOT NULL,
---	member_id	varchar2(100)	NOT NULL
---);
+
 CREATE TABLE fav (
 	member_id	varchar2(100)	NOT NULL,
 	lesson_no	number	NOT NULL
@@ -226,19 +206,11 @@ ALTER TABLE payment ADD CONSTRAINT PK_PAYMENT PRIMARY KEY (
 	lesson_no
 );
 
---ALTER TABLE review ADD CONSTRAINT PK_REVIEW PRIMARY KEY (
---	member_id,
---	lesson_no
---);
 ALTER TABLE calendar ADD CONSTRAINT PK_CALENDAR PRIMARY KEY (
 	calendar_date,
 	member_id
 );
---ALTER TABLE leveltest ADD CONSTRAINT PK_LEVELTEST PRIMARY KEY (
---	leveltest_no,
---	leveltest_answer,
---	member_id
---);
+
 ALTER TABLE fav ADD CONSTRAINT PK_FAV PRIMARY KEY (
 	member_id,
 	lesson_no
@@ -310,12 +282,7 @@ ALTER TABLE calendar ADD CONSTRAINT FK_member_cal FOREIGN KEY (
 REFERENCES member (
 	member_id
 );
---ALTER TABLE leveltest ADD CONSTRAINT FK_member_ltest FOREIGN KEY (
---	member_id
---)
-REFERENCES member (
-	member_id
-);
+
 ALTER TABLE fav ADD CONSTRAINT FK_member_fav FOREIGN KEY (
 	member_id
 )
@@ -328,21 +295,6 @@ ALTER TABLE fav ADD CONSTRAINT FK_lesson_fav FOREIGN KEY (
 REFERENCES lesson (
 	lesson_no
 );
---ALTER TABLE feedbacks ADD CONSTRAINT PK_feedbacks PRIMARY KEY (
---	member_id,
---	lesson_no,
---    class_date
---);
---ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks FOREIGN KEY (
---	lesson_no
---)
---REFERENCES myclass (
---	lesson_no
---);
---ALTER TABLE feedbacks ADD CONSTRAINT FK_feedbacks_id FOREIGN KEY (
---	member_id
---)
---REFERENCES member (
---	member_id
---);
+
 commit;
+

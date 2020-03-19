@@ -42,7 +42,7 @@ public class LessonServiceImpl implements LessonService {
 		logger.info("파일이름 :"+file.getOriginalFilename());
         logger.info("파일크기 : "+file.getSize());
         logger.info("컨텐트 타입 : "+file.getContentType());
-
+        logger.info(vo.toString());
 		String filename =  file.getOriginalFilename(); //업로드할 파일의 실제이름
 		
 		String lessonTime = vo.getLessonDay() + " " + vo.getLessonTime();

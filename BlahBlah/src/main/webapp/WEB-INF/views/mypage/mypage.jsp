@@ -182,7 +182,7 @@
 					},
 					
 					{
-						title: "${clist2.lessonTime}".substr(2,7)+"[2] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+" [2] ${clist2.lessonName}",
 						url : 'https://192.168.130.10:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
@@ -190,7 +190,7 @@
 					},
 					
 					{
-						title: "${clist2.lessonTime}".substr(2,7)+"[3] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+" [3] ${clist2.lessonName}",
 						url : 'https://192.168.130.10:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',
@@ -198,7 +198,7 @@
 					},
 					
 					{
-						title: "${clist2.lessonTime}".substr(2,7)+"[4] ${clist2.lessonName}",
+						title: "${clist2.lessonTime}".substr(2,7)+" [4] ${clist2.lessonName}",
 						url : 'https://192.168.130.10:8443/blahblah/lessonRoom?lessonNo= ${clist2.lessonNo}',
 						id:'${clist2.lessonNo}',
 						classNames:'${clist2.memberId}',

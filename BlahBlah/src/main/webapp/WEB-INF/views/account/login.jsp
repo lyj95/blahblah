@@ -34,8 +34,8 @@ function login(){
 			success:function(msg){ 
 				if (msg.check == true){
 					alert("로그인 성공!");
-					/* location.href="main"; */
-					history.back();
+					location.href="main";
+					/* history.back(); */
 				} else {
 					alert("ID 혹은 PW가 잘못되었습니다.");
 					$("#loginChk").show();

@@ -76,10 +76,10 @@ public class UserController {
 		service.uploadProfile(request,session,uploadFile,vo);
 		
 		MemberVo res = service.selectMember(vo);
-		model.addAttribute("member", res);
+//		model.addAttribute("member", res);
 		session.setAttribute("memberPhoto", res.getMemberPhoto());
 		
-		return "mypage/mypage";
+		return "redirect:mypage";
 	}
 	
 	
