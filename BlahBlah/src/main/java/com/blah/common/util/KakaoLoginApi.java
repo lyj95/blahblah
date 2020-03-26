@@ -19,8 +19,8 @@ import com.google.gson.JsonParser;
 
 @Service
 public class KakaoLoginApi {
-	private final static String K_CLIENT_ID = "231d98568eaa66ff20db0a087b41bf87";
-	private final static String K_REDIRECT_URI = "https://192.168.130.10:8443/blahblah/kakaoLogin";
+	private final static String K_CLIENT_ID = "K_CLIENT_ID";
+	private final static String K_REDIRECT_URI = "http://sclass.iptime.org:8787/BlahBlah/kakaoLogin";
 
 	public String getAuthorizationUrl(HttpSession session) {
 
@@ -46,8 +46,8 @@ public class KakaoLoginApi {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=231d98568eaa66ff20db0a087b41bf87");
-			sb.append("&redirect_uri=https://192.168.130.10:8443/blahblah/kakaoLogin");
+			sb.append("&client_id=K_CLIENT_ID");
+			sb.append("&redirect_uri=http://sclass.iptime.org:8787/BlahBlah/kakaoLogin");
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();

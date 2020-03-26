@@ -298,7 +298,7 @@
 				}
 				function startChat(){
 					$('#screen').children().remove();
-					 $("#screen").append("<iframe src='https://192.168.130.10:8443/blahblah/chatting?userId=<%=session.getAttribute("userID")%>' style='width:100%; height:100%;'></iframe>");
+					 $("#screen").append("<iframe src='http://sclass.iptime.org:8787/BlahBlah/chatting?userId=<%=session.getAttribute("userID")%>' style='width:100%; height:100%;'></iframe>");
 					 $("#screen").append('<a class="primary-btn" id="endBtn" href="javascript:void(0);" onclick="endChat();">강의 종료</a>');
 					
 				}

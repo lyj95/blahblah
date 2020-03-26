@@ -36,7 +36,7 @@
 	</servlet-mapping>
 	
 	<!-- https로 변환 -->
-	<security-constraint>
+	<!-- <security-constraint>
         <web-resource-collection>
             <web-resource-name>HTTP</web-resource-name>
             <url-pattern>/*</url-pattern>
@@ -45,7 +45,7 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-	
+	 -->
 	<!-- 한글을 안깨지도록 encoding 필터 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
